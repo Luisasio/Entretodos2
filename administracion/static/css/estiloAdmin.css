@@ -1,0 +1,303 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body{
+  font-size: 16px;
+  line-height: 24px;
+}
+.ancho{
+  max-width: 1200px;
+  margin: auto;
+  border: 1px red solid;
+}
+.margen{
+  padding: 15px;
+}
+a{
+  text-decoration: none;
+}
+.tap-buttons{
+  display: flex;
+}
+.tab-button{
+  background-color: #ffffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  height: 40px;
+}
+.tab-button:hover{
+  background-color: #ddd;
+}
+.tab{
+  display: none;
+  width: 45%;
+  padding: 25px;
+  border: 2px rgba(255, 255, 255, 0.2) solid;
+  background: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);    border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  border-top-right-radius: 9px;
+  border-top-left-radius: 9px;
+
+}
+.active-tab-button{
+  border: 2px rgba(255, 255, 255, 0.2) solid;
+  background: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  
+  transform: scaleY(1.1);
+  transform-origin: bottom;
+}
+.btn_ingresar{
+  background-color: #6e3730;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 9px;
+  transition: 0.5s;
+}
+.btn_ingresar:hover{
+  background-color: #5a2f2a;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider-text {
+  padding: 0 10px;
+  color: #666;
+  font-family: sans-serif;
+}
+.btn_registrate{
+  border: 1px #6e3730 solid;
+  padding: 10px 20px;
+  width: 100%;
+  border-radius: 9px;
+  transition: 0.5s;
+  color: #6e3730;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn_registrate:hover{
+  color: white;
+  background-color: #5a2f2a;
+}
+.forgot-pass{
+  color: #6e3730;
+  text-decoration: none;
+  
+}
+
+
+/* DISEÑO DE LOS FORMULARIOS */
+.diseño_formulario
+{
+width: 500px;
+border: 2px rgba(255, 255, 255, 0.2) solid;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+border-bottom-left-radius: 9px;
+margin: auto;
+}
+
+
+/* error al ingresar sus datos incorrectos */
+
+.aviso_error
+{
+color: red;
+background-color: pink;
+font-size: 20px;
+
+}
+
+/* sidebar */
+.sidebar{
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100vh;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 22px rgba(0,0,0,0.1);
+  border-right: 1px solid #ddd;
+}
+.menu-sidebar ul{
+  list-style: none;
+}
+.menu-sidebar ul li a{
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px 30px;
+  /* border: 1px gray solid; */
+  margin-bottom: 5px;
+}
+.menu-sidebar ul li a.active {
+  background-color: #c2deff;
+  border-radius: 4px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.menu-sidebar ul li a:hover:not(.active) {
+  background-color: #f0f0f0;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+.logo{
+  border-bottom: 1px #ddd solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.logo-container{
+  width: 190px;
+  height: 90px;
+  text-align: center;
+  margin-bottom: 20px;
+  /* margin-left: 20px; */
+  /* border: 1px red solid; */
+}
+.logo-container img{
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+.icono{
+  padding-right: 10px;
+}
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+.menu-contenido{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.menu-contenido h4{
+  margin: 0;
+  vertical-align: middle;
+}
+.contenedor_logo{
+  padding: 10px;
+  text-align: center;
+  /* background-color: #DAB0AE; */
+}
+.logo-sidebar{
+  width: 200px;
+  /* height: 100px;
+  border-radius: 50%;
+  margin: auto; */
+}
+
+/* Diseño de botones */
+.btn_menu1{
+  border-radius: 8px;
+  padding: 12px 24px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  background-color: #f07d17;
+  color: #f2f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+.btn_menu1:hover{
+  background-color: #b46a2a;
+  text-decoration: none;
+  color: white;
+}
+/* formularios */
+
+.btn-guardar-curso{
+  border-radius: 8px;
+  padding: 12px 24px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  background-color: #f07d17;
+  color: #f2f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+.btn-guardar-curso:hover{
+  background-color: #b46a2a;
+  text-decoration: none;
+  color: white;
+}
+.btn-cancelar-curso{
+  border-radius: 8px;
+  padding: 12px 24px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+  background-color: #c50000;
+  color: #f2f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+.btn-cancelar-curso:hover{
+  background-color: #970000;
+  text-decoration: none;
+  color: white;
+}
+/* DISEÑO DE LAS TARJETAS DE CURSOS */
+.contenedor-cursos{
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+  /* border: 1px red solid; */
+}
+.tarjeta-curso{
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  width: 30%;
+}
+.acciones-curso{
+  display: flex;
+  padding: 20px;
+  gap: 10px;
+}
+.contenido-principal{
+  margin-bottom: 20px
+}
+.btn-azul{
+  background-color: #288cff;
+  color: white;
+  padding: 10px 20px;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 6px;
+}

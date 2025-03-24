@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+
+{% block title %}Agregar Periodo{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Agregar Nuevo Periodo</h2>
+  <p>Llena el formulario para registrar un nuevo periodo.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="fecha_inicio" class="form-label">Fecha de inicio:</label>
+      {{ form.fecha_inicio }}
+    </div>
+    <div class="mb-3">
+      <label for="fecha_fin" class="form-label">Fecha de finalización:</label>
+      {{ form.fecha_fin }}
+    </div>
+    <button type="submit" class="btn btn-success">Guardar Periodo</button>
+    <a href="{% url 'periodos' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends './base.html' %}
+
+{% block title %}Periodos{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Periodos</h2>
+  <p>En esta sección se podrán agregar los periodos correspondientes a las épocas del año.</p>
+  <a href="{% url 'agregar_periodo' %}" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i> Nuevo Periodo
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Lista de periodos</h3>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha de inicio</th>
+          <th>Fecha de finalización</th>
+          <th style="width: 300px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for periodo in periodos %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ periodo.fecha_inicio }}</td>
+          <td>{{ periodo.fecha_fin }}</td>
+          <td>
+            <a href="" class="btn btn-warning">
+              <i class="fa-solid fa-pen-to-square"></i> Editar
+            </a>
+            <a href="" class="btn btn-danger">
+              <i class="fa-solid fa-trash-can"></i> Eliminar
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center">No hay periodos registrados</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+{% endblock %}
