@@ -27,7 +27,10 @@ class CursoForm(forms.ModelForm):
             'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
             'fecha_inicio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'hora_inicio': forms.TimeInput(attrs={'type': 'time'}),
-            'hora_fin': forms.TimeInput(attrs={'type': 'time'}),
-            'hora_fin': forms.TimeInput(attrs={'type': 'time'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
+            'grupo': forms.TextInput(attrs={'class': 'form-control'}),
+            'periodo': forms.Select(attrs={'class': 'form-control'}),
+            'facilitador': forms.Select(attrs={'class': 'form-control'}),
         }
