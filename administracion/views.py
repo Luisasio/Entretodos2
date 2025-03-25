@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from administracion.forms import CursoForm, PeriodoForm
 from administracion.models import Periodo
@@ -40,3 +40,25 @@ def agregar_periodo(request):
         form = PeriodoForm()
     
     return render(request, 'administracion/agregar_periodo.html', {'form': form})
+
+def editar_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    
+    if request.method == "POST":
+        form = CursoForm(request.POST, instance=curso)
+        if form.is_valid():
+            form.save()
+            return redirect('cursos')  # Redirige a la lista de cursos después de editar
+    else:
+        form = CursoForm(instance=curso)
+
+    return render(request, 'administracion/editar_curso.html', {'form': form, 'curso': curso})
+
+def eliminar_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    
+    if request.method == "POST":
+        curso.delete()
+        return redirect('cursos')  # Redirige a la lista de cursos después de eliminar
+
+    return render(request, 'administracion/eliminar_curso.html', {'curso': curso})

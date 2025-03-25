@@ -1,0 +1,16 @@
+{% extends 'administracion/base.html' %}
+
+{% block title %}Eliminar Curso{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+    <h2>Eliminar Curso</h2>
+    <p>¿Estás seguro de que deseas eliminar el curso "<b>{{ curso.nombre_curso }}</b>"?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

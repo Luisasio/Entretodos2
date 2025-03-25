@@ -1,0 +1,54 @@
+{% extends 'administracion/base.html' %}
+
+{% block title %}Editar Curso{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+    <h2>Editar Curso</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="id_nombre_curso">Nombre del curso:</label>
+            {{ form.nombre_curso }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_descripcion">Descripción:</label>
+            {{ form.descripcion }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_fecha_inicio">Fecha de inicio:</label>
+            {{ form.fecha_inicio }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_fecha_fin">Fecha de fin:</label>
+            {{ form.fecha_fin }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_hora_inicio">Hora de inicio:</label>
+            {{ form.hora_inicio }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_hora_fin">Hora de fin:</label>
+            {{ form.hora_fin }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_cupos">Cupos:</label>
+            {{ form.cupos }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_grupo">Grupo:</label>
+            {{ form.grupo }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_facilitador">Facilitador:</label>
+            {{ form.facilitador }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_periodo">Periodo:</label>
+            {{ form.periodo }}
+        </div>
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
