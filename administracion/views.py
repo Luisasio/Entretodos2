@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from administracion.forms import CursoForm, PeriodoForm
@@ -14,6 +15,9 @@ def dashboard(request):
 def cursos(request):
     cursos = Curso.objects.all()  # Obtener todos los cursos
     return render(request, 'administracion/cursos.html', {'cursos': cursos})
+
+def facilitadores(request):
+    return render(request, 'administracion/facilitadores.html')
 
 def agregar_curso(request):
     if request.method == 'POST':
@@ -40,6 +44,34 @@ def agregar_periodo(request):
         form = PeriodoForm()
     
     return render(request, 'administracion/agregar_periodo.html', {'form': form})
+
+def editar_periodo(request, periodo_id):
+    periodo = get_object_or_404(Periodo, id=periodo_id)
+    
+    if request.method == 'POST':
+        form = PeriodoForm(request.POST, instance=periodo)
+        if form.is_valid():
+            form.save()
+            return redirect('periodos')
+    else:
+        form = PeriodoForm(instance=periodo)
+    
+    return render(request, 'administracion/agregar_periodo.html', {
+        'form': form,
+        'editar': True,
+        'periodo': periodo
+    })
+
+def eliminar_periodo(request, periodo_id):
+    periodo = get_object_or_404(Periodo, id=periodo_id)
+    
+    if request.method == 'POST':
+        periodo.delete()
+        return redirect('periodos')
+    
+    return render(request, 'administracion/eliminar_periodo.html', {
+        'periodo': periodo
+    })
 
 def editar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)

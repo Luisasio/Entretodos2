@@ -17,17 +17,7 @@
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Listado de cursos</h3>
-
         <div class="card-tools">
-          <!-- <div class="input-group input-group-sm" style="width: 150px;">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div> -->
         </div>
       </div>
       <!-- /.card-header -->
@@ -36,9 +26,9 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Grupo</th>
               <th>Curso</th>
               <th>Cupos</th>
-              <th>Grupo</th>
               <th>Periodo</th>
               <th>Hora inicio</th>
               <th>Hora fin</th>
@@ -50,9 +40,9 @@
             {% for curso in cursos %}
             <tr>
               <td>{{ forloop.counter }}</td>
+              <td>{{ curso.grupo }}</td>
               <td>{{ curso.nombre_curso }}</td>
               <td>{{ curso.cupos }}</td>
-              <td>{{ curso.grupo }}</td>
               <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
               <td>{{ curso.hora_inicio}}</td>
               <td>{{ curso.hora_fin }}</td>

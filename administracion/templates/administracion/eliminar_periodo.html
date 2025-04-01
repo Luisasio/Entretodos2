@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+
+{% block title %}Eliminar Periodo{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Confirmar Eliminación</h2>
+  <p>¿Estás seguro que deseas eliminar el periodo del {{ periodo.fecha_inicio }} al {{ periodo.fecha_fin }}?</p>
+  
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+      <i class="fa-solid fa-trash-can"></i> Confirmar Eliminación
+    </button>
+    <a href="{% url 'periodos' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

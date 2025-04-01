@@ -1,11 +1,11 @@
 {% extends './base.html' %}
 
-{% block title %}Agregar Periodo{% endblock %}
+{% block title %}{% if editar %}Editar{% else %}Agregar{% endif %} Periodo{% endblock %}
 
 {% block content %}
 <div class="contenido-principal">
-  <h2>Agregar Nuevo Periodo</h2>
-  <p>Llena el formulario para registrar un nuevo periodo.</p>
+  <h2>{% if editar %}Editar{% else %}Agregar Nuevo{% endif %} Periodo</h2>
+  <p>Llena el formulario para {% if editar %}actualizar{% else %}registrar{% endif %} el periodo.</p>
   <form method="post">
     {% csrf_token %}
     <div class="mb-3">
@@ -16,7 +16,9 @@
       <label for="fecha_fin" class="form-label">Fecha de finalización:</label>
       {{ form.fecha_fin }}
     </div>
-    <button type="submit" class="btn btn-success">Guardar Periodo</button>
+    <button type="submit" class="btn btn-success">
+      {% if editar %}Actualizar{% else %}Guardar{% endif %} Periodo
+    </button>
     <a href="{% url 'periodos' %}" class="btn btn-secondary">Cancelar</a>
   </form>
 </div>
