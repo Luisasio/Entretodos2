@@ -1,0 +1,65 @@
+{% extends './base.html' %}
+
+{% block title %}Talleres{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Talleres</h2>
+  <p>Aquí puedes gestionar los talleres disponibles.</p>
+  <a href="{% url 'agregar_taller' %}" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i> Nuevo Taller
+  </a>
+</div>
+<div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Listado de talleres</h3>
+      <div class="card-tools">
+      </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive p-0" style="height: 600px;">
+      <table class="table table-head-fixed text-nowrap">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Grupo</th>
+            <th>Taller</th>
+            <th>Cupos</th>
+            <th>Periodo</th>
+            <th>Hora inicio</th>
+            <th>Hora fin</th>
+            <th>Facilitador</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for taller in talleres %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ taller.grupo }}</td>
+            <td>{{ taller.nombre_taller }}</td>
+            <td>{{ taller.cupos }}</td>
+            <td>{% if taller.periodo %}{{ taller.periodo }}{% else %}Sin asignar{% endif %}</td>
+            <td>{{ taller.hora_inicio}}</td>
+            <td>{{ taller.hora_fin }}</td>
+            <td>{% if taller.facilitador %}{{ taller.facilitador }}{% else %}Sin facilitador{% endif %}</td>
+            <td>
+              <a href="{% url 'editar_taller' taller.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+              <a href="{% url 'eliminar_taller' taller.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">No hay periodos registrados</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+</div>
+{% endblock %}

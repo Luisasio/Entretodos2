@@ -19,7 +19,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>ID unico</th>
+          <th>clave unica</th>
           <th>Clave de escuela</th>
           <th>Nombres del facilitador</th>
           <th>Apellido paterno</th>
@@ -30,25 +30,16 @@
         </tr>
       </thead>
       <tbody>
-        {% for periodo in periodos %}
         <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ periodo.fecha_inicio }}</td>
-          <td>{{ periodo.fecha_fin }}</td>
-          <td>
-            <a href="" class="btn btn-warning">
-              <i class="fa-solid fa-pen-to-square"></i> Editar
-            </a>
-            <a href="" class="btn btn-danger">
-              <i class="fa-solid fa-trash-can"></i> Eliminar
-            </a>
-          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
-        {% empty %}
-        <tr>
-          <td colspan="4" class="text-center">No hay facilitadores registrados </td>
-        </tr>
-        {% endfor %}
       </tbody>
     </table>
   </div>

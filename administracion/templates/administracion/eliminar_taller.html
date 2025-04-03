@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+
+{% block title %}Eliminar Taller{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Eliminar Taller</h2>
+  <p>¿Estás seguro de que quieres eliminar el taller <strong>{{ taller.nombre_taller }}</strong>?</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">
+      <i class="fa-solid fa-trash-can"></i> Eliminar
+    </button>
+    <a href="{% url 'talleres' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

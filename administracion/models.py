@@ -58,9 +58,12 @@ class Taller(models.Model):
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    hora_inicio = models.TimeField(blank=True, null=True)
+    hora_fin = models.TimeField(blank=True, null=True)
+    cupos = models.IntegerField(blank=True, null=True)
     grupo = models.CharField(max_length=255)
-    facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE)
-    periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
+    facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
+    periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.nombre_taller  
@@ -70,6 +73,9 @@ class Diplomado(models.Model):
     descripcion = models.TextField()
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    hora_inicio = models.TimeField(blank=True, null=True)
+    hora_fin = models.TimeField(blank=True, null=True)
+    cupos = models.IntegerField(blank=True, null=True)
     grupo = models.CharField(max_length=255)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE)
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
