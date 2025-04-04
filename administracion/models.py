@@ -4,6 +4,7 @@ from django.db import models
 from django.db import models
 
 class Alumno(models.Model):
+    clave_alumno = models.CharField(max_length=255, unique=True, null=True, blank=True)
     nombres = models.CharField(max_length=255)
     apellido_paterno = models.CharField(max_length=255)
     apellido_materno = models.CharField(max_length=255)
@@ -18,6 +19,7 @@ class Alumno(models.Model):
         return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"  
 
 class Facilitador(models.Model):
+    clave_facilitador = models.CharField(max_length=255, unique=True  ,null=True, blank=True)
     nombres = models.CharField(max_length=255)
     apellido_paterno = models.CharField(max_length=255)
     apellido_materno = models.CharField(max_length=255)
