@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 # Create your models here.
 from django.db import models
 
@@ -10,13 +10,24 @@ class Alumno(models.Model):
     apellido_materno = models.CharField(max_length=255)
     correo = models.CharField(max_length=250)
     contrasena = models.CharField(max_length=250)
-    telefono = models.BigIntegerField(max_length=10)
+    telefono = models.BigIntegerField()
     clave = models.CharField(max_length=255, unique=True)
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=250)
 
     def __str__(self):
-        return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"  
+        return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"
+
+    def save(self, *args, **kwargs):
+        if not self.clave_alumno:
+            self.clave_alumno = self._generar_clave_unica()
+        super().save(*args, **kwargs)
+
+    def _generar_clave_unica(self):
+        while True:
+            clave = uuid.uuid4().hex[:10].upper()  # Por ejemplo: 'A1B2C3D4E5'
+            if not Alumno.objects.filter(clave_alumno=clave).exists():
+                return clave
 
 class Facilitador(models.Model):
     clave_facilitador = models.CharField(max_length=255, unique=True  ,null=True, blank=True)
@@ -51,6 +62,7 @@ class Curso(models.Model):
     grupo = models.CharField(max_length=255)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
+    publicado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nombre_curso  
@@ -66,6 +78,7 @@ class Taller(models.Model):
     grupo = models.CharField(max_length=255)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
+    publicado = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nombre_taller  

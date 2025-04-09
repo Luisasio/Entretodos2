@@ -50,6 +50,21 @@
               <td>
                 <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
                 <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                {% if not curso.publicado %}
+                <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success" title="Publicar">
+                    <i class="fa-solid fa-globe"></i>
+                  </button>
+                </form>
+                {% else %}
+                <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-secondary" title="Despublicar">
+                    <i class="fa-solid fa-eye-slash"></i>
+                  </button>
+                </form>
+                {% endif %}
               </td>
             </tr>
             {% empty %}

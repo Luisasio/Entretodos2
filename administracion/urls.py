@@ -16,4 +16,11 @@ urlpatterns = [
     path('talleres/agregar/', views.agregar_taller, name='agregar_taller'),
     path('talleres/editar/<int:taller_id>/', views.editar_taller, name='editar_taller'),
     path('talleres/eliminar/<int:taller_id>/', views.eliminar_taller, name='eliminar_taller'),
+
+    # url para la publicacion de cursos y talleres
+    path('publicar-curso/<int:curso_id>/', views.publicar_curso, name='publicar_curso'),
+    path('publicar-taller/<int:taller_id>/', views.publicar_taller, name='publicar_taller'),
+    # esto es para despublicarlo
+    path('despublicar-curso/<int:curso_id>/', views.despublicar_curso, name='despublicar_curso'),
+    path('despublicar-taller/<int:taller_id>/', views.despublicar_taller, name='despublicar_taller'),
 ]

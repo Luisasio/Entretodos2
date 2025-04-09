@@ -47,6 +47,22 @@
             <td>
               <a href="{% url 'editar_taller' taller.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
               <a href="{% url 'eliminar_taller' taller.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+              {% if not taller.publicado %}
+<form action="{% url 'publicar_taller' taller.id %}" method="post" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-success" title="Publicar">
+    <i class="fa-solid fa-globe"></i>
+  </button>
+</form>
+{% else %}
+<form action="{% url 'despublicar_taller' taller.id %}" method="post" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-secondary" title="Despublicar">
+    <i class="fa-solid fa-eye-slash"></i>
+  </button>
+</form>
+{% endif %}
+
             </td>
           </tr>
           {% empty %}

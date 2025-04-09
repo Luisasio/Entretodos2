@@ -5,6 +5,7 @@ from administracion.forms import CursoForm, PeriodoForm, TallerForm
 from administracion.models import Periodo, Taller
 from administracion.models import Curso
 # from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -132,4 +133,33 @@ def eliminar_taller(request, taller_id):
         return redirect('lista_talleres')  # Redirigir a la lista de talleres
 
     return render(request, 'administracion/eliminar_taller.html', {'taller': taller})
+
+# esto es la logica para publicar el curso o taller
+@require_POST
+def publicar_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.publicado = True
+    curso.save()
+    return redirect('cursos')
+
+@require_POST
+def publicar_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    taller.publicado = True
+    taller.save()
+    return redirect('talleres')
+# logica para despublicarlo si hay algun error
+@require_POST
+def despublicar_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.publicado = False
+    curso.save()
+    return redirect('cursos')
+
+@require_POST
+def despublicar_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    taller.publicado = False
+    taller.save()
+    return redirect('talleres')
 
