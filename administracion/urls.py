@@ -16,11 +16,16 @@ urlpatterns = [
     path('talleres/agregar/', views.agregar_taller, name='agregar_taller'),
     path('talleres/editar/<int:taller_id>/', views.editar_taller, name='editar_taller'),
     path('talleres/eliminar/<int:taller_id>/', views.eliminar_taller, name='eliminar_taller'),
-
+    path('diplomados/', views.diplomados, name='diplomados'),
+    path('diplomados/agregar/', views.agregar_diplomado, name='agregar_diplomado'),
+    path('diplomados/editar/<int:diplomado_id>/', views.editar_diplomado, name='editar_diplomado'),
+    path('diplomados/eliminar/<int:diplomado_id>/', views.eliminar_diplomado, name='eliminar_diplomado'),
     # url para la publicacion de cursos y talleres
     path('publicar-curso/<int:curso_id>/', views.publicar_curso, name='publicar_curso'),
     path('publicar-taller/<int:taller_id>/', views.publicar_taller, name='publicar_taller'),
+    path ('publicar-diplomado/<int:diplomado_id>/', views.publicar_diplomado, name='publicar_diplomado'),
     # esto es para despublicarlo
     path('despublicar-curso/<int:curso_id>/', views.despublicar_curso, name='despublicar_curso'),
     path('despublicar-taller/<int:taller_id>/', views.despublicar_taller, name='despublicar_taller'),
+    path('despublicar-diplomado/<int:diplomado_id>/', views.despublicar_diplomado, name='despublicar_diplomado'),
 ]

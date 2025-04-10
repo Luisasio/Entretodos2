@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from .forms import RegistroAlumnoForm
 from administracion.models import Alumno
 from django.contrib import messages
-from administracion.models import Curso, Taller, Inscripcion
+from administracion.models import Curso, Taller, Inscripcion, Diplomado
 
 def index(request):
   
@@ -32,42 +32,47 @@ def inicio(request):
 
 # esta es la parte para que el alumno vea la parte de los cursos y talleres
 def inscripciones(request):
-    alumno = request.session.get("alumno_id")  # Asegúrate que esté en sesión
+    alumno = request.session.get("alumno_id")
     if not alumno:
         return redirect('login_alumno')
 
     cursos = Curso.objects.filter(publicado=True)
     talleres = Taller.objects.filter(publicado=True)
+    diplomados = Diplomado.objects.filter(publicado=True)  # 👈 nuevo
 
     inscripcion_existente = Inscripcion.objects.filter(alumno_id=alumno).first()
 
     return render(request, 'inscripciones.html', {
         'cursos': cursos,
         'talleres': talleres,
+        'diplomados': diplomados,  # 👈 nuevo
         'inscripcion': inscripcion_existente
     })
+
 # esto es para que el alumno se inscriba es decir la logica
 def inscribirse(request, tipo, id):
     alumno_id = request.session.get("alumno_id")
     if not alumno_id:
         return redirect('login_alumno')
 
-    # Validar que el alumno no esté inscrito a nada más
     ya_inscrito = Inscripcion.objects.filter(alumno_id=alumno_id).first()
     if ya_inscrito:
-        messages.warning(request, "Ya estás inscrito a un curso o taller.")
+        messages.warning(request, "Ya estás inscrito a un curso, taller o diplomado.")
         return redirect('inscripciones')
 
     if tipo == 'curso':
         inscripcion = Inscripcion.objects.create(alumno_id=alumno_id, curso_id=id, estado="Inscrito")
     elif tipo == 'taller':
         inscripcion = Inscripcion.objects.create(alumno_id=alumno_id, taller_id=id, estado="Inscrito")
+    elif tipo == 'diplomado':
+        inscripcion = Inscripcion.objects.create(alumno_id=alumno_id, diplomado_id=id, estado="Inscrito")
     else:
         messages.error(request, "Tipo de inscripción no válido.")
         return redirect('inscripciones')
 
     messages.success(request, "¡Inscripción exitosa!")
     return redirect('mis_cursos')
+
 #esto es para ver los cursos inscitos:
 def mis_cursos(request):
     alumno_id = request.session.get("alumno_id")

@@ -1,0 +1,16 @@
+{% extends 'administracion/base.html' %}
+
+{% block title %}Eliminar Diplomado{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+    <h2>Eliminar Diplomado</h2>
+    <p>¿Estás seguro de que deseas eliminar el diplomado "<b>{{ diplomado.nombre_diplomado }}</b>"?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a href="{% url 'diplomados' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

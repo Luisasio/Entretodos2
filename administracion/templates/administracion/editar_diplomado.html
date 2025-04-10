@@ -1,16 +1,16 @@
 {% extends 'administracion/base.html' %}
 
-{% block title %}Editar Curso{% endblock %}
+{% block title %}Editar Diplomado{% endblock %}
 
 {% block content %}
 <div class="contenedor-con-scroll">
     <div class="contenido-principal">
-        <h2>Editar Curso</h2>
+        <h2>Editar Diplomado</h2>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group mb-3">
-                <label for="id_nombre_curso">Nombre del curso:</label>
-                {{ form.nombre_curso }}
+                <label for="id_nombre_curso">Nombre del Diplomado:</label>
+                {{ form.nombre_diplomado }}
             </div>
             <div class="form-group mb-3">
                 <label for="id_descripcion">Descripción:</label>
@@ -61,7 +61,7 @@
             </div>
             
             <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
+            <a href="{% url 'diplomados' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </div>

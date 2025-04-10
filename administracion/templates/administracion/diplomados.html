@@ -1,0 +1,83 @@
+{% extends './base.html' %}
+
+{% block title %}Diplomados{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Diplomados</h2>
+  <p>En esta sección se podrán agregar y ver los diplomados.</p>
+  <a href="{% url 'agregar_diplomado' %}" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i> Nuevo Diplomado
+  </a>
+</div>
+
+<div class="py-3 contenedor-cursos">
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Listado de Diplomados</h3>
+        <div class="card-tools">
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0" style="height: 600px;">
+        <table class="table table-head-fixed text-nowrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Grupo</th>
+              <th>Diplomado</th>
+              <th>Cupos</th>
+              <th>Periodo</th>
+              <th>Hora inicio</th>
+              <th>Hora fin</th>
+              <th>Facilitador</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for diplomado in diplomados %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ diplomado.grupo }}</td>
+              <td>{{ diplomado.nombre_diplomado }}</td>
+              <td>{{ diplomado.cupos }}</td>
+              <td>{% if diplomado.periodo %}{{ diplomado.periodo }}{% else %}Sin asignar{% endif %}</td>
+              <td>{{ diplomado.hora_inicio}}</td>
+              <td>{{ diplomado.hora_fin }}</td>
+              <td>{% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}Sin facilitador{% endif %}</td>
+              <td>
+                <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                {% if not diplomado.publicado %}
+                <form action="{% url 'publicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success" title="Publicar">
+                    <i class="fa-solid fa-globe"></i>
+                  </button>
+                </form>
+                {% else %}
+                <form action="{% url 'despublicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-secondary" title="Despublicar">
+                    <i class="fa-solid fa-eye-slash"></i>
+                  </button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">No hay Diplomados registrados</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+{% endblock %}

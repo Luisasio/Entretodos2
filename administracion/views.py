@@ -1,8 +1,8 @@
 from pyexpat.errors import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
-from administracion.forms import CursoForm, PeriodoForm, TallerForm
-from administracion.models import Periodo, Taller
+from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, TallerForm
+from administracion.models import Periodo, Taller, Diplomado
 from administracion.models import Curso
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -163,3 +163,53 @@ def despublicar_taller(request, taller_id):
     taller.save()
     return redirect('talleres')
 
+@require_POST
+def despublicar_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    diplomado.publicado = False
+    diplomado.save()
+    return redirect('diplomados')
+
+@require_POST
+def publicar_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    diplomado.publicado = True
+    diplomado.save()
+    return redirect('diplomados')
+
+def diplomados(request):
+    diplomados = Diplomado.objects.all()  # Obtener todos los cursos
+    return render(request, 'administracion/diplomados.html', {'diplomados': diplomados})
+
+def agregar_diplomado(request):
+    if request.method == 'POST':
+        form = DiplomadoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('diplomados')  # Redirigir a la lista de diplomados
+    else:
+        form = DiplomadoForm()
+    
+    return render(request, 'administracion/agregar_diplomado.html', {'form': form})
+
+def editar_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    
+    if request.method == "POST":
+        form = DiplomadoForm(request.POST, instance=diplomado)
+        if form.is_valid():
+            form.save()
+            return redirect('diplomados')  # Redirige a la lista de cursos después de editar
+    else:
+        form = DiplomadoForm(instance=diplomado)
+
+    return render(request, 'administracion/editar_diplomado.html', {'form': form, 'diplomados': diplomado})
+
+def eliminar_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    
+    if request.method == "POST":
+        diplomado.delete()
+        return redirect('diplomados')  # Redirigir a la lista de talleres
+
+    return render(request, 'administracion/eliminar_diplomado.html', {'diplomados': diplomado})

@@ -60,6 +60,8 @@ class Curso(models.Model):
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
     grupo = models.CharField(max_length=255)
+    modalidad = models.CharField(max_length=255,null=True, blank=True)
+    duracion = models.IntegerField(blank=True, null=True)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
@@ -76,6 +78,8 @@ class Taller(models.Model):
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
     grupo = models.CharField(max_length=255)
+    modalidad = models.CharField(max_length=255, null=True, blank=True)
+    duracion = models.IntegerField(blank=True, null=True)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
@@ -92,8 +96,12 @@ class Diplomado(models.Model):
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
     grupo = models.CharField(max_length=255)
-    facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE)
+    modalidad = models.CharField(max_length=255, null=True, blank=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True)
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
+    publicado = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.nombre_diplomado  
