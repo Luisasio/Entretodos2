@@ -16,7 +16,7 @@
 
     <div class="card p-4 shadow login-card">
         <div class="text-center mb-3">
-            <img src="{% static 'img/logo_et.png' %}" alt="Logo" width="80" class="mb-2">
+            <img src="{% static 'img/LogoEntreTodos.png' %}" alt="Logo" width="150" class="mb-2">
             <h4 class="fw-bold">Iniciar Sesión</h4>
             <p class="text-muted mb-0">Alumno</p>
         </div>
@@ -24,10 +24,10 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary w-100 mt-2">Entrar</button>
+        <button type="submit" class="btn-cafe">Entrar</button>
     </form>
         <div class="text-center mt-3">
-            <small>¿No tienes cuenta? <a href="{% url 'registro_alumno' %}">Regístrate aquí</a></small>
+            <small>¿No tienes cuenta? <a href="{% url 'registro_alumno' %}" class="registrate">Regístrate aquí</a></small>
         </div>
     </div>
 

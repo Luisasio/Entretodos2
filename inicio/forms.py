@@ -18,3 +18,11 @@ class RegistroAlumnoForm(forms.ModelForm):
         if commit:
             alumno.save()
         return alumno
+
+class EditarAlumnoForm(forms.ModelForm):
+    class Meta:
+        model = Alumno
+        fields = [
+            'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
+            'telefono', 'clave', 'curp', 'sexo'
+        ]

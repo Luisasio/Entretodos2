@@ -2,7 +2,7 @@ from pyexpat.errors import messages
 from django.shortcuts import get_object_or_404, redirect, render
 
 from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, TallerForm
-from administracion.models import Periodo, Taller, Diplomado
+from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado
 from administracion.models import Curso
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -213,3 +213,49 @@ def eliminar_diplomado(request, diplomado_id):
         return redirect('diplomados')  # Redirigir a la lista de talleres
 
     return render(request, 'administracion/eliminar_diplomado.html', {'diplomados': diplomado})
+
+def alumnos(request):
+    alumnos = Alumno.objects.all()
+    # Añadir un atributo "estado_inscripcion" a cada alumno
+    for alumno in alumnos:
+        inscrito = Inscripcion.objects.filter(alumno=alumno).exists()
+        alumno.estado_inscripcion = 'Inscrito' if inscrito else 'No inscrito'
+    return render(request, 'administracion/alumnos.html', {'alumnos': alumnos})
+
+from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm  # Importa desde donde esté definido
+
+def agregar_alumno(request):
+    if request.method == 'POST':
+        form = RegistroAlumnoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('alumnos')
+    else:
+        form = RegistroAlumnoForm()
+
+    return render(request, 'administracion/agregar_alumno.html', {'form': form})
+
+def editar_alumno(request, alumno_id):
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    if request.method == 'POST':
+        form = EditarAlumnoForm(request.POST, instance=alumno)
+        if form.is_valid():
+            form.save()
+            return redirect('alumnos')
+    else:
+        form = EditarAlumnoForm(instance=alumno)
+
+    return render(request, 'administracion/editar_alumno.html', {
+        'form': form,
+        'alumno': alumno
+    })
+
+def eliminar_alumno(request, alumno_id):
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    if request.method == "POST":
+        alumno.delete()
+        return redirect('alumnos')
+
+    return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})

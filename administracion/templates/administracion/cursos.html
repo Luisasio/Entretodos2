@@ -26,13 +26,12 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Grupo</th>
               <th>Curso</th>
               <th>Cupos</th>
               <th>Periodo</th>
-              <th>Hora inicio</th>
-              <th>Hora fin</th>
+              <th>Horario</th>
               <th>Facilitador</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -40,13 +39,15 @@
             {% for curso in cursos %}
             <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ curso.grupo }}</td>
-              <td>{{ curso.nombre_curso }}</td>
+              <td>
+                <small><strong>Grupo: {{ curso.grupo }}</strong></small>
+                <p>{{ curso.nombre_curso }}</p>
+              </td>
               <td>{{ curso.cupos }}</td>
               <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
-              <td>{{ curso.hora_inicio}}</td>
-              <td>{{ curso.hora_fin }}</td>
+              <td>{{ curso.hora_inicio}} - {{ curso.hora_fin }}</td>
               <td>{% if curso.facilitador %}{{ curso.facilitador }}{% else %}Sin facilitador{% endif %}</td>
+              <td></td>
               <td>
                 <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
                 <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>

@@ -1,9 +1,47 @@
-.tarjeta-curso{
+.tarjeta-diplomado{
   width: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 7px;
   border-left: 10px #096900 solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.tarjeta-diplomado h3{
+  font-size: 19px;
+  color: #777777;
+  font-weight: 500;
+}
+.tarjeta-diplomado h2{
+  font-size: 26px;
+  font-weight: 700;
+}
+.botones-diplomado{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  padding-top: 20px;
+}
+.botones-diplomado a{
+  text-decoration: none;
+  color: white;
+  background-color: #096900;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.tarjeta-curso{
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 7px;
+  border-left: 10px #F28A2E solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,7 +56,7 @@
   font-size: 26px;
   font-weight: 700;
 }
-.botones{
+.botones-curso{
   display: flex;
   justify-content: end;
   align-items: center;
@@ -26,10 +64,48 @@
   gap: 20px;
   padding-top: 20px;
 }
-.botones a{
+.botones-curso a{
   text-decoration: none;
   color: white;
-  background-color: #096900;
+  background-color: #F28A2E;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.tarjeta-taller{
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 7px;
+  border-left: 10px #0075FF solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.tarjeta-taller h3{
+  font-size: 19px;
+  color: #777777;
+  font-weight: 500;
+}
+.tarjeta-taller h2{
+  font-size: 26px;
+  font-weight: 700;
+}
+.botones-taller{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  padding-top: 20px;
+}
+.botones-taller a{
+  text-decoration: none;
+  color: white;
+  background-color: #0075FF;
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: 700;

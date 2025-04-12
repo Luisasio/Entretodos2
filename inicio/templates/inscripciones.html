@@ -40,14 +40,18 @@
     <div class="row">
         {% for curso in cursos %}
             <div class="col-md-4 mb-4">
-                <div class="card p-3">
-                    <h3>{{curso.grupo}}</h3>
-                    <h5>{{ curso.nombre_curso }}</h5>
+                <div class="tarjeta-curso">
+                    <h3>Grupo: {{curso.grupo}}</h3>
+                    <h2>{{ curso.nombre_curso }}</h2>
                     <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
-                    <p><strong>Duración:</strong> {{ curso.fecha_inicio }} - {{ curso.fecha_fin }}</p>
-                    {% if not inscripcion %}
-                        <a href="{% url 'inscribirse' 'curso' curso.id %}" class="btn btn-primary w-100">Inscribirme</a>
-                    {% endif %}
+                    <p><strong>Inicio y Fin:</strong> {{ curso.fecha_inicio }} - {{ curso.fecha_fin }}</p>
+                    <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
+                    <p><strong>Cupos:</strong>  {{ curso.cupos }}</p>
+                    <div class="botones-curso">
+                        {% if not inscripcion %}
+                        <a href="{% url 'inscribirse' 'curso' curso.id %}" class="">Inscribirme</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -57,13 +61,17 @@
     <div class="row">
         {% for taller in talleres %}
             <div class="col-md-4 mb-4">
-                <div class="card p-3">
-                    <h5>{{ taller.nombre_taller }}</h5>
+                <div class="tarjeta-taller">
+                    <h3>Grupo: {{ taller.grupo }}</h3>
+                    <h2>{{ taller.nombre_taller }}</h2>
                     <p><strong>Horario:</strong> {{ taller.hora_inicio }} - {{ taller.hora_fin }}</p>
-                    <p><strong>Duración:</strong> {{ taller.fecha_inicio }} - {{ taller.fecha_fin }}</p>
-                    {% if not inscripcion %}
-                        <a href="{% url 'inscribirse' 'taller' taller.id %}" class="btn btn-warning w-100">Inscribirme</a>
-                    {% endif %}
+                    <p><strong>Inicio y Fin:</strong> {{ taller.fecha_inicio }} - {{ taller.fecha_fin }}</p>
+                    <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
+                    <div class="botones-taller">
+                        {% if not inscripcion %}
+                        <a href="{% url 'inscribirse' 'taller' taller.id %}" class="">Inscribirme</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -73,15 +81,14 @@
     <div class="row">
         {% for diplomado in diplomados %}
             <div class="col-md-4 mb-4">
-                <div class="tarjeta-curso">
+                <div class="tarjeta-diplomado">
                     <h3>Grupo: {{ diplomado.grupo }}</h3>
                     <h2>{{ diplomado.nombre_diplomado }}</h2>
                     <p><strong>Horario:</strong> {{ diplomado.hora_inicio }} - {{ diplomado.hora_fin }}</p>
-                    <p><strong>Duracion:</strong> {{ diplomado.fecha_inicio }} - {{ diplomado.fecha_fin }}</p>
+                    <p><strong>Inicio y Fin:</strong> {{ diplomado.fecha_inicio }} - {{ diplomado.fecha_fin }}</p>
                     <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
-                    <div class="botones">
+                    <div class="botones-diplomado">
                         {% if not inscripcion %}
-                        <a href="#">Ver mas</a>
                         <a href="{% url 'inscribirse' 'diplomado' diplomado.id %}" class="">Inscribirme</a>
                         {% endif %}
                     </div>

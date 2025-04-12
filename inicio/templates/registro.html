@@ -17,7 +17,7 @@
 
     <div class="card p-5 shadow-lg login-card">
         <div class="text-center mb-4">
-            <img src="{% static 'img/logo_et.png' %}" alt="Logo" width="80" class="mb-3">
+            <img src="{% static 'img/LogoEntreTodos.png' %}" alt="Logo" width="150" class="mb-3">
             <h3 class="fw-bold">Registro de Alumno</h3>
             <p class="text-muted">Crea tu cuenta para acceder al sistema</p>
         </div>
@@ -33,12 +33,12 @@
                     {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary w-100 py-2">Registrarse</button>
+            <button type="submit" class="btn-cafe">Registrarse</button>
         </form>
         
 
         <div class="text-center mt-3">
-            <small>¿Ya tienes cuenta? <a href="{% url 'login_alumno' %}">Inicia sesión</a></small>
+            <small>¿Ya tienes cuenta? <a href="{% url 'login_alumno' %}" class="registrate">Inicia sesión</a></small>
         </div>
     </div>
 

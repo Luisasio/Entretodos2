@@ -20,6 +20,12 @@ urlpatterns = [
     path('diplomados/agregar/', views.agregar_diplomado, name='agregar_diplomado'),
     path('diplomados/editar/<int:diplomado_id>/', views.editar_diplomado, name='editar_diplomado'),
     path('diplomados/eliminar/<int:diplomado_id>/', views.eliminar_diplomado, name='eliminar_diplomado'),
+    path('alumnos/', views.alumnos, name='alumnos'),
+    path('alumnos/agregar/', views.agregar_alumno, name='agregar_alumno'),
+    path('alumnos/<int:alumno_id>/editar/', views.editar_alumno, name='editar_alumno'),
+    path('alumnos/<int:alumno_id>/eliminar/', views.eliminar_alumno, name='eliminar_alumno'),
+
+
     # url para la publicacion de cursos y talleres
     path('publicar-curso/<int:curso_id>/', views.publicar_curso, name='publicar_curso'),
     path('publicar-taller/<int:taller_id>/', views.publicar_taller, name='publicar_taller'),

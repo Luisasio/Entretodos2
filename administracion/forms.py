@@ -27,6 +27,10 @@ class CursoForm(forms.ModelForm):
             'modalidad', 'duracion',  # 👈 nuevos campos
             'facilitador', 'periodo'
         ]
+        MODALIDAD_CHOICES = [
+        ('virtual', 'Virtual'),
+        ('presencial', 'Presencial'),
+        ]
         widgets = {
             'nombre_curso': forms.TextInput(attrs={'class': 'form-control custom-input'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
@@ -36,7 +40,10 @@ class CursoForm(forms.ModelForm):
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
             'grupo': forms.TextInput(attrs={'class': 'form-control'}),
-            'modalidad': forms.TextInput(attrs={'class': 'form-control'}),  # 👈 entrada libre
+            'modalidad': forms.Select(
+                choices=[('virtual', 'Virtual'), ('presencial', 'Presencial')],
+                attrs={'class': 'form-control'}
+            ),  # 👈 entrada libre
             'duracion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'En horas'}),  # 👈 entrada numérica
             'periodo': forms.Select(attrs={'class': 'form-control'}),
             'facilitador': forms.Select(attrs={'class': 'form-control'}),

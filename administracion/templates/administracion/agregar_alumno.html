@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Agregar Alumno{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Agregar Alumno</h2>
+  <p>Llena los datos del alumno para darlo de alta.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field|add_class:"form-control" }}
+        {% if field.errors %}
+          <div class="text-danger small">{{ field.errors|striptags }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar Alumno</button>
+    <a href="{% url 'alumnos' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

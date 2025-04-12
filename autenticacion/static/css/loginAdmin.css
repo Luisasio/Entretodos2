@@ -1,3 +1,95 @@
-body{
-  background-color: red;
+@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+:root{
+  --fuente: 'Inria Serif', serif;
+} 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333;
+}
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.ancho{
+  max-width: 1200px;
+  margin: auto;
+}
+.margen{
+  padding: 15px;
+}
+.contenedor-prinipal {
+  display: flex;
+  flex-direction: row;
+}
+
+.contenedor-izquierda {
+  width: 50%;
+  height: 100vh;
+}
+
+.contenedor-derecha {
+  width: 50%;
+  height: 100vh;
+  background-color: #FDE0DE;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  flex-direction: column;
+}
+.contenedor-derecha h3{
+  font-family: var(--fuente);
+  font-size: 30px;
+  color: #6E3730;
+  font-weight: 700;
+  margin-bottom: 40px;
+
+}
+.contenedor-derecha h1{
+  font-family: var(--fuente);
+  font-size: 90px;
+  color: #6E3730;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form label {
+  width: 85%;
+  text-align: left; /* Alinea el texto del label a la izquierda */
+  margin-bottom: 5px; /* Espacio entre label e input */
+}
+
+.input {
+  width: 85%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.btn-cafe{
+  background-color: #6E3730;
+  color: white;
+  width: 85%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+.logo-entre-todos{
+  width: 250px;
+  margin-top: -150px;
+}
+.logo-entre-todos img{
+  width: 100%;
+  display: block;
 }

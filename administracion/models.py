@@ -11,7 +11,7 @@ class Alumno(models.Model):
     correo = models.CharField(max_length=250)
     contrasena = models.CharField(max_length=250)
     telefono = models.BigIntegerField()
-    clave = models.CharField(max_length=255, unique=True)
+    clave = models.CharField(max_length=255, unique=True) # esta es la clave de la escuela
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=250)
 

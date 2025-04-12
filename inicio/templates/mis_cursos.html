@@ -29,7 +29,7 @@
 
 <!-- Contenido principal -->
 <div class="container py-5">
-    <h2 class="mb-4">Mis cursos o talleres</h2>
+    <h2 class="mb-4">Mis cursos, talleres o diplomados</h2>
 
     {% if inscripcion %}
         <div class="card shadow p-4">
@@ -37,17 +37,25 @@
                 <h4 class="mb-2">Curso: {{ inscripcion.curso.nombre_curso }}</h4>
                 <p><strong>Horario:</strong> {{ inscripcion.curso.hora_inicio }} - {{ inscripcion.curso.hora_fin }}</p>
                 <p><strong>Duración:</strong> {{ inscripcion.curso.fecha_inicio }} - {{ inscripcion.curso.fecha_fin }}</p>
+            
             {% elif inscripcion.taller %}
                 <h4 class="mb-2">Taller: {{ inscripcion.taller.nombre_taller }}</h4>
                 <p><strong>Horario:</strong> {{ inscripcion.taller.hora_inicio }} - {{ inscripcion.taller.hora_fin }}</p>
                 <p><strong>Duración:</strong> {{ inscripcion.taller.fecha_inicio }} - {{ inscripcion.taller.fecha_fin }}</p>
+            
+            {% elif inscripcion.diplomado %}
+                <h4 class="mb-2">Diplomado: {{ inscripcion.diplomado.nombre_diplomado }}</h4>
+                <p><strong>Horario:</strong> {{ inscripcion.diplomado.hora_inicio }} - {{ inscripcion.diplomado.hora_fin }}</p>
+                <p><strong>Duración:</strong> {{ inscripcion.diplomado.fecha_inicio }} - {{ inscripcion.diplomado.fecha_fin }}</p>
             {% endif %}
+
             <p><strong>Estado:</strong> {{ inscripcion.estado }}</p>
         </div>
     {% else %}
-        <div class="alert alert-info">Aún no estás inscrito a ningún curso o taller.</div>
+        <div class="alert alert-info">Aún no estás inscrito a ningún curso, taller o diplomado.</div>
     {% endif %}
 </div>
+
 
 </body>
 </html>

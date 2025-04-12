@@ -36,3 +36,63 @@ body {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
+.contenedor1{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.contenedor-login{
+  width: 40%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 25px;
+}
+.logo-alumno{
+  max-width: 200px;
+}
+.logo-alumno img{
+  max-width: 100%;
+  display: block;
+}
+.form2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form2 label {
+  width: 85%;
+  text-align: left; /* Alinea el texto del label a la izquierda */
+  margin-bottom: 5px; /* Espacio entre label e input */
+}
+.input2 {
+  width: 85%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.olvidaste{
+  color: #6E3730;
+  display: inline-block;
+  text-align: right;
+  width: 85%;
+  text-decoration: none;
+  font-weight: 500;
+}
+.registrate{
+  color: #6E3730;
+  text-decoration: none;
+  font-weight: 500;
+}
+.btn-cafe{
+  background-color: #6E3730;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
