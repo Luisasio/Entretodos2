@@ -1,0 +1,70 @@
+{% extends './base.html' %}
+
+{% block title %}Ver alumnos{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Alumnos inscritos en: {{ diplomado.nombre_diplomado }}</h2>
+    <div class="d-flex justify-content-lg-start align-items-center gap-lg-4 mb-3 mt-3">
+      <div>
+        <a href="{% url 'ver_diplomados' %}" class="btn btn-secondary">Regresar a diplomados</a>
+      </div>
+      <div>
+        <a href="{% url 'dar_de_alta_alumno_diplomado' diplomado.id %}" class="btn btn-primary">Dar de alta alumno</a>
+      </div>
+      <div>
+        <a href="{% url 'descargar_lista_diplomado' diplomado.id %}" class="btn btn-success">
+          <i class="fa-sharp fa-solid fa-arrow-down"></i> Descargar lista de alumnos
+        </a>
+      </div>
+
+    </div>
+    <p>Facilitador: {{ diplomado.facilitador }}</p>
+  </div>
+  <form class="d-flex mb-2" role="search" method="get">
+    <input class="form-control me-2" type="search" placeholder="Buscar por nombre, clave o teléfono"
+           name="q" value="{{ query }}" aria-label="Buscar">
+    <button class="btn btn-outline-success" type="submit">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+  </form>
+  
+  <div class="card-body table-responsive p-0" style="height: 600px;">
+    <table class="table table-head-fixed text-nowrap">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inscripcion in inscripciones %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            <small><strong>{{ inscripcion.alumno.clave_alumno }}</strong></small><br>
+            {{ inscripcion.alumno.nombres }} {{ inscripcion.alumno.apellido_paterno }} {{ inscripcion.alumno.apellido_materno }}
+          </td>
+          <td>{{ inscripcion.alumno.correo }}</td>
+          <td>{{ inscripcion.alumno.telefono }}</td>
+          <td>
+            <form action="{% url 'dar_de_baja_diplomado' inscripcion.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Dar de baja</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">No hay alumnos inscritos en este curso.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

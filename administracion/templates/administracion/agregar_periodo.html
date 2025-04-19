@@ -9,6 +9,10 @@
   <form method="post">
     {% csrf_token %}
     <div class="mb-3">
+      <label for="fecha_inicio" class="form-label">Nombre del periodo:</label>
+      {{ form.nombre_periodo }}
+    </div>
+    <div class="mb-3">
       <label for="fecha_inicio" class="form-label">Fecha de inicio:</label>
       {{ form.fecha_inicio }}
     </div>

@@ -14,6 +14,8 @@ class Alumno(models.Model):
     clave = models.CharField(max_length=255, unique=True) # esta es la clave de la escuela
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=250)
+    restriccion_libre = models.BooleanField(default=False, help_text="Permitir que el alumno se inscriba sin restricciones")
+
 
     def __str__(self):
         return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"
@@ -30,26 +32,38 @@ class Alumno(models.Model):
                 return clave
 
 class Facilitador(models.Model):
-    clave_facilitador = models.CharField(max_length=255, unique=True  ,null=True, blank=True)
+    clave_facilitador = models.CharField(max_length=255, unique=True, null=True, blank=True)
     nombres = models.CharField(max_length=255)
     apellido_paterno = models.CharField(max_length=255)
     apellido_materno = models.CharField(max_length=255)
     correo = models.CharField(max_length=250)
     contrasena = models.CharField(max_length=250)
-    telefono = models.BigIntegerField(max_length=10)
+    telefono = models.BigIntegerField()
     clave = models.CharField(max_length=255, unique=True)
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=150)
 
     def __str__(self):
-        return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"  
+        return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"
+
+    def save(self, *args, **kwargs):
+        if not self.clave_facilitador:
+            self.clave_facilitador = self._generar_clave_unica()
+        super().save(*args, **kwargs)
+
+    def _generar_clave_unica(self):
+        while True:
+            clave = uuid.uuid4().hex[:10].upper()  # Ejemplo: 'A1B2C3D4E5'
+            if not Facilitador.objects.filter(clave_facilitador=clave).exists():
+                return clave
 
 class Periodo(models.Model):
+    nombre_periodo = models.CharField(max_length=255,null=True, blank=True)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
 
     def __str__(self):
-        return f"{self.fecha_inicio} - {self.fecha_fin}"  
+        return self.nombre_periodo  
 
 class Curso(models.Model):
     nombre_curso = models.CharField(max_length=255)
@@ -65,6 +79,8 @@ class Curso(models.Model):
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
+    finalizado = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.nombre_curso  
@@ -83,6 +99,8 @@ class Taller(models.Model):
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
+    finalizado = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.nombre_taller  
@@ -101,6 +119,8 @@ class Diplomado(models.Model):
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True)
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
     publicado = models.BooleanField(default=False)
+    finalizado = models.BooleanField(default=False)
+
 
 
     def __str__(self):
@@ -112,6 +132,8 @@ class Inscripcion(models.Model):
     taller = models.ForeignKey(Taller, on_delete=models.CASCADE, null=True, blank=True)
     diplomado = models.ForeignKey(Diplomado, on_delete=models.CASCADE, null=True, blank=True)
     estado = models.CharField(max_length=255)
+    finalizado = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"{self.alumno} - {self.estado}"

@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Perfil</h2>
+    <p>En esta seccion veras los detalles de tu cuenta</p>
+    <h6>Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</h6>
+    <h6>Correo: {{ usuario.email }}</h6>
+    <div class="d-flex justify-content-lg-start align-items-center gap-lg-4 mb-3 mt-3">
+      <a href="{% url 'cambiar_contrasena' %}" class="btn btn-warning">
+        Cambiar contraseña
+      </a>
+      <a href="{% url 'agregar_admin' %}" class="btn btn-primary">
+        Añadir administrador
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

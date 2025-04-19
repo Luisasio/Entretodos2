@@ -1,0 +1,71 @@
+{% extends './base_facilitador.html' %}
+
+{% block title %}Cursos disponibles{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">Cursos, Talleres y Diplomados disponibles para impartir</h2>
+  <h4 class="mt-4 mb-4">Cursos</h4>
+  <div class="row">
+    {% for curso in cursos %}
+    <div class="col-md-4 mb-4">
+      <div class="tarjeta-curso">
+        <h3>Grupo:  {{curso.grupo}}</h3>
+        <h2>{{ curso.nombre_curso }}</h2>
+        <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
+        <p><strong>Inicio y Fin:</strong> {{ curso.fecha_inicio }} - {{ curso.fecha_fin }}</p>
+        <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
+        <div class="botones-curso">
+          <a href="{% url 'tomar_curso' curso.id %}" class="btn btn-success">Dar curso</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <h3>No hay cursos disponibles a impartir</h3>
+    {% endfor %}
+  </div>
+
+<h4 class="mt-4 mb-4">Talleres</h4>
+<div class="row">
+  {% for taller in talleres %}
+  <div class="col-md-4 mb-4">
+    <div class="tarjeta-taller">
+      <h3>Grupo:  {{taller.grupo}}</h3>
+      <h2>{{ taller.nombre_taller }}</h2>
+      <p><strong>Horario:</strong> {{ taller.hora_inicio }} - {{ taller.hora_fin }}</p>
+      <p><strong>Inicio y Fin:</strong> {{ taller.fecha_inicio }} - {{ taller.fecha_fin }}</p>
+      <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
+      <div class="botones-taller">
+        <a href="{% url 'tomar_taller' taller.id %}" class="btn btn-success">Dar taller</a>
+
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <h3>No hay talleres disponibles a impartir</h3>
+  {% endfor %}
+</div>
+
+  <h4 class="mt-4 mb-4">Diplomados</h4>
+  <div class="row">
+    {% for diplomado in diplomados %}
+    <div class="col-md-4 mb-4">
+      <div class="tarjeta-diplomado">
+        <h3>Grupo:  {{diplomado.grupo}}</h3>
+        <h2>{{ diplomado.nombre_diplomado }}</h2>
+        <p><strong>Horario:</strong> {{ diplomado.hora_inicio }} - {{ diplomado.hora_fin }}</p>
+        <p><strong>Inicio y Fin:</strong> {{ diplomado.fecha_inicio }} - {{ diplomado.fecha_fin }}</p>
+        <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
+        <div class="botones-diplomado">
+          <a href="{% url 'tomar_diplomado' diplomado.id %}" class="btn btn-success">Dar diplomado</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <h3>No hay talleres disponibles a impartir</h3>
+    {% endfor %}
+  </div>
+
+
+</div>
+{% endblock %}

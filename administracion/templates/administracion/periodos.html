@@ -20,6 +20,7 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Nombre del periodo</th>
           <th>Fecha de inicio</th>
           <th>Fecha de finalización</th>
           <th style="width: 300px;">Acciones</th>
@@ -29,8 +30,10 @@
         {% for periodo in periodos %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ periodo.fecha_inicio }}</td>
-          <td>{{ periodo.fecha_fin }}</td>
+          <td>{{ periodo.nombre_periodo }}</td>
+          <td>{{ periodo.fecha_inicio|date:"j \\d\\e F \\d\\e Y" }}</td>
+          <td>{{ periodo.fecha_fin|date:"j \\d\\e F \\d\\e Y" }}</td>
+
           <td>
             <a href="{% url 'editar_periodo' periodo.id %}" class="btn btn-warning">
               <i class="fa-solid fa-pen-to-square"></i> Editar

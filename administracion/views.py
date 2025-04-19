@@ -1,11 +1,18 @@
-from pyexpat.errors import messages
+from io import BytesIO
+from django.contrib import messages
+from django.http import FileResponse
+from reportlab.lib.pagesizes import letter, landscape
 from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models import Count, Q
+from reportlab.pdfgen import canvas
 
-from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, TallerForm
+from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm
 from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado
 from administracion.models import Curso
 # from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+
+from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm
 
 
 # Create your views here.
@@ -119,7 +126,7 @@ def editar_taller(request, taller_id):
         form = TallerForm(request.POST, instance=taller)
         if form.is_valid():
             form.save()
-            return redirect('lista_talleres')  # Redirigir a la lista de talleres
+            return redirect('talleres')  # Redirigir a la lista de talleres
     else:
         form = TallerForm(instance=taller)
 
@@ -130,7 +137,7 @@ def eliminar_taller(request, taller_id):
     
     if request.method == "POST":
         taller.delete()
-        return redirect('lista_talleres')  # Redirigir a la lista de talleres
+        return redirect('talleres')  # Redirigir a la lista de talleres
 
     return render(request, 'administracion/eliminar_taller.html', {'taller': taller})
 
@@ -216,13 +223,17 @@ def eliminar_diplomado(request, diplomado_id):
 
 def alumnos(request):
     alumnos = Alumno.objects.all()
-    # Añadir un atributo "estado_inscripcion" a cada alumno
+
     for alumno in alumnos:
-        inscrito = Inscripcion.objects.filter(alumno=alumno).exists()
-        alumno.estado_inscripcion = 'Inscrito' if inscrito else 'No inscrito'
+        inscripciones_activas = Inscripcion.objects.filter(
+            alumno=alumno,
+            estado='Inscrito'
+        ).filter(Q(curso__isnull=False) | Q(taller__isnull=False) | Q(diplomado__isnull=False))
+
+        alumno.estado_inscripcion = 'Inscrito' if inscripciones_activas.exists() else 'No inscrito'
+
     return render(request, 'administracion/alumnos.html', {'alumnos': alumnos})
 
-from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm  # Importa desde donde esté definido
 
 def agregar_alumno(request):
     if request.method == 'POST':
@@ -259,3 +270,428 @@ def eliminar_alumno(request, alumno_id):
         return redirect('alumnos')
 
     return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})
+
+@require_POST
+def finalizar_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    curso.finalizado = True
+    curso.save()
+
+    # Cambiar estado a "Finalizado" para alumnos inscritos en ese curso
+    Inscripcion.objects.filter(curso=curso).update(estado='Finalizado', finalizado=True)
+
+    return redirect('cursos')
+
+@require_POST
+def finalizar_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    taller.finalizado = True
+    taller.save()
+
+    # Cambiar estado a "Finalizado" para alumnos inscritos en ese taller
+    Inscripcion.objects.filter(taller=taller).update(estado='Finalizado', finalizado=True)
+
+    return redirect('talleres')
+
+@require_POST
+def finalizar_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    diplomado.finalizado = True
+    diplomado.save()
+
+    # Cambiar estado a "Finalizado" para alumnos inscritos en ese diplomado
+    Inscripcion.objects.filter(diplomado=diplomado).update(estado='Finalizado', finalizado=True)
+
+    return redirect('diplomados')
+
+from administracion.models import Curso, Taller, Diplomado, Inscripcion
+
+def inscripciones_admin(request):
+    # Cursos con al menos un alumno inscrito
+    cursos = Curso.objects.filter(inscripcion__curso__isnull=False).distinct()
+    talleres = Taller.objects.filter(inscripcion__taller__isnull=False).distinct()
+    diplomados = Diplomado.objects.filter(inscripcion__diplomado__isnull=False).distinct()
+
+    total_cursos = cursos.count()
+    total_talleres = talleres.count()
+    total_diplomados = diplomados.count()
+
+    total_alumnos_cursos = Inscripcion.objects.filter(curso__isnull=False).count()
+    total_alumnos_talleres = Inscripcion.objects.filter(taller__isnull=False).count()
+    total_alumnos_diplomados = Inscripcion.objects.filter(diplomado__isnull=False).count()
+
+    return render(request, 'administracion/inscripciones_admin.html', {
+        'total_cursos': total_cursos,
+        'total_talleres': total_talleres,
+        'total_diplomados': total_diplomados,
+        'total_alumnos_cursos': total_alumnos_cursos,
+        'total_alumnos_talleres': total_alumnos_talleres,
+        'total_alumnos_diplomados': total_alumnos_diplomados,
+    })
+
+def ver_cursos(request):
+    cursos = Curso.objects.filter(finalizado=False).annotate(
+        total_inscritos=Count('inscripcion')
+    )
+    return render(request, 'administracion/ver_curso.html', {'ver_curso': cursos})
+
+def ver_talleres(request):
+    talleres = Taller.objects.filter(finalizado=False).annotate(
+        total_inscritos=Count('inscripcion')
+    )
+    return render(request, 'administracion/ver_taller.html', {'ver_taller': talleres})
+
+def ver_diplomados(request):
+    diplomados = Diplomado.objects.filter(finalizado=False).annotate(
+        total_inscritos=Count('inscripcion')
+    )
+    return render(request, 'administracion/ver_diplomado.html', {'ver_diplomado': diplomados})
+
+
+def ver_alumnos_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    query = request.GET.get('q', '')
+
+    inscripciones = Inscripcion.objects.filter(curso=curso)
+
+    if query:
+        inscripciones = inscripciones.filter(
+            Q(alumno__nombres__icontains=query) |
+            Q(alumno__apellido_paterno__icontains=query) |
+            Q(alumno__apellido_materno__icontains=query) |
+            Q(alumno__clave_alumno__icontains=query) |
+            Q(alumno__telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/ver_alumnos_curso.html', {
+        'curso': curso,
+        'inscripciones': inscripciones,
+        'query': query
+    })
+
+def ver_alumnos_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    query = request.GET.get('q', '')
+
+    inscripciones = Inscripcion.objects.filter(taller=taller)
+
+    if query:
+        inscripciones = inscripciones.filter(
+            Q(alumno__nombres__icontains=query) |
+            Q(alumno__apellido_paterno__icontains=query) |
+            Q(alumno__apellido_materno__icontains=query) |
+            Q(alumno__clave_alumno__icontains=query) |
+            Q(alumno__telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/ver_alumnos_taller.html', {
+        'taller': taller,
+        'inscripciones': inscripciones,
+        'query': query
+    })
+
+def ver_alumnos_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    query = request.GET.get('q', '')
+
+    inscripciones = Inscripcion.objects.filter(diplomado=diplomado)
+
+    if query:
+        inscripciones = inscripciones.filter(
+            Q(alumno__nombres__icontains=query) |
+            Q(alumno__apellido_paterno__icontains=query) |
+            Q(alumno__apellido_materno__icontains=query) |
+            Q(alumno__clave_alumno__icontains=query) |
+            Q(alumno__telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/ver_alumnos_diplomado.html', {
+        'diplomado': diplomado,
+        'inscripciones': inscripciones,
+        'query': query
+    })
+
+
+@require_POST
+def dar_de_baja_curso(request, inscripcion_id):
+    inscripcion = get_object_or_404(Inscripcion, id=inscripcion_id)
+    curso = inscripcion.curso  # Guardamos el curso antes de borrar
+
+    if curso:
+        curso.cupos += 1
+        curso.save()
+
+    inscripcion.delete()
+    messages.success(request, "Alumno dado de baja exitosamente.")
+
+    return redirect('ver_alumnos_curso', curso_id=curso.id)
+
+@require_POST
+def dar_de_baja_taller(request, inscripcion_id):
+    inscripcion = get_object_or_404(Inscripcion, id=inscripcion_id)
+    taller = inscripcion.taller  # Guardamos el taller antes de borrar
+
+    if taller:
+        taller.cupos += 1
+        taller.save()
+
+    inscripcion.delete()
+    messages.success(request, "Alumno dado de baja exitosamente.")
+
+    return redirect('ver_alumnos_taller', taller_id=taller.id)
+
+@require_POST
+def dar_de_baja_diplomado(request, inscripcion_id):
+    inscripcion = get_object_or_404(Inscripcion, id=inscripcion_id)
+    diplomado = inscripcion.diplomado  # Guardamos el diplomado antes de borrar
+
+    if diplomado:
+        diplomado.cupos += 1
+        diplomado.save()
+
+    inscripcion.delete()
+    messages.success(request, "Alumno dado de baja exitosamente.")
+
+    return redirect('ver_alumnos_diplomado', diplomado_id=diplomado.id)
+
+def dar_de_alta_alumno_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    query = request.GET.get('q', '')
+
+    # Alumnos que NO están en cursos ni talleres (pero sí pueden tener diplomado)
+    alumnos_disponibles = Alumno.objects.exclude(
+        Q(inscripcion__curso__isnull=False) |
+        Q(inscripcion__taller__isnull=False)
+    ).distinct()
+
+    if query:
+        alumnos_disponibles = alumnos_disponibles.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(clave_alumno__icontains=query) |
+            Q(telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/dar_de_alta_alumno_curso.html', {
+        'curso': curso,
+        'alumnos_disponibles': alumnos_disponibles,
+        'query': query
+    })
+
+
+def dar_de_alta_alumno_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    query = request.GET.get('q', '')
+
+    # Alumnos que NO están en cursos ni talleres (pero sí pueden tener diplomado)
+    alumnos_disponibles = Alumno.objects.exclude(
+        Q(inscripcion__curso__isnull=False) |
+        Q(inscripcion__taller__isnull=False)
+    ).distinct()
+
+    if query:
+        alumnos_disponibles = alumnos_disponibles.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(clave_alumno__icontains=query) |
+            Q(telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/dar_de_alta_alumno_taller.html', {
+        'taller': taller,
+        'alumnos_disponibles': alumnos_disponibles,
+        'query': query
+    })
+
+def dar_de_alta_alumno_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    query = request.GET.get('q', '')
+
+    # Solo alumnos no inscritos a nada
+    alumnos_disponibles = Alumno.objects.exclude(
+        Q(inscripcion__curso__isnull=False) |
+        Q(inscripcion__taller__isnull=False) |
+        Q(inscripcion__diplomado__isnull=False)
+    ).distinct()
+
+    if query:
+        alumnos_disponibles = alumnos_disponibles.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(clave_alumno__icontains=query) |
+            Q(telefono__icontains=query)
+        )
+
+    return render(request, 'administracion/dar_de_alta_alumno_diplomado.html', {
+        'diplomado': diplomado,
+        'alumnos_disponibles': alumnos_disponibles,
+        'query': query
+    })
+
+@require_POST
+def alta_alumno_taller(request, taller_id, alumno_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    if taller.cupos > 0:
+        Inscripcion.objects.create(alumno=alumno, taller=taller, estado="Inscrito")
+        taller.cupos -= 1
+        taller.save()
+        messages.success(request, "Alumno inscrito exitosamente.")
+    else:
+        messages.error(request, "No hay cupos disponibles.")
+
+    return redirect('dar_de_alta_alumno_taller', taller_id=taller.id)
+
+
+@require_POST
+def alta_alumno_curso(request, curso_id, alumno_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    if curso.cupos > 0:
+        Inscripcion.objects.create(alumno=alumno, curso=curso, estado="Inscrito")
+        curso.cupos -= 1
+        curso.save()
+        messages.success(request, "Alumno inscrito exitosamente.")
+    else:
+        messages.error(request, "No hay cupos disponibles.")
+
+    return redirect('dar_de_alta_alumno', curso_id=curso.id)
+
+def alta_alumno_diplomado(request, diplomado_id, alumno_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    if diplomado.cupos > 0:
+        Inscripcion.objects.create(alumno=alumno, diplomado=diplomado, estado="Inscrito")
+        diplomado.cupos -= 1
+        diplomado.save()
+        messages.success(request, "Alumno inscrito exitosamente.")
+    else:
+        messages.error(request, "No hay cupos disponibles.")
+
+    return redirect('dar_de_alta_alumno_diplomado', diplomado_id=diplomado.id)
+
+@require_POST
+def toggle_restriccion_alumno(request, alumno_id):
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+    alumno.restriccion_libre = not alumno.restriccion_libre
+    alumno.save()
+    return redirect('alumnos')
+
+#esta es la funcion para poder descargar la lista de alumnos inscritos en un curso y la plantilla
+def generar_pdf_alumnos(inscripciones, titulo):
+    buffer = BytesIO()
+    # Cambiar a orientación horizontal
+    pdf = canvas.Canvas(buffer, pagesize=landscape(letter))
+    width, height = landscape(letter)  # Ahora width > height
+
+    # Datos del encabezado (dinamico con primer inscripcion si existe)
+    entidad = inscripciones[0].curso if hasattr(inscripciones[0], 'curso') and inscripciones[0].curso else \
+              inscripciones[0].taller if hasattr(inscripciones[0], 'taller') and inscripciones[0].taller else \
+              inscripciones[0].diplomado
+
+    pdf.setFont("Helvetica-Bold", 10)
+    pdf.drawString(40, height - 40, f"Nombre del {titulo.lower()}: {entidad.nombre_curso if titulo=='Curso' else entidad.nombre_taller if titulo=='Taller' else entidad.nombre_diplomado}")
+    pdf.drawString(40, height - 55, f"Nombre del facilitador: {entidad.facilitador}")
+    pdf.drawString(40, height - 70, f"Grupo: {entidad.grupo}")
+    pdf.drawString(40, height - 85, f"Periodo: {entidad.periodo}")
+
+    # Tabla - ajustar posiciones X para aprovechar el espacio horizontal
+    y = height - 120
+    pdf.setFont("Helvetica-Bold", 9)
+    pdf.drawString(40, y, "Clave única")
+    pdf.drawString(110, y, "Alumno")
+    pdf.drawString(260, y, "Clave escolar")
+    pdf.drawString(350, y, "CURP")  # Ajustado para más espacio
+    pdf.drawString(480, y, "Correo")  # Ajustado para más espacio
+    pdf.drawString(620, y, "Teléfono")  # Ajustado para más espacio
+    pdf.line(40, y - 2, 750, y - 2)  # Línea más larga para el ancho horizontal
+
+    pdf.setFont("Helvetica", 8)
+    for ins in inscripciones:
+        alumno = ins.alumno
+        y -= 20
+        if y < 40:
+            pdf.showPage()
+            y = height - 40
+            # Si necesitas repetir encabezados en cada página, deberías agregarlos aquí
+        pdf.drawString(40, y, alumno.clave_alumno)
+        pdf.drawString(110, y, f"{alumno.nombres} {alumno.apellido_paterno} {alumno.apellido_materno}")
+        pdf.drawString(260, y, alumno.clave)
+        pdf.drawString(350, y, alumno.curp)  # Ajustado para más espacio
+        pdf.drawString(480, y, alumno.correo)  # Ajustado para más espacio
+        pdf.drawString(620, y, str(alumno.telefono))  # Ajustado para más espacio
+
+    pdf.save()
+    buffer.seek(0)
+    return buffer
+
+def descargar_lista_alumnos_curso(request, curso_id):
+    curso = get_object_or_404(Curso, id=curso_id)
+    inscripciones = Inscripcion.objects.filter(curso=curso)
+    buffer = generar_pdf_alumnos(inscripciones, "Curso")
+    return FileResponse(buffer, as_attachment=True, filename="lista_curso.pdf")
+
+def descargar_lista_alumnos_taller(request, taller_id):
+    taller = get_object_or_404(Taller, id=taller_id)
+    inscripciones = Inscripcion.objects.filter(taller=taller)
+    buffer = generar_pdf_alumnos(inscripciones, "Taller")
+    return FileResponse(buffer, as_attachment=True, filename="lista_taller.pdf")
+
+def descargar_lista_alumnos_diplomado(request, diplomado_id):
+    diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    inscripciones = Inscripcion.objects.filter(diplomado=diplomado)
+    buffer = generar_pdf_alumnos(inscripciones, "Diplomado")
+    return FileResponse(buffer, as_attachment=True, filename="lista_diplomado.pdf")
+
+def historial_alumno(request, alumno_id):
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+    historial = Inscripcion.objects.filter(alumno=alumno, finalizado=True)
+
+    return render(request, 'administracion/historial_alumno.html', {
+        'alumno': alumno,
+        'historial': historial
+    })
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+
+# @login_required
+def administrador(request):
+    usuario = request.user  # Este es el administrador con sesión activa
+    return render(request, 'administracion/perfil_admin.html', {
+        'usuario': usuario
+    })
+
+def agregar_admin(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
+
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'¡Cuenta creada para {username}!')
+            return redirect('administrador')  # o 'agregar_admin' si quieres volver al mismo formulario
+    else:
+        form = RegisterForm()
+    return render(request, 'administracion/agregar_admin.html', {'form': form})
+
+
+class CambiarContrasenaView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'administracion/cambiar_contrasena.html'
+    success_url = reverse_lazy('perfil_admin')  # o a donde quieras redirigir después
+    login_url = 'login_admin'
+
+    def form_valid(self, form):
+        messages.success(self.request, "Contraseña actualizada correctamente.")
+        return super().form_valid(form)

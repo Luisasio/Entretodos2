@@ -37,9 +37,12 @@
         <!-- Info del alumno -->
         <div class="d-flex flex-column align-items-end">
             <span class="fw-semibold">
-                {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
+                aca van los nombres
             </span>
             <small class="text-muted">Estudiante</small>
+            
+        </div>
+        <div class="contenedor-salir-sesion">
             <a href="{% url 'logout_alumno' %}" class="btn btn-sm btn-outline-danger mt-2">Cerrar sesión</a>
         </div>
     </div>
@@ -48,7 +51,7 @@
 <!-- Contenido principal -->
 <div class="container mt-5">
     <h3 class="fw-bold">Inicio</h3>
-    <p class="text-muted">Buenas tardes {{ alumno.nombres }}!</p>
+    <p class="text-muted">Bienvenido! {{ alumno.nombres }}!</p>
 
     <!-- Tarjetas de acceso -->
     <div class="row mt-4">

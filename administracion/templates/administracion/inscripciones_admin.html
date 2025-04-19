@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{% block title %}Inscripciones{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Inscripciones</h2>
+    <p>En esta sección se listan los cursos, talleres y diplomados para ver sus alumnos y dar de alta o baja a los alumnos.</p>
+  </div>
+  <div class="tarjeta-inscripcion-cursos">
+    <h2>Cursos</h2>
+    <p><strong>Total de cursos: </strong>{{ total_cursos }}</p>
+    <p><strong>Total de alumnos: </strong>{{ total_alumnos_cursos }}</p>
+    <a href="{% url 'ver_cursos' %}" class="btn-ver-inscripcion-curso">Ver los cursos</a>
+  </div>
+  
+  <div class="tarjeta-inscripcion-taller">
+    <h2>Talleres</h2>
+    <p><strong>Total de talleres: </strong>{{ total_talleres }}</p>
+    <p><strong>Total de alumnos: </strong>{{ total_alumnos_talleres }}</p>
+    <a href="{% url 'ver_talleres' %}" class="btn-ver-inscripcion-taller">Ver los talleres</a>
+  </div>
+  
+  <div class="tarjeta-inscripcion-diplomado">
+    <h2>Diplomados</h2>
+    <p><strong>Total de diplomados: </strong>{{ total_diplomados }}</p>
+    <p><strong>Total de alumnos: </strong>{{ total_alumnos_diplomados }}</p>
+    <a href="{% url 'ver_diplomados' %}" class="btn-ver-inscripcion-diplomado">Ver los diplomados</a>
+  </div>
+</div>
+
+{% endblock %}

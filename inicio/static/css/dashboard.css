@@ -9,7 +9,11 @@ body {
   background-color: #f3e9e6; /* Color institucional claro */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-
+.nav-link {
+  color: #7d4f35;  /* Marrón institucional */
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
 /* Navbar links */
 .navbar .nav-link {
   color: #7d4f35;  /* Marrón institucional */
@@ -47,4 +51,24 @@ body {
 .container p.text-muted {
   font-size: 1.1rem;
   margin-bottom: 2rem;
+}
+.contenedor-salir-sesion{
+  padding-left: 40px;
+}
+.ancho{
+  max-width: 1200px;
+  margin: auto;
+}
+.margen{
+  padding: 15px;
+}
+.header-facilitador{
+  background-color: #F2E4E4;
+}
+.contenedor-cabecera{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }

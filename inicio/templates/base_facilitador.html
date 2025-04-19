@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tarjetas.css' %}">
+  <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+  <header class="header-facilitador">
+    <div class="contenedor-cabecera ancho">
+      <img src="{% static 'img/logo_et.png' %}" alt="Logo" width="100" height="auto">
+      <ul class="navbar-nav me-auto ms-4 mb-2 mb-lg-0 flex-row gap-4">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'inicio_facilitador' %}">Inicio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'impartir_cursos' %}">Solicitudes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'mis_grupos' %}">Mis grupos</a>
+        </li>
+    </ul>
+      <div class="d-flex flex-column align-items-end">
+        <span class="fw-semibold">
+          {{ facilitador.nombres }} {{ facilitador.apellido_paterno }} {{ facilitador.apellido_materno }}
+        </span>
+        <small class="text-muted">Facilitador</small>
+        
+    </div>
+    <div class="contenedor-salir-sesion">
+        <a href="{% url 'logout_facilitador' %}" class="btn btn-sm btn-outline-danger mt-2">Cerrar sesión</a>
+    </div>
+    </div>
+  </header>
+  {% block content %}
+  {% endblock %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends './base.html' %}
+
+{% block title %}Ver Diplomados{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Ver Diplomados</h2>
+    <p>Aquí se listan los diplomados activos y los alumnos inscritos en cada uno.</p>
+    <a href="{% url 'inscripciones_admin' %}" class="btn btn-secondary mt-3">Regresar</a>
+  </div>
+
+  {% for diplomado in ver_diplomado %}
+  <div class="contenedor-curso-ins margen">
+    <div class="contenedor-diplomado-info">
+      <h4><strong>Grupo:  </strong>{{ diplomado.grupo }}</h4>
+      <h4>{{ diplomado.nombre_diplomado }}</h4>
+      <p><strong>Nombre del facilitador: </strong> {{ diplomado.facilitador }}</p>
+      <p><strong>Total de alumnos inscritos: </strong> {{ diplomado.total_inscritos }}</p>
+      <a href="{% url 'ver_alumnos_diplomado' diplomado.id %}" class="btn-ver-inscripcion-diplomado">Ver alumnos</a>
+      
+    </div>
+  </div>
+  {% empty %}
+  <div class="alert alert-info">No hay diplomados activos actualmente.</div>
+  {% endfor %}
+
+ 
+</div>
+
+{% endblock %}

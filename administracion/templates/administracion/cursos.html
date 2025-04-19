@@ -3,82 +3,101 @@
 {% block title %}Cursos{% endblock %}
 
 {% block content %}
-<div class="contenido-principal">
-  <h2>Cursos</h2>
-  <p>En esta sección se podrán agregar y ver los cursos.</p>
-  <a href="{% url 'agregar_curso' %}" class="btn btn-primary">
-    <i class="fa-solid fa-plus"></i> Nuevo Curso
-  </a>
-</div>
-
-<div class="py-3 contenedor-cursos">
-
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Listado de cursos</h3>
-        <div class="card-tools">
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Cursos</h2>
+    <p>En esta sección se podrán agregar y ver los cursos.</p>
+    <a href="{% url 'agregar_curso' %}" class="btn btn-primary">
+      <i class="fa-solid fa-plus"></i> Nuevo Curso
+    </a>
+    <a href="" class="btn btn-secondary">
+      <i class="fa-solid fa-box-archive"></i> Cursos Finalizados
+    </a>
+  </div>
+  <div class="py-3 contenedor-cursos">
+  
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Listado de cursos</h3>
+          <div class="card-tools">
+          </div>
         </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0" style="height: 600px;">
+          <table class="table table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Curso</th>
+                <th>Cupos</th>
+                <th>Periodo</th>
+                <th>Horario</th>
+                <th>Facilitador</th>
+                <th>Estado</th>
+                <th>finalizar</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for curso in cursos %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <small><strong>Grupo: {{ curso.grupo }}</strong></small>
+                  <p>{{ curso.nombre_curso }}</p>
+                </td>
+                <td>{{ curso.cupos }}</td>
+                <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
+                <td>{{ curso.hora_inicio}} - {{ curso.hora_fin }}</td>
+                <td>{% if curso.facilitador %}{{ curso.facilitador }}{% else %}Sin facilitador{% endif %}</td>
+                <td>
+                  {% if curso.finalizado %}
+                    <span class="badge bg-danger">Finalizado</span>
+                  {% else %}
+                    <span class="badge bg-success">Activo</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if not curso.finalizado %}
+                  <form method="post" action="{% url 'finalizar_curso' curso.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
+                  </form>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                  <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                  {% if not curso.publicado %}
+                  <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success" title="Publicar">
+                      <i class="fa-solid fa-globe"></i>
+                    </button>
+                  </form>
+                  {% else %}
+                  <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary" title="Despublicar">
+                      <i class="fa-solid fa-eye-slash"></i>
+                    </button>
+                  </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="9" class="text-center">No hay cursos registrados</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
       </div>
-      <!-- /.card-header -->
-      <div class="card-body table-responsive p-0" style="height: 600px;">
-        <table class="table table-head-fixed text-nowrap">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Curso</th>
-              <th>Cupos</th>
-              <th>Periodo</th>
-              <th>Horario</th>
-              <th>Facilitador</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for curso in cursos %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>
-                <small><strong>Grupo: {{ curso.grupo }}</strong></small>
-                <p>{{ curso.nombre_curso }}</p>
-              </td>
-              <td>{{ curso.cupos }}</td>
-              <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
-              <td>{{ curso.hora_inicio}} - {{ curso.hora_fin }}</td>
-              <td>{% if curso.facilitador %}{{ curso.facilitador }}{% else %}Sin facilitador{% endif %}</td>
-              <td></td>
-              <td>
-                <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                {% if not curso.publicado %}
-                <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-success" title="Publicar">
-                    <i class="fa-solid fa-globe"></i>
-                  </button>
-                </form>
-                {% else %}
-                <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-secondary" title="Despublicar">
-                    <i class="fa-solid fa-eye-slash"></i>
-                  </button>
-                </form>
-                {% endif %}
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="4" class="text-center">No hay periodos registrados</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      <!-- /.card-body -->
+      <!-- /.card -->
     </div>
-    <!-- /.card -->
   </div>
 </div>
 {% endblock %}

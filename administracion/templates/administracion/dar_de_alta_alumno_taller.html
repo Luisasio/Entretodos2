@@ -1,0 +1,55 @@
+{% extends './base.html' %}
+
+{% block title %}Dar de alta alumnos{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Dar de alta alumnos al curso: {{ taller.nombre_taller }}</h2>
+    <p>Solo se listan alumnos que no están inscritos a nada.</p>
+    <a href="{% url 'ver_alumnos_taller' taller.id %}" class="btn btn-secondary mb-3">Regresar</a>
+  </div>
+  <form class="d-flex mb-2" role="search" method="get">
+    <input class="form-control me-2" type="search" placeholder="Buscar por nombre, clave o teléfono"
+           name="q" value="{{ query }}" aria-label="Buscar">
+    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </form>
+  
+  <div class="card-body table-responsive p-0" style="height: 600px;">
+    <table class="table table-head-fixed text-nowrap">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for alumno in alumnos_disponibles %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            <small><strong>{{ alumno.clave_alumno }}</strong></small><br>
+            {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
+          </td>
+          <td>{{ alumno.correo }}</td>
+          <td>{{ alumno.telefono }}</td>
+          <td>
+            <form method="post" action="{% url 'alta_alumno_taller' taller.id alumno.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success btn-sm">Dar de alta</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">No hay alumnos disponibles para inscribir.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

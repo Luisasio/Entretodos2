@@ -1,0 +1,59 @@
+{% extends './base.html' %}
+
+{% block title %}Historial del Alumno{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Historial de: {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}</h2>
+    <a href="{% url 'alumnos' %}" class="btn btn-secondary mb-3">Regresar</a>
+  </div>
+
+  <div class="card-body table-responsive p-0" style="height: 600px;">
+    <table class="table table-head-fixed text-nowrap">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Grupo</th>
+          <th>Periodo</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inscripcion in historial %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+
+          {% if inscripcion.curso %}
+            <td>Curso</td>
+            <td>{{ inscripcion.curso.nombre_curso }}</td>
+            <td>{{ inscripcion.curso.grupo }}</td>
+            <td>{{ inscripcion.curso.periodo }}</td>
+          {% elif inscripcion.taller %}
+            <td>Taller</td>
+            <td>{{ inscripcion.taller.nombre_taller }}</td>
+            <td>{{ inscripcion.taller.grupo }}</td>
+            <td>{{ inscripcion.taller.periodo }}</td>
+          {% elif inscripcion.diplomado %}
+            <td>Diplomado</td>
+            <td>{{ inscripcion.diplomado.nombre_diplomado }}</td>
+            <td>{{ inscripcion.diplomado.grupo }}</td>
+            <td>{{ inscripcion.diplomado.periodo }}</td>
+          {% else %}
+            <td colspan="4" class="text-danger">Error: inscripción sin tipo</td>
+          {% endif %}
+
+          <td>{{ inscripcion.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">Este alumno aún no tiene historial.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

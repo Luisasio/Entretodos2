@@ -24,7 +24,7 @@
       <nav class="menu-sidebar">
         <ul>
           <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-house icono"></i>Inicio</a></li>
-          <li><a href="#"><i class="fa-solid fa-pen-to-square icono"></i>Inscripciones</a></li>
+          <li><a href="{% url 'inscripciones_admin' %}"><i class="fa-solid fa-pen-to-square icono"></i>Inscripciones</a></li>
           <li><a href="{% url 'facilitadores' %}"><i class="fa-solid fa-users icono"></i>Facilitadores</a></li>
           <li><a href="{% url 'alumnos' %}"><i class="fa-solid fa-user-graduate icono"></i>Alumnos</a></li>
           <li><a href="{% url 'periodos' %}"><i class="fa-regular fa-calendar-days icono"></i>Periodos</a></li>
@@ -33,6 +33,13 @@
           <li><a href="{% url 'talleres' %}"><i class="fa-solid fa-briefcase icono"></i>Talleres</a></li>
         </ul>
       </nav>
+      <div>
+        <nav class="menu-sidebar">
+          <ul>
+            <li><a href="{% url 'administrador' %}"><i class="fa-solid fa-circle-user icono"></i>Perfil</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
     <div class="content">
         <nav class="menu-contenido">

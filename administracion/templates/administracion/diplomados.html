@@ -26,13 +26,13 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>Grupo</th>
               <th>Diplomado</th>
               <th>Cupos</th>
               <th>Periodo</th>
-              <th>Hora inicio</th>
-              <th>Hora fin</th>
+              <th>Horario</th>
               <th>Facilitador</th>
+              <th>Estado</th>
+              <th>finalizar</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -40,13 +40,29 @@
             {% for diplomado in diplomados %}
             <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ diplomado.grupo }}</td>
-              <td>{{ diplomado.nombre_diplomado }}</td>
+              <td>
+                <small><strong>Grupo: {{ diplomado.grupo }}</strong></small>
+                <p>{{ diplomado.nombre_diplomado }}</p>
+              </td>
               <td>{{ diplomado.cupos }}</td>
               <td>{% if diplomado.periodo %}{{ diplomado.periodo }}{% else %}Sin asignar{% endif %}</td>
-              <td>{{ diplomado.hora_inicio}}</td>
-              <td>{{ diplomado.hora_fin }}</td>
+              <td>{{ diplomado.hora_inicio}} - {{ diplomado.hora_fin }}</td>
               <td>{% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}Sin facilitador{% endif %}</td>
+              <td>
+                {% if diplomado.finalizado %}
+                  <span class="badge bg-danger">Finalizado</span>
+                {% else %}
+                  <span class="badge bg-success">Activo</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if not diplomado.finalizado %}
+                <form method="post" action="{% url 'finalizar_diplomado' diplomado.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
+                </form>
+                {% endif %}
+              </td>
               <td>
                 <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
                 <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
@@ -69,7 +85,7 @@
             </tr>
             {% empty %}
             <tr>
-              <td colspan="4" class="text-center">No hay Diplomados registrados</td>
+              <td colspan="9" class="text-center">No hay Diplomados registrados</td>
             </tr>
             {% endfor %}
           </tbody>

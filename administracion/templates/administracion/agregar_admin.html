@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+
+{% block title %}Agregar administrador{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Agregar administrador</h2>
+    <p>En esta se agregaran a los administradores que se necesiten.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <a href="{% url 'administrador' %}" class="btn btn-secondary">Volver</a>
+      <button type="submit" class="btn btn-success">Registrar administrador</button>
+  </form>
+  {% if messages %}
+      <ul>
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+  {% endif %}
+  </div>
+
+</div>
+{% endblock %}

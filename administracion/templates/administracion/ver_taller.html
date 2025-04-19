@@ -1,0 +1,31 @@
+{% extends './base.html' %}
+
+{% block title %}Ver talleres{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Ver talleres</h2>
+    <p>Aquí se listan los talleres activos y los alumnos inscritos en cada uno.</p>
+    <a href="{% url 'inscripciones_admin' %}" class="btn btn-secondary mt-3">Regresar</a>
+  </div>
+
+  {% for taller in ver_taller %}
+  <div class="contenedor-curso-ins margen">
+    <div class="contenedor-taller-info">
+      <h4><strong>Grupo:  </strong>{{ taller.grupo }}</h4>
+      <h4>{{ taller.nombre_taller }}</h4>
+      <p><strong>Nombre del facilitador: </strong> {{ taller.facilitador }}</p>
+      <p><strong>Total de alumnos inscritos: </strong> {{ taller.total_inscritos }}</p>
+      <a href="{% url 'ver_alumnos_taller' taller.id %}" class="btn-ver-inscripcion-taller">Ver alumnos</a>
+      
+    </div>
+  </div>
+  {% empty %}
+  <div class="alert alert-info">No hay talleres activos actualmente.</div>
+  {% endfor %}
+
+  
+</div>
+
+{% endblock %}

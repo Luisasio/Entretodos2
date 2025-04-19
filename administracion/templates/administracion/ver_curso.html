@@ -1,0 +1,31 @@
+{% extends './base.html' %}
+
+{% block title %}Ver cursos{% endblock %}
+
+{% block content %}
+<div class="contenedor-con-scroll">
+  <div class="contenido-principal">
+    <h2>Ver cursos</h2>
+    <p>Aquí se listan los cursos activos y los alumnos inscritos en cada uno.</p>
+    <a href="{% url 'inscripciones_admin' %}" class="btn btn-secondary mt-3">Regresar</a>
+  </div>
+
+  {% for curso in ver_curso %}
+  <div class="contenedor-curso-ins margen">
+    <div class="contenedor-curso-info">
+      <h4><strong>Grupo:  </strong>{{ curso.grupo }}</h4>
+      <h4>{{ curso.nombre_curso }}</h4>
+      <p><strong>Nombre del facilitador: </strong> {{ curso.facilitador }}</p>
+      <p><strong>Total de alumnos inscritos: </strong> {{ curso.total_inscritos }}</p>
+      <a href="{% url 'ver_alumnos_curso' curso.id %}" class="btn-ver-inscripcion-curso">Ver alumnos</a>
+      
+    </div>
+  </div>
+  {% empty %}
+  <div class="alert alert-info">No hay cursos activos actualmente.</div>
+  {% endfor %}
+
+  
+</div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends './base_facilitador.html' %}
+
+{% block title %}Mis Grupos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">Mis Grupos de Cursos, Talleres o Diplomados</h2>
+  <p>Aqui se listan los grupos que estes impartiendo de cada categoria.</p>
+  <h4 class="mt-4 mb-3">Cursos</h4>
+  <div class="row">
+    {% for curso in cursos %}
+    <div class="col-md-4 mb-4">
+      <div class="tarjeta-curso">
+        <h5>{{ curso.nombre_curso }}</h5>
+        <p><strong>Grupo:</strong> {{ curso.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ curso.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ curso.fecha_inicio }} a {{ curso.fecha_fin }}</p>
+        <div>
+          <a href="{% url 'lista_de_alumnos' 'curso' curso.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
+
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No estás impartiendo cursos actualmente.</p>
+    {% endfor %}
+  </div>
+
+  <h4 class="mt-4 mb-3">Talleres</h4>
+  <div class="row">
+    {% for taller in talleres %}
+    <div class="col-md-4 mb-4">
+      <div class="tarjeta-taller">
+        <h5>{{ taller.nombre_taller }}</h5>
+        <p><strong>Grupo:</strong> {{ taller.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ taller.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ taller.fecha_inicio }} a {{ taller.fecha_fin }}</p>
+        <div>
+          <a href="{% url 'lista_de_alumnos' 'taller' taller.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
+
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No estás impartiendo talleres actualmente.</p>
+    {% endfor %}
+  </div>
+
+  <h4 class="mt-4 mb-3">Diplomados</h4>
+  <div class="row">
+    {% for diplomado in diplomados %}
+    <div class="col-md-4 mb-4">
+      <div class="tarjeta-diplomado">
+        <h5>{{ diplomado.nombre_diplomado }}</h5>
+        <p><strong>Grupo:</strong> {{ diplomado.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ diplomado.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ diplomado.fecha_inicio }} a {{ diplomado.fecha_fin }}</p>
+        <div>
+          <a href="{% url 'lista_de_alumnos' 'diplomado' diplomado.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No estás impartiendo diplomados actualmente.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

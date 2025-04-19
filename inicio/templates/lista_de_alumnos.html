@@ -1,0 +1,38 @@
+{% extends './base_facilitador.html' %}
+
+{% block title %}Alumnos inscritos{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">Alumnos en {{ tipo|title }}: {{ nombre }}</h2>
+  <p><strong>Grupo:</strong> {{ grupo }}</p>
+
+  <div class="card-body table-responsive p-0 mt-4">
+    <table class="table table-head-fixed text-nowrap">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inscripcion in inscripciones %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ inscripcion.alumno.nombres }} {{ inscripcion.alumno.apellido_paterno }} {{ inscripcion.alumno.apellido_materno }}</td>
+          <td>{{ inscripcion.alumno.correo }}</td>
+          <td>{{ inscripcion.alumno.telefono }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center">No hay alumnos inscritos.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{% url 'mis_grupos' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+{% endblock %}
