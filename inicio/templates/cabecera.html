@@ -1,0 +1,26 @@
+{% load static %}
+
+<header class="barra-elegante">
+  <div class="contenedor-barra">
+    <div class="logo-elegante">
+      <img src="{% static 'img/logo.png' %}" alt="Logo Institucional">
+    </div>
+
+    <i class="fas fa-bars" id="menu-toggle"></i>
+  </div>
+
+  <nav class="menu-elegante">
+    <ul>
+      <li><a href="{% url 'index' %}">Inicio</a></li>
+      <li><a href="{% url 'historia' %}">Historia</a></li>
+      <li class="submenu">
+        <a href="#">Oferta Educativa</a>
+        <ul id="submenu-items">
+          <li><a href="{% url 'index' %}#talleres">Talleres</a></li>
+          <li><a href="{% url 'index' %}#cursos">Cursos</a></li>
+          <li><a href="{% url 'index' %}#diplomados">Diplomados</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>

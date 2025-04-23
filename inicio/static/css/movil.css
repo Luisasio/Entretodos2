@@ -1,0 +1,460 @@
+@media (max-width: 768px) {
+  .barra-elegante {
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem 1rem;
+    max-width: 100%;
+    left: 0;
+    transform: none;
+  }
+
+  .contenedor-barra {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-elegante {
+    max-width: 90px;
+  }
+
+  #menu-toggle {
+    display: block;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .menu-elegante {
+    display: none;
+    width: 100%;
+  }
+
+  .menu-elegante.mostrar {
+    display: block;
+  }
+
+  .menu-elegante ul {
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 1rem 0;
+  }
+
+  .menu-elegante ul li {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ✅ SUBMENÚ ADAPTADO */
+  #submenu-items {
+    display: none;
+    position: relative;
+    top: auto;
+    left: auto;
+    box-shadow: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0;
+    flex-direction: column;
+  }
+
+  .submenu:hover #submenu-items {
+    display: block;
+  }
+
+  #submenu-items a {
+    padding: 0.4rem;
+    font-size: 0.95rem;
+    color: #444;
+  }
+
+  #submenu-items a:hover {
+    background-color: #f4f4f4;
+    color: #c59d00;
+  }
+  
+  body {
+    padding-top: 90px; /* 👈 altura del header fijo */
+  }
+
+  .fondo {
+    height: auto;
+    padding: 3rem 1rem;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .fondo_texto {
+    width: 100%;
+    max-width: 90%;
+    text-align: center;
+    line-height: 1.5;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .fondo_texto h1 {
+    font-size: 22px;
+    margin-bottom: 1rem;
+  }
+
+  .fondo_texto p {
+    font-size: 14px;
+    margin-bottom: 1rem;
+  }
+
+  .fondo_texto a {
+    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    background-color: #000;
+    color: white;
+  }
+
+
+  /* acerca */
+
+  .acerca {
+    padding: 10px;
+    line-height: 40px;
+  }
+
+  .acerca h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .linea_rosada {
+    width: 100px;
+    height: 4px;
+  }
+
+  .contenedor_acerca {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .texto_acerca {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .texto_acerca h2 {
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  .texto_acerca a {
+    padding: 8px 40px;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .imagen_sobre {
+    width: 90%;
+    margin-top: 20px;
+  }
+
+  .imagen_sobre img {
+    width: 100%;
+    height: auto;
+  }
+  /* pate de los diplomados */
+  .diplomados-section {
+    padding: 1rem;
+  }
+
+  .diplomados-title {
+    font-size: 1.5rem;
+  }
+
+  .diplomados-subtitle {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .diplomados-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .diplomado-card {
+    width: 90%;
+    margin-bottom: 1.5rem;
+  }
+
+  .diplomado-card img {
+    height: 160px;
+  }
+
+  .diplomado-card h3 {
+    font-size: 1rem;
+    margin: 0.8rem 1rem 0.5rem;
+  }
+
+  .diplomado-card p {
+    font-size: 0.85rem;
+    margin: 0 1rem 1rem;
+  }
+
+  .diplomado-card a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0 1rem 1rem;
+  }
+  /* parte de talleres */
+  .contenedor_subtitulo {
+    width: 90%;
+    padding: 10px;
+    font-size: 0.95rem;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .galeria {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contenedor_imagen {
+    width: 90%;
+    height: 260px;
+    position: relative;
+  }
+
+  .contenedor_imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: none !important; /* 👈 sin zoom */
+  }
+
+  .filtro {
+    position: absolute;
+    top: 0; /* 👈 ocupa todo el contenedor */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1; /* 👈 SIEMPRE visible */
+    background-color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    transform: none; /* 👈 sin transform */
+  }
+
+  .filtro h3 {
+    font-size: 1rem;
+    color: white;
+  }
+
+  .filtro p {
+    font-size: 0.85rem;
+    color: white;
+    margin: 0.5rem 0;
+  }
+
+  .filtro a {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    color: white;
+    background-color: #8e2344;
+    border-radius: 1rem;
+    text-decoration: none;
+  }
+
+  /* Desactivar hover efectos */
+  .contenedor_imagen:hover .filtro {
+    top: 0;
+    opacity: 1;
+  }
+
+  .contenedor_imagen:hover img {
+    transform: none;
+  }
+  /* efecto parallax */
+  .parallax-estadisticas.ancho {
+    width: 100% !important; /* 👈 el 100vw puede dar problemas, usa 100% */
+    max-width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .parallax-estadisticas {
+    background-attachment: scroll; /* 👈 elimina parallax en móvil */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: auto;
+    padding: 2rem 0;
+  }
+
+  .filtro-negro {
+    background-color: rgba(7, 20, 161, 0.7);
+    width: 100%;
+    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .estadisticas-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .bloque-estadistica .numero {
+    font-size: 2.8rem;
+  }
+
+  .bloque-estadistica .texto {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  /* parte de cursos */
+  .contenedor_subtitulo2 {
+    width: 90%;
+    padding: 10px;
+    font-size: 0.95rem;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .galeria2 {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contenedor_imagen2 {
+    width: 90%;
+    height: auto;
+    position: relative;
+  }
+
+  .contenedor_imagen2 img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transform: none !important;
+  }
+
+  .filtro2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transform: none;
+    background-color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .filtro2 h3 {
+    font-size: 1rem;
+    color: white;
+  }
+
+  .filtro2 p {
+    font-size: 0.85rem;
+    color: white;
+    margin: 0.5rem 0;
+  }
+
+  .filtro2 a {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    color: white;
+    background-color: #8e2344;
+    border-radius: 1rem;
+    text-decoration: none;
+  }
+
+  /* Desactivar hover efectos */
+  .contenedor_imagen2:hover .filtro2 {
+    top: 0;
+    opacity: 1;
+  }
+
+  .contenedor_imagen2:hover img {
+    transform: none;
+  }
+
+}
+/* esto es cuando llega a 382px */
+@media (max-width: 390px) {
+  .contenedor_imagen2 {
+    width: 95%;
+    height: auto;
+    min-height: 240px;
+    margin-bottom: 1rem;
+  }
+
+  .contenedor_imagen2 img {
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+  }
+
+  .filtro2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    opacity: 1;
+    height: 100%;
+    padding: 0.6rem;
+    font-size: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .filtro2 h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .filtro2 p {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .filtro2 a {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .contenedor_imagen2:hover .filtro2 {
+    top: 0;
+    opacity: 1;
+  }
+
+  .contenedor_imagen2:hover img {
+    transform: none;
+  }
+}

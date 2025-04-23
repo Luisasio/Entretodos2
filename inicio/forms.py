@@ -4,6 +4,12 @@ from django.contrib.auth.hashers import make_password
 
 class RegistroAlumnoForm(forms.ModelForm):
     contrasena = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    SEXO_CHOICES = [
+        ('Femenino', 'Femenino'),
+        ('Masculino', 'Masculino'),
+        ('Otro', 'Otro'),
+    ]
+    sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Alumno
@@ -19,7 +25,15 @@ class RegistroAlumnoForm(forms.ModelForm):
             alumno.save()
         return alumno
 
+
 class EditarAlumnoForm(forms.ModelForm):
+    SEXO_CHOICES = [
+        ('Femenino', 'Femenino'),
+        ('Masculino', 'Masculino'),
+        ('Otro', 'Otro'),
+    ]
+    sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Alumno
         fields = [
@@ -27,8 +41,15 @@ class EditarAlumnoForm(forms.ModelForm):
             'telefono', 'clave', 'curp', 'sexo'
         ]
 
+
 class RegistroFacilitadorForm(forms.ModelForm):
     contrasena = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
+    SEXO_CHOICES = [
+        ('Femenino', 'Femenino'),
+        ('Masculino', 'Masculino'),
+        ('Otro', 'Otro'),
+    ]
+    sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Facilitador
@@ -43,3 +64,19 @@ class RegistroFacilitadorForm(forms.ModelForm):
         if commit:
             facilitador.save()
         return facilitador
+    
+
+class EditarFacilitadorForm(forms.ModelForm):
+    SEXO_CHOICES = [
+        ('Femenino', 'Femenino'),
+        ('Masculino', 'Masculino'),
+        ('Otro', 'Otro'),
+    ]
+    sexo = forms.ChoiceField(choices=SEXO_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Facilitador
+        fields = [
+            'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
+            'telefono', 'clave', 'curp', 'sexo'
+        ]

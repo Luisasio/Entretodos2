@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/talleres.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="css/movil.css">
+    <link rel="stylesheet" href="css/movil_talleres.css">
+    <title>Música Coral</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+        <header class="header">
+            <h1>Música Coral</h1>
+          
+        </header>
+
+        <section class="resumen">
+            <p>Se deberá defimir aún</p>
+        </section>
+
+        <div class="sessions-grid">
+            <div class="session-card">
+                <h3>Sesión 1</h3>
+                <p> El maestro del Siglo XXI </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 2</h3>
+                <p>Google como herramienta educativa</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 3</h3>
+                <p>Google como herramienta educativa</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 4</h3>
+                <p>El impacto de Internet en la educación</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 5</h3>
+                <p>Uso pedagógico del audio</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 6</h3>
+                <p>Uso pedagógico del audio 
+                </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 7</h3>
+                <p>Uso pedagógico del audio</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 8</h3>
+                <p> El valor educativo de los videos </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 9</h3>
+                <p>El valor educativo de los videos </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 10</h3>
+                <p>El valor educativo de los videos</p>
+            </div>
+            <div class="session-card">
+              <a href="">Descargar Curso completo</a>
+            </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+     <script>
+    $(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+  </script>
+</body>
+</html>

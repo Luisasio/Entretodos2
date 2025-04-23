@@ -1,11 +1,371 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="{% static 'js/wow.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>Entre Todos</title>
 </head>
 <body>
-  <h1>PRUEBA</h1>
+  {% include 'cabecera.html' %}
+
+  {% block content %}
+ <section>
+  <div class="fondo ancho wow animate__animated animate__fadeInDown">
+    <div class="fondo_texto">
+      <h1>Impulsamos la educación y el desarrollo profesional</h1>
+      <p>En EntreTodos impulsamos la educación y el desarrollo profesional de los docentes. Descubre cursos diseñados para fortalecer tu enseñanza y transformar el aprendizaje. ¡Empieza hoy!"</p>
+      <a href="{% url 'inscripciones' %}">Inscribete</a>
+    </div>
+
+
+  </div>
+ </section>
+ <section class="ancho">
+  <div class="acerca wow animate__animated animate__fadeIn">
+  <h2>Acerca de nosotros</h2>
+  <hr class="linea_rosada">
+  </div>
+<div class="contenedor_acerca">
+
+ <div class="texto_acerca wow animate__animated animate__fadeInLeft">
+  <h2>15 años <span>colaborando</span> EntreTodos</h2>
+  <p>El programa “Entre Todos” pretende impulsar y acompañar un movimiento de renovación cultural y moral dentro del magisterio, teniendo como premisas básicas: la dignidad de la persona, la esencia relacional y dialógica del ser humano y el compromiso de actuar al servicio de la comunidad.</p>
+  <a href="{% url 'historia' %}">Leer Más</a>
+ </div>
+ <figure class="imagen_sobre wow animate__animated animate__fadeInRight">
+  <img src="{% static 'img/sobre1.png' %}" alt="">
+ </figure>
+
+
+  </div>
+ </section>
+
+ <section class="diplomados-section ancho" id="diplomados">
+  <div class="seccion_diplomados_titulo">
+
+  <h2 class="diplomados-title wow animate__animated animate__fadeInRight">Diplomados</h2>
+  <hr class="linea_rosada">
+  <p class="diplomados-subtitle">
+    Todos los diplomados se imparten de manera <strong>gratuita</strong>, en 27 sesiones semanales y acreditan <strong>160 horas</strong> de trabajo.
+  </p>
+  </div>
+  <div class="diplomados-container">
+    <div class="diplomado-card wow animate__animated animate__fadeInDown">
+      <img src="{% static 'img/docencia_desarrollo.png' %}" alt="">
+      <h3>Docencia y Desarrollo Humano</h3>
+      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
+      <a href="{% url 'diplomado_desarrollo' %}">Leer Más</a>
+    </div>
+    <div class="diplomado-card wow animate__animated animate__fadeInDown">
+      <img src="{% static 'img/tic_docencia.png' %}" alt="">
+      <h3>TIC Docencia en el Siglo XXI</h3>
+      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
+      <a href="{% url 'diplomado_tic' %}">Leer Más</a>
+    </div>
+    <div class="diplomado-card wow animate__animated animate__fadeInDown">
+      <img src="{% static 'img/educar_paz.png' %}" alt="">
+      <h3>Educar Para la Paz</h3>
+      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
+      <a href="{% url 'diplomado_paz' %}">Leer Más</a>
+    </div>
+    <div class="diplomado-card wow animate__animated animate__fadeInDown">
+      <img src="{% static 'img/literatura.png' %}" alt="">
+      <h3>Literatura y Educación</h3>
+      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
+      <a href="{% url 'diplomado_literatura' %}">Leer Más</a>
+
+    </div>
+  </div>
+</section>
+
+<section class="ancho" id="talleres">
+<div class="acerca">
+  <h2 class="wow animate__animated animate__fadeInRight">Talleres</h2>
+  <hr class="linea_rosada">
+  </div>
+  <div class="contenedor_subtitulo">
+    <p>Todos los talleres son gratuitos y se imparten en 10 sesiones semanales acreditando 40 horas.</p>
+  </div>
+  <div class="galeria ancho">
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/huerto.png' %}" alt="">
+      <div class="filtro">
+              <h3>El huerto escolar</h3>
+              <p>Aprende a crear un huerto escolar sostenible, promoviendo el equilibrio ambiental, la conservación de suelos y aguas, y el uso responsable de la tierra y los cultivos.</p>
+              <a href="{% url 'taller_huerto' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/pintura.png' %}" alt="">
+      <div class="filtro">
+              <h3>Pintura para docentes</h3>
+              <p>El curso busca desarrollar habilidades en pintura y apreciación del arte, además de enseñar técnicas adecuadas para trabajar con niños y formar clubes de arte.</p>
+              <a href="{% url 'taller_pintura' %}">Leer Más</a>
+              
+          </div>
+   
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/ofimatica.png' %}" alt="">
+      <div class="filtro">
+              <h3>Ofimatica para el entorno escolar</h3>
+              <p>El uso de herramientas ofimáticas facilita la creación, gestión y transmisión de información, mejorando la comunicación y agilizando procesos en el entorno laboral.</p>
+              <a href="{% url 'taller_ofimatica' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/cuento.png' %}" alt="">
+      <div class="filtro">
+              <h3>Taller de lectura: Cuento y poesía</h3>
+              <p>El taller busca fomentar la lectura de cuentos y poesía, desarrollando la comprensión lectora y la expresión creativa, además de promover el gusto por la literatura como medio de aprendizaje y reflexión.</p>
+              <a href="{% url 'taller_cuento' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/coro.svg' %}" alt="">
+      <div class="filtro">
+              <h3>Música coral</h3>
+              <p>Disfruta del ejercicio de la música vocal como un medio de expresión personal y espiritual.</p>
+              <a href="{% url 'taller_musica_coral' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/teatro.png' %}" alt="">
+      <div class="filtro">
+              <h3>Taller de teatro para docentes</h3>
+              <p>Introducción al maravilloso mundo de la fantasía, por medio de la expresión corporal  y la habilidad de expresar las emociones a través de la actuación.</p>
+              <a href="{% url 'taller_teatro' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/danza.png' %}" alt="">
+      <div class="filtro">
+              <h3>Taller de danza folclórica</h3>
+              <p>Conocer los pasos básicos para ejecutar las danzas representativas de los diferentes estados de la república.</p>
+              <a href="{% url 'taller_danza' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/fotografia.png' %}" alt="">
+      <div class="filtro">
+              <h3>El uso pedagógico de la fotografía</h3>
+              <p>Desarrollar conocimientos básicos de fotografía con el uso del celular e integrarlos como una herramienta didáctica en el desarrollo de su práctica educativa y vida diaria..</p>
+              <a href="{% url 'taller_fotografia' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen">
+      <img src="{% static 'img/creacion.png' %}" alt="">
+      <div class="filtro">
+              <h3>Creación literaria
+              y docencia</h3>
+              <p>El taller busca que los docentes fomenten la lectura y la creación literaria en sus alumnos, mediante metodologías actuales, análisis de obras y escritura creativa, transmitiendo tanto conocimientos como pasión por la literatura.</p>
+              <a href="{% url 'taller_creacion_literaria' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+  </div>
+</section>
+<section class="parallax-estadisticas ancho">
+  <div class="filtro-negro">
+    <div class="estadisticas-container">
+      <div class="bloque-estadistica">
+        <span class="numero">4</span>
+        <span class="texto">Diplomados</span>
+      </div>
+      <div class="bloque-estadistica">
+        <span class="numero">9</span>
+        <span class="texto">Talleres</span>
+      </div>
+      <div class="bloque-estadistica">
+        <span class="numero">6</span>
+        <span class="texto">Cursos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ancho" id="cursos">
+<div class="acerca">
+  <h2 class="wow animate__animated animate__fadeInLeft">Cursos</h2>
+  <hr class="linea_rosada">
+  </div>
+  <div class="contenedor_subtitulo2">
+    <p>Todos los cursos son gratuitos y se imparten en 10 sesiones semanales acreditando 40 horas.</p>
+  </div>
+  <div class="galeria2 ancho">
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/cultura_paz_regional.png' %}" alt="">
+      <div class="filtro2">
+              <h3>Educando hacia una cultura de paz</h3>
+              <p>Aprende a desarrollar y fortalecer la convivencia sana y pacífica, entre alumnos y alumnas, maestros y maestras, personal no docente y padres y madres de familia, en tu escuela.</p>
+              <a href="{% url 'curso_cultura_paz' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/tic_docencia.png' %}" alt="">
+      <div class="filtro2">
+              <h3>El uso de las TIC
+              en la docencia</h3>
+              <p>Aprende a utilizar las Tecnologías de la Información y la Comunicación para desarrollar la creatividad del docente y hacer más efectiva su práctica profesional.</p>
+              <a href="{% url 'curso_tic' %}">Leer Más</a>
+              
+          </div>
+   
+    </figure>
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/felicidad.png' %}" alt="">
+      <div class="filtro2">
+              <h3>La felicidad como meta de la educación</h3>
+              <p>Enriqueceremos la filosofía de la educación del docente, ampliando sus conocimientos teóricos y perspectivas prácticas sobre la felicidad como meta primordial de la vida y la educación.</p>
+              <a href="{% url 'curso_felicidad' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/habilidades.png' %}" alt="">
+      <div class="filtro2">
+              <h3>Habilidades socioemocionales
+              en educación</h3>
+              <p>En este curso analizaremos diversas propuestas para trabajar las habilidades socioemocionales reforzando su práctica en la labor docente cotidiana.</p>
+              <a href="{% url 'curso_socioemocionales' %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/rostro_humano.png' %}" alt="">
+      <div class="filtro2">
+              <h3>Docencia con rostro humano</h3>
+              <p>En este curso conoceremos los principios y orientaciones básicos de la educación humanista, para  el fortalecimiento de la vocación del docente y el  desarrollo de su práctica profesional.</p>
+              <a href="{% url 'curso_rostro_humano' %}">Leer Más</a>
+              
+              
+          </div>
+    </figure>
+    <figure class="contenedor_imagen2">
+      <img src="{% static 'img/poesia.png' %}" alt="Poesía">
+      <div class="filtro2">
+              <h3>El valor educativo de la poesía</h3>
+              <p>Contribuir a una educación de la sensibilidad y la creatividad de maestros, maestras y estudiantes mediante el conocimiento de la poesía y sus formas de difusión en la actualidad.</p>
+              <a href="{% url 'curso_poesia' %}">Leer Más</a> 
+          </div>
+    </figure>
+   
+  </div>
+</section>
+<section class="contact-section">
+        <div class="contact-container">
+            <h2 class="section-title wow animate__animated animate__backInDown">Contáctanos</h2>
+            <p class="section-subtitle wow animate__animated animate__backInDown">Estamos aquí para ayudarte. Envíanos un mensaje o visítanos.</p>
+            
+            <div class="contact-grid">
+                <!-- Columna de información -->
+                <div class="contact-info ">
+                    <div class="info-block  wow animate__animated animate__backInLeft">
+                        <h3><i class="fas fa-map-marker-alt"></i> Dirección</h3>
+                        <p>Calle 8 x 11 s/n, Fracc. Prado Norte, Mérida, Yuc.</p>
+                        <p>Edificio de Servicios Educativos Paulo Freire</p>
+                    </div>
+                    
+                    <div class="info-block  wow animate__animated animate__backInRight">
+                        <h3><i class="fas fa-envelope"></i> Contacto</h3>
+                        <p>entretodos.segey@gmail.com</p>
+                        <p>Tel. 9999427170 ext 56130 y 56017</p>
+                    </div>
+                    
+                    <div class="info-block  wow animate__animated animate__backInLeft">
+                        <h3><i class="fas fa-clock"></i> Horario de atención</h3>
+                        <p>Lun - Vie</p>
+                        <p>8:00 - 15:00 hrs</p>
+                    </div>
+                    
+                    <div class="social-media  wow animate__animated animate__backInRight">
+                        <h3>Síguenos en redes</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna del mapa -->
+                <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119190.55144299207!2d-89.5976691144616!3d21.00446983334428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5676ce3be1d56b%3A0xbf50459d6510355e!2sCEDE%20Paulo%20Freire%20-%20Centro%20de%20Desarrollo%20Educativo!5e0!3m2!1ses!2smx!4v1742840414514!5m2!1ses!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                
+                <!-- Columna del formulario -->
+                <div class="contact-form">
+                    <h3>Envíanos un mensaje</h3>
+                    <form id="contactForm">
+                      {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" id="nombre" name="nombre" required>
+                            <label for="nombre">Nombre</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="apellido" name="apellido" required>
+                            <label for="apellido">Apellido</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required>
+                            <label for="email">Correo electrónico</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+                            <label for="mensaje">Mensaje</label>
+                        </div>
+                        <button type="submit" class="submit-btn">Enviar Mensaje <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+    {% include 'pie.html' %}
+
+
+<script>
+  new WOW().init();
+</script>
+<script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+
+
+</script>
+
+
+
+
+
+
 </body>
 </html>

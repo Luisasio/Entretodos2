@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/talleres.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/movil.css">
+  <link rel="stylesheet" href="css/movil_talleres.css">
+  <title>Pintura para docentes</title>
+</head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+        <header class="header">
+            <h1>Pintura para docentes</h1>
+          
+        </header>
+
+        <section class="resumen">
+            <p>El arte es un lenguaje que hará que el niño se exprese a través de diferentes elementos yserá la creatividad y la imaginación las que tengan un papel más importante en todo esteproceso.La expresión artística permite una forma de sentir la vida y al sensibilizarse ante el mundolos niños se vuelven, casi sin darse cuenta mejores seres humanos, por el hecho tan fácilde permitir expresar su mundo interno de una forma que además les estimula a crear,aprender e innovar, es una forma de vivir y tiene muchísimos beneficios.La pintura permite expresar las emociones de los niños, tanto así, que los niños mejoran suautoestima, su autoconfianza, además de mejorar la precisión de su motricidad fina.Los docentes juegan un papel muy importante en ese primer acercamiento de las niñas yniños al mundo del arte, de la pintura, de la música y la danza, sin embargo en muchasocasiones el docente carece de esta formación artística y no genera los espaciosadecuados para el desarrollo de estas habilidades en sus estudiantes.Ahora nuestro compromiso es propiciar espacios para que los docentes conozcan unmundo lleno de colores, con diferentes texturas, superficies y objetos, que generen interése inviten a explorar, abrir la imaginación y plantear posibilidades en un mundo nuevo,diverso y divertido para trabajar con sus alumnos.</p>
+        </section>
+
+        <div class="sessions-grid">
+            <div class="session-card">
+                <h3>Sesión 1</h3>
+                <p>El Arte Paleolítico.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 2</h3>
+                <p>Paleta de Colores en la Pintura</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 3</h3>
+                <p>El Renacentismo. (Siglo XIV - XVI)</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 4</h3>
+                <p>Impresionismo. (Finales del siglo XIX-XX)</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 5</h3>
+                <p>Arte Contemporáneo del siglo XX.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 6</h3>
+                <p>Expresionismo. (Siglo XX)</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 7</h3>
+                <p>Pintores Mexicanos, El muralismo.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 8</h3>
+                <p>Las pintoras mexicanas.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 9</h3>
+                <p>Técnica de Arte para Niños. Realismo espontáneo.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 10</h3>
+                <p>Compartiendo diferentes técnicas de pintura para niños.</p>
+            </div>
+            <div class="session-card">
+              <a href="">Descargar Curso completo</a>
+            </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+    <script>
+    $(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+  </script>
+</body>
+</html>

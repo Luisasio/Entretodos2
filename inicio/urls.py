@@ -2,10 +2,48 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-
+  #esto es de la pagina web
     path('', views.index, name='index'),
+    #historia web
+    path('historia/', views.historia, name='historia'),
+    #----------
+    #diplomados web
+    path('diplomado-desarrollo/', views.diplomado_desarrollo, name='diplomado_desarrollo'),
+    path('diplomado_literatura/', views.diplomado_desarrollo, name='diplomado_literatura'),
+    path('diplomado_paz/', views.diplomado_desarrollo, name='diplomado_paz'),
+    path('diplomado_tic/', views.diplomado_desarrollo, name='diplomado_tic'),
+    #-----------------------
+    #talleres web
+    path('taller_creacion_literaria/', views.taller_creacion_literaria, name='taller_creacion_literaria'),
+    path('taller_cuento/', views.taller_creacion_literaria, name='taller_cuento'),
+    path('taller_danza/', views.taller_creacion_literaria, name='taller_danza'),
+    path('taller_fotografia/', views.taller_creacion_literaria, name='taller_fotografia'),
+    path('taller_huerto/', views.taller_creacion_literaria, name='taller_huerto'),
+    path('taller_musica_coral/', views.taller_creacion_literaria, name='taller_musica_coral'),
+    path('taller_ofimatica/', views.taller_creacion_literaria, name='taller_ofimatica'),
+    path('taller_pintura/', views.taller_creacion_literaria, name='taller_pintura'),
+    path('taller_teatro/', views.taller_creacion_literaria, name='taller_teatro'),
+    #-------------------------------------------
+    #Cursos web
+    path('curso_cultura_paz/', views.curso_cultura_paz, name='curso_cultura_paz'),
+    path('curso_felicidad/', views.curso_cultura_paz, name='curso_felicidad'),
+    path('curso_poesia/', views.curso_cultura_paz, name='curso_poesia'),
+    path('curso_rostro_humano/', views.curso_cultura_paz, name='curso_rostro_humano'),
+    path('curso_socioemocionales/', views.curso_cultura_paz, name='curso_socioemocionales'),
+    path('curso_tic/', views.curso_cultura_paz, name='curso_tic'),
+
+
+
+
+
+
+
     path('registro/', views.registro_alumno, name='registro_alumno'),
     path('inicio/', views.inicio, name='inicio'),
+
+
+
+
     # esto es las url de las inscripciones
     path('inscripciones/', views.inscripciones, name='inscripciones'),
     path('inscribirse/<str:tipo>/<int:id>/', views.inscribirse, name='inscribirse'),

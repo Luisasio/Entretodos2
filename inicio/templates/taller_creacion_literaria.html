@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/talleres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_talleres.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Creación Literaria</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+        <header class="header">
+            <h1>Creación Literaria</h1>
+          
+        </header>
+
+        <section class="resumen">
+            <p>Hoy los niños y los jóvenes tienen una gran variedad de recursos para aprender desde pequeños: películas y series, videojuegos, canales de YouTube, apps en teléfonos y tabletas, etc. Es lógico que el aula se convierta en una de las experiencias más aburridas de sus vidas: acostumbrados a aprender de manera dinámica e interactiva, tienen que enfrentarse a alguien que habla sin parar. Hay buenas razones para pensar que la enseñanza fotográfica en los colegios podría dar una cara muy distinta al sistema de enseñanza actual. En efecto, la formación fotográfica en las escuelas ayudaría a las habilidades de aprendizaje más urgentes: pensamiento crítico, pensamiento creativo, comunicación y colaboración.</p>
+        </section>
+
+        <div class="sessions-grid">
+            <div class="session-card">
+                <h3>Sesión 1</h3>
+                <p>La fotografía como herramienta pedagógica.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 2</h3>
+                <p>Las fotografías como método de evidencias</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 3</h3>
+                <p>Conociendo nuestra herramienta de fotografía</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 4</h3>
+                <p> La teoría de la luz / La teoría del color y sus aplicaciones</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 5</h3>
+                <p> Mi creatividad</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 6</h3>
+                <p>Escenografía
+                </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 7</h3>
+                <p>Somos modelos</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 8</h3>
+                <p>Momento especial</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 9</h3>
+                <p>Mi retrato como mensaje con propósito.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 10</h3>
+                <p> Galería fotográfica </p>
+            </div>
+            <div class="session-card">
+              <a href="">Descargar Curso completo</a>
+            </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+  <script>
+    $(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+  </script>
+</body>
+</html>

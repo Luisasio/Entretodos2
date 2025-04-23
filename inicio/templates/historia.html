@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/historia.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+  <link rel="stylesheet" href="{% static 'css/movil_historia.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="{% static 'js/wow.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>Historia</title>
+</head>
+<body>
+
+  {% include 'cabecera.html' %}
+ <!-- Sección con Parallax -->
+ <div class="parallax ancho">
+        <div class="text-container">
+            <h1>15 años colaborando</h1>
+            <p>Entre Todos - Buscando nuevos caminos</p>
+        </div>
+    </div>
+
+    <!-- Sección de texto normal -->
+    <div class="section ancho">
+        <h2>Sobre Entre Todos</h2>
+        <p>Entre Todos nace a mediados del mes de octubre de 2007 como un programa no convencional que busca nuevos caminos en la actualización y superación profesional de los maestros, un programa que se basa en la participación libre y responsable del magisterio, en el desarrollo de actitudes que trascienden las rutinas, la improvisación y el desencanto que prevalecen en los procesos burocráticos, pero sobre todo, se buscaba que éste programa, atendiera las necesidades profundas de desarrollo personal y comunitario que hay en la mayoría de las y los profesores de Yucatán. </p>
+    </div>
+
+    <!-- Otra Sección con Parallax -->
+    <div class="parallax ancho">
+        <div class="text-container">
+            <h1>La fuerza de Entre Todos</h1>
+            <p>El programa ha abierto un camino a la esperanza, promoviendo el poder de la voluntad y el deseo de que las cosas se hagan bien.</p>
+        </div>
+    </div>
+
+    <!-- Sección final -->
+    <div class="section ancho">
+        <h2>Impacto del Programa</h2>
+        <p>Probablemente la aportación principal del programa Entre Todos ha consistido simplemente en abrirle un camino a la esperanza; suscitar y comprobar el poder de la voluntad: “oponer, -como lo quería Antonio Gramscial pesimismo de la razón el optimismo de la voluntad”, de la buena voluntad, añadimos nosotros; la cual significa voluntad de bien, el deseo y la actitud para que las cosas se hagan bien y sean para bien.
+
+ 
+
+Los resultados de todas estas acciones han impactado favorablemente el desarrollo personal de las y los maestros y su trabajo en las aulas, según se puede ver en las evaluaciones realizadas, los eventos de cierre de diplomados, los proyectos comunitarios y en los testimonios de las y los maestros vertidos en diferentes escritos (proyectos de vida, grabaciones y en las opiniones que expresan mediante la página de Entre Todos en Facebook). 
+
+ 
+
+El programa ha puesto de manifiesto, de manera clara, que una gran parte del magisterio de Yucatán está formado por personas sensibles, capaces de comprender y responder al llamado ético de la educación. existe un sustrato espiritual en las y los maestros que debemos reconocer, valorar y permitir que se exprese. En esto reside el valor fundamental del programa.</p>
+    </div>
+    {% include 'pie.html' %}
+  <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+
+
+</script>
+</body>
+</html>

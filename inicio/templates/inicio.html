@@ -37,14 +37,12 @@
         <!-- Info del alumno -->
         <div class="d-flex flex-column align-items-end">
             <span class="fw-semibold">
-                aca van los nombres
+                {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
             </span>
             <small class="text-muted">Estudiante</small>
-            
-        </div>
-        <div class="contenedor-salir-sesion">
             <a href="{% url 'logout_alumno' %}" class="btn btn-sm btn-outline-danger mt-2">Cerrar sesión</a>
         </div>
+    
     </div>
 </nav>
 

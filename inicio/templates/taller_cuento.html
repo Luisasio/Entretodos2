@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/talleres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_talleres.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Taller de cuento y poesía</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+        <header class="header">
+            <h1>Taller de cuento y poesía</h1>
+          
+        </header>
+
+        <section class="resumen">
+            <p>La lectura en los estudiantes es sin duda una de las actividades más importantes para fomentar su desarrollo intelectual y su creatividad. Sin embargo, actualmente las cifras muestran el poco hábito de lectura que existe en nuestro país y como esto perjudica el desarrollo de los estudiantes.La lectura nos hace libres, porque nos da la posibilidad de estar preparados para saber elegir, nos lleva más allá de la experiencia vital aquí y ahora, pues no nos limitamos a lo que vemos y oímos a nuestro alrededor, hace que superemos las barreras históricas y geográficas de nuestra vida y devela el mundo para ejercer crítica sobre él con el afán de mejorarlo.Por otro lado, se suele incentivar la lectura de acuerdo al gusto de cada estudiante, sin embargo, se deben hacer esfuerzos para motivar lecturas de diferente naturaleza: clásicas, históricas, científicas, periodísticas, etc.El curso taller de lectura está enfocado a mejorar el disfrute de la literatura (cuento y poesía) y la comprensión lectora de los docentes de Educación Básica.La meta de este taller es fortalecer y sensibilizar a los maestros con respecto a la literatura, para que puedan trabajar con más sentido y eficacia en sus escuelas. El esfuerzo que se realice en este espacio académico valdrá la pena, en la medida en que los 3 contenidos y orientaciones didácticas de este taller, les sean de utilidad a los niños y jóvenes en las escuelas. </p>
+        </section>
+
+        <div class="sessions-grid">
+            <div class="session-card">
+                <h3>Sesión 1</h3>
+                <p> La palabra y la literatura</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 2</h3>
+                <p>El significado de la amistad.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 3</h3>
+                <p>La aventura de la vida.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 4</h3>
+                <p>La naturaleza del amor.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 5</h3>
+                <p>El sentido de alteridad.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 6</h3>
+                <p>La construcción de la paz. 
+                </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 7</h3>
+                <p>Escritores de Yucatán.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 8</h3>
+                <p> La búsqueda de la verdad.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 9</h3>
+                <p>El último viaje.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 10</h3>
+                <p>Cierre del curso.</p>
+            </div>
+            <div class="session-card">
+              <a href="">Descargar Curso completo</a>
+            </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+    <script>
+    $(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+  </script>
+</body>
+</html>

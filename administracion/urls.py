@@ -34,6 +34,17 @@ urlpatterns = [
     path('alumnos/<int:alumno_id>/eliminar/', views.eliminar_alumno, name='eliminar_alumno'),
     path('alumnos/<int:alumno_id>/historial/', views.historial_alumno, name='historial_alumno'),
 
+    # facilitadores
+    path('facilitadores/agregar/', views.agregar_facilitador, name='agregar_facilitador'),
+    path('facilitadores/', views.lista_facilitadores, name='facilitadores'),
+    path('facilitadores/editar/<int:facilitador_id>/', views.editar_facilitador, name='editar_facilitador'),
+    path('facilitadores/eliminar/<int:facilitador_id>/', views.eliminar_facilitador, name='eliminar_facilitador'),
+
+
+
+
+    
+
     # inscripciones
     path('inscripciones_admin/', views.inscripciones_admin, name='inscripciones_admin'),
     path('inscripciones_admin/ver-cursos/', views.ver_cursos, name='ver_cursos'),

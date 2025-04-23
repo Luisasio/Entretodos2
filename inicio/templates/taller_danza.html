@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/talleres.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/movil.css">
+  <link rel="stylesheet" href="css/movil_talleres.css">
+  <title>Danza folclórica para docentes</title>
+</head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+        <header class="header">
+            <h1>Danza folclórica para docentes</h1>
+          
+        </header>
+
+        <section class="resumen">
+            <p>La danza folclórica es una de las expresiones culturales y artísticas más antiguas de México, al bailar se utilizan diferentes zonas del cerebro para armonizar sonido y movimiento. No obstante, desarrollar habilidades dancísticas permite, no solamente el desarrollo cerebral, sino también otras ventajas sociales, emocionales, físicas y culturales que vale la pena estimular en diferentes etapas de la vida. La danza por sí misma juega ya un papel muy importante en el terreno educativo, su valor es real en la medida que despierta en el estudiante su propio encanto y lo que de ello resulta: lo torna visible al momento de bailar y poner en práctica su cuerpo con movimientos al ritmo de una pieza musical.</p>
+        </section>
+
+        <div class="sessions-grid">
+            <div class="session-card">
+                <h3>Sesión 1</h3>
+                <p>Conocer elementos básicos de la Danza Folclórica Mexicana representativo. así como el estilo para representar los bailes, traje típico, fiestas y su estilo</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 2</h3>
+                <p>Conocerán las características generales e históricas de estado seleccionado</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 3</h3>
+                <p>Conocerá el origen y las características generales de los diversos bailes ejecutados del estado seleccionado</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 4</h3>
+                <p> Conocerá la técnica para realizar los pasos básicos que les permitirá interpretar los bailes del estado seleccionado</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 5</h3>
+                <p>Elaborarán modelos de los vestuarios y tocados del repertorio a trabajar, así
+                como el significado u origen de cada una de las partes.</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 6</h3>
+                <p>Elaborarán una breve reseña monográfica del estado seleccionado y sus diversos bailes y danzas
+                </p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 7</h3>
+                <p>Desarrollarán coordinación psicomotriz al ejecutar ejercicios de técnica básica I</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 8</h3>
+                <p>Desarrollaran calentamiento, acondicionamiento físico, trabajo en diagonales , montaje, aprendizaje musical</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 9</h3>
+                <p>Desarrollarán coordinación psicomotriz al ejecutar ejercicios de técnica básica II</p>
+            </div>
+            <div class="session-card">
+                <h3>Sesión 10</h3>
+                <p> Pasos y descansos básicos para bailes, zapateados por tiempos, valseados, diferentes tipos de faldeo, golpes, apoyos y quebrados, etc.</p>
+            </div>
+            <div class="session-card">
+              <a href="">Descargar Curso completo</a>
+            </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+      <script>
+    $(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+  </script>
+</body>
+</html>

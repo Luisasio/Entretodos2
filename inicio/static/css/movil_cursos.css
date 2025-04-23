@@ -1,0 +1,53 @@
+@media (max-width: 768px) {
+  .curso-contenedor {
+    padding: 1.5rem 1rem;
+  }
+
+  .curso-cabecera h1 {
+    font-size: 1.6rem;
+  }
+
+  .curso-cabecera::before,
+  .curso-cabecera::after {
+    width: 40px;
+    height: 2px;
+  }
+
+  .curso-descripcion {
+    padding: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .curso-sesiones {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .tarjeta-sesion {
+    padding: 1rem;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .numero-sesion {
+    font-size: 2rem;
+    min-width: 30px;
+  }
+
+  .tarjeta-sesion h3 {
+    font-size: 1rem;
+  }
+
+  .tarjeta-final {
+    grid-column: span 1;
+    padding: 1.5rem 1rem;
+  }
+
+  .tarjeta-final a {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+

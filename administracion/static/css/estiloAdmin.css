@@ -205,9 +205,10 @@ font-size: 20px;
   padding: 20px;
   gap: 10px;
 }
-.contenido-principal{
-  margin-bottom: 20px
-}
+/* .contenido-principal{
+  margin-bottom: 20px;
+ 
+}  */
 .btn-azul{
   background-color: #288cff;
   color: white;
@@ -332,3 +333,71 @@ font-size: 20px;
     border-left: 10px #096900 solid;
     border-radius: 7px;
   }
+/* animacion de entrada --------------*/
+.bienvenida-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  animation: fadeInUp 1s ease-out;
+}
+
+.bienvenida-card {
+  background-color: #f9f9f9;
+  padding: 30px 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  text-align: center;
+  animation: zoomBounce 1s ease-out;
+}
+
+.bienvenida-titulo {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.bienvenida-animada {
+  font-size: 24px;
+  color: #34495e;
+  font-weight: bold;
+  animation: fadeSlideIn 1.2s ease-out;
+}
+
+/* Animaciones Personalizadas */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

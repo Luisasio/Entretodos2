@@ -1,0 +1,16 @@
+{% extends './base.html' %}
+
+{% block title %}Eliminar Facilitador{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Eliminar Facilitador</h2>
+  <p>¿Estás seguro de que deseas eliminar al facilitador <strong>{{ facilitador.nombres }} {{ facilitador.apellido_paterno }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a href="{% url 'facilitadores' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

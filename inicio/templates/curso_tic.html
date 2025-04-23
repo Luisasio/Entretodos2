@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>El uso de las TIC en la docencia</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>El uso de las TIC en la docencia</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>La educación y la didáctica ha evolucionado en las últimas décadas, debido al gran crecimiento de la información almacenada en la WEB y considerando que esta se ha convertido en una herramienta fundamental para las nuevas generaciones, la incorporación de las Tecnologías de la Información y la Comunicación (TIC) en la educación tiene como función ser un canal importante de comunicación e intercambio de conocimientos y experiencias. Esto ha encaminado a las y los docentes a una nueva forma de elaborar una unidad didáctica y a utilizar diferentes medios y formas de evaluar debido a que las formas de enseñanza y aprendizaje cambian, el profesor ya no es el gestor del conocimiento, sino que se convierte en un guía que permite orientar al alumno frente su aprendizaje: En este aspecto, el alumno es el “protagonista de la clase”, debido a que es él quien debe ser autónomo y trabajar en colaboración con sus pares.Debido a esto, el uso de las TIC se posiciona en un lugar importante en la formación docente y no sólo en la formación inicial, sino durante toda la vida profesional, debido a que cada vez más niños niñas y adolescentes incorporan el internet como el recurso más importante que los provee de información para su proceso de aprendizaje y esto genera la necesidad de que el docente este siempre actualizado en los temas educativos, las plataformas y novedades que existen en el internet para aplicar en las aulas.</p>
+  </section>
+
+  <div class="curso-sesiones">
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">1</div>
+      <div>
+        <h3>El maestro del Siglo XXI</h3>
+      </div>
+    </div>
+
+    <div class="tarjeta-sesion"><div class="numero-sesion">2</div><h3>Google como herramienta educativa</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">3</div><h3>Google como herramienta educativa</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">4</div><h3>El impacto de Internet en la educación</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">5</div><h3>Uso pedagógico del audio</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">6</div><h3>Uso pedagógico del audio</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">7</div><h3>Uso pedagógico del audio</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">8</div><h3>El valor educativo de los videos</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">9</div><h3>El valor educativo de los videos</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">10</div><h3>El valor educativo de los videos</h3></div>
+
+    <div class="tarjeta-final">
+      <a href="#">📥 Descargar Curso completo</a>
+    </div>
+  </div>
+</div>
+{% include 'pie.html' %}
+       <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

@@ -3,8 +3,12 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-  <div class="contenido-principal">
-    <h2>Bienvenido al Dashboard</h2>
+  <div class="bienvenida-contenedor">
+    <div class="bienvenida-card">
+      <h2 class="bienvenida-titulo">Bienvenido al Dashboard</h2>
+      <h3 class="bienvenida-animada">
+        {{ request.user.get_full_name|default:request.user.username }}
+      </h3>
+    </div>
   </div>
-  
 {% endblock %}

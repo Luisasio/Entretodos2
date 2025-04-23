@@ -46,7 +46,7 @@ class CursoForm(forms.ModelForm):
             'modalidad': forms.Select(
                 choices=[('virtual', 'Virtual'), ('presencial', 'Presencial')],
                 attrs={'class': 'form-control'}
-            ),  # 👈 entrada libre
+            ),  
             'duracion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'En horas'}),  # 👈 entrada numérica
             'periodo': forms.Select(attrs={'class': 'form-control'}),
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
@@ -56,12 +56,15 @@ class CursoForm(forms.ModelForm):
 class TallerForm(forms.ModelForm):
     facilitador = forms.ModelChoiceField(
         queryset=Facilitador.objects.all(),
-        required=False,  # Permite que el campo sea opcional
+        required=False,
         empty_label="Sin facilitador"
     )
+
     class Meta:
         model = Taller
-        fields = ['nombre_taller', 'descripcion', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin', 'cupos', 'grupo','modalidad', 'duracion', 'facilitador', 'periodo',]
+        fields = ['nombre_taller', 'descripcion', 'fecha_inicio', 'fecha_fin',
+                  'hora_inicio', 'hora_fin', 'cupos', 'grupo',
+                  'modalidad', 'duracion', 'facilitador', 'periodo']
         widgets = {
             'nombre_taller': forms.TextInput(attrs={'class': 'form-control custom-input'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
@@ -71,22 +74,29 @@ class TallerForm(forms.ModelForm):
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
             'grupo': forms.TextInput(attrs={'class': 'form-control'}),
-            'modalidad': forms.TextInput(attrs={'class': 'form-control'}),  # 👈 entrada libre
+            'modalidad': forms.Select(
+                choices=[('virtual', 'Virtual'), ('presencial', 'Presencial')],
+                attrs={'class': 'form-control'}
+            ),
             'duracion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'En horas'}),
             'periodo': forms.Select(attrs={'class': 'form-control'}),
-            'facilitador': forms.Select(attrs={'class': 'form'}),
+            'facilitador': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 
 class DiplomadoForm(forms.ModelForm):
     facilitador = forms.ModelChoiceField(
         queryset=Facilitador.objects.all(),
-        required=False,  # Permite que el campo sea opcional
+        required=False,
         empty_label="Sin facilitador"
     )
+
     class Meta:
         model = Diplomado
-        fields = ['nombre_diplomado', 'descripcion', 'fecha_inicio', 'fecha_fin', 'hora_inicio', 'hora_fin', 'cupos', 'grupo','modalidad', 'duracion', 'facilitador', 'periodo']
+        fields = ['nombre_diplomado', 'descripcion', 'fecha_inicio', 'fecha_fin',
+                  'hora_inicio', 'hora_fin', 'cupos', 'grupo',
+                  'modalidad', 'duracion', 'facilitador', 'periodo']
         widgets = {
             'nombre_diplomado': forms.TextInput(attrs={'class': 'form-control custom-input'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
@@ -96,11 +106,15 @@ class DiplomadoForm(forms.ModelForm):
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
             'grupo': forms.TextInput(attrs={'class': 'form-control'}),
-            'modalidad': forms.TextInput(attrs={'class': 'form-control'}),
+            'modalidad': forms.Select(
+                choices=[('virtual', 'Virtual'), ('presencial', 'Presencial')],
+                attrs={'class': 'form-control'}
+            ),
             'duracion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'En horas'}),
             'periodo': forms.Select(attrs={'class': 'form-control'}),
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(label="Correo electrónico")

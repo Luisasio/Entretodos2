@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Editar Facilitador{% endblock %}
+
+{% block content %}
+<div class="contenido-principal">
+  <h2>Editar Facilitador</h2>
+  <p>Modifica los datos del facilitador.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field|add_class:"form-control" }}
+        {% if field.errors %}
+          <div class="text-danger small">{{ field.errors|striptags }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="{% url 'facilitadores' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

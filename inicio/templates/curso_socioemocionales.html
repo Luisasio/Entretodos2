@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Habilidades socioemocionales de educación</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>Habilidades socioemocionales de educación</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>Los docentes son los potenciales agentes de cambio y de mejora de la realidad social, tal como Tamara Díaz expresa: “Existe un amplio consenso en torno a la inﬂuencia que los docentes ejercen sobre sus estudiantes, siendo referentes de los alumnos no solo por lo que enseñan y cómo lo hacen, sino también por cómo se relacionan, sienten, interactúan y se desenvuelven en distintas situaciones y escenarios”, ante la creencia que mientras más se trabaje en lo personal, se va afinando una mejor versión de sí, es de suponer que docentes que se conocen mejor a sí mismos, ofrecerán mayores beneficios en las relaciones con la comunidad educativa.Por los niños, jóvenes y adultos, hay que actualizarse en esta área, atreverse a revisar el propio quehacer docente, aceptar el reto de conocerse más a sí mismo, establecer relaciones profundas y auténticas, mirar con ojos de esperanza y admiración a aquellos a quienes se tiene la oportunidad, el compromiso, el deber y el regalo de acompañar en su proceso de formación integral, porque sólo desde un tú cercano y fraterno, se entrega el yo vulnerable y sincero, que mueve las pasiones más hondas de la vocación docente.</p>
+  </section>
+
+  <div class="curso-sesiones">
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">1</div>
+      <div>
+        <h3>Nos conocemos.</h3>
+      </div>
+    </div>
+
+    <div class="tarjeta-sesion"><div class="numero-sesion">2</div><h3>El Desarrollo Humano y los fundamentos de la educación socioemocional.</h3>
+  </div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">3</div><h3>Educación socioemocional.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">4</div><h3>Educación socioemocional.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">5</div><h3>Ser y tener.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">6</div><h3>Educación socioemocional.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">7</div><h3>Educación socioemocional.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">8</div><h3>Resiliencia.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">9</div><h3>Análisis de las emociones básicas.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">10</div><h3>Presentación de los trabajos finales.
+
+</h3></div>
+
+    <div class="tarjeta-final">
+      <a href="#">📥 Descargar Curso completo</a>
+    </div>
+  </div>
+</div>
+
+{% include 'pie.html' %}
+     <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

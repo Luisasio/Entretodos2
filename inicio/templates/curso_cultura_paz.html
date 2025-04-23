@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Educando hacia una cultura de paz</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>Educando hacia una cultura de paz</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>Educar para la paz favorece el desarrollo de habilidades y la adquisición de herramientas que permitan a docentes, estudiantes y a los pueblos, convivir de forma pacífica. Este proceso se debe ver fortalecido por los valores como la justicia social, la igualdad, la cooperación, la solidaridad, el respeto y la autonomía.El camino para llegar a ser ciudadanos y ciudadanas con un compromiso con el cambio social y la construcción de la paz, es a través de la promoción y el desarrollo de un sistema educativo que institucionalice la Educación para la Paz en la vida de los centros escolares.Aprender a desarrollar y fortalecer la convivencia sana y pacífica, entre alumnos y alumnas, maestros y maestras, personal no docente y padres y madres de familia, en tu escuela, es una tarea que debe comenzar con los docentes para reconocer la existencia de las características propias de la Educación para la Paz y de la Metodología Socioafectiva, así como las competencias básicas que deben ser trabajadas de manera transversal en el desarrollo del currículo escolar.</p>
+  </section>
+
+  <div class="curso-sesiones">
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">1</div>
+      <div>
+        <h3>Introducción al curso</h3>
+      </div>
+    </div>
+
+    <div class="tarjeta-sesion"><div class="numero-sesion">2</div><h3>Aspectos globales de la paz</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">3</div><h3>La paz en la era digital</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">4</div><h3>Los constructores de la paz</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">5</div><h3>Organizaciones Internacionales y nacionales para la paz</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">6</div><h3>Convivencia Escolar</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">7</div><h3>La problemática del Bullying</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">8</div><h3>Manejo de conflictos</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">9</div><h3>Proyectos educativos para la paz</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">10</div><h3>Conclusiones del curso</h3></div>
+
+    <div class="tarjeta-final">
+      <a href="#">📥 Descargar Curso completo</a>
+    </div>
+  </div>
+</div>
+
+{% include 'pie.html' %}
+    <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

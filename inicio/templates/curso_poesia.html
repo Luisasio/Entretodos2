@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>El valor educativo de la poesía</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>El valor educativo de la poesía</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>La poesía, más allá de su enseñanza formal como género literario, incorpora un aspecto fundamental de la formación integral del ser humano, pues ayuda al esclarecimiento de valores y por ende a la conformación de jerarquías de los mismos, lo cual es fundamental para el desarrollo emocional y social del individuo: La poesía es un medio eficaz para fortalecer la educación en valores. Representa también lo que podríamos llamar un desarrollo espiritual laico, ya que actúa sobre las fibras morales y emocionales más profundas de la persona, sin que esto implique asumir ningún credo religioso. La poesía siempre está abriendo caminos al ser espiritual del hombre. Es un terreno fértil para la conformación de un talante moral, una conciencia cívica y un sentido estético, tanto para los alumnos como para los profesores. La idea de ofrecer este curso surge de la inquietud de darle un sentido más trascendente a la labor del maestro, de buscar alternativas prácticas que puedan apuntalar la formación integral de los educandos, poniendo énfasis en la educación de la sensibilidad, las emociones y la creatividad. La poesía fomenta y desarrolla la creatividad que es uno de los propósitos centrales de la educación.</p>
+  </section>
+
+  <div class="curso-sesiones">
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">1</div>
+      <div>
+        <h3>Aproximaciones a la poesía.</h3>
+      </div>
+    </div>
+
+    <div class="tarjeta-sesion"><div class="numero-sesion">2</div><h3>La creatividad.</h3>
+  </div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">3</div><h3>Educación y poesía.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">4</div><h3>La más alta educación.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">5</div><h3>Los temas fundamentales de la poesía.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">6</div><h3>Orientaciones para la enseñanza de la poesía.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">7</div><h3>La difusión y recreación de la poesía en la WEB.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">8</div><h3>La poesía musicalizada.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">9</div><h3>Recreación audiovisual de la poesía.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">10</div><h3>Cierre del curso.
+
+</h3></div>
+
+    <div class="tarjeta-final">
+      <a href="#">📥 Descargar Curso completo</a>
+    </div>
+  </div>
+</div>
+
+{% include 'pie.html' %}
+  <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

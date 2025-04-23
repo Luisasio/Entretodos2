@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+  .container {
+      padding: 1rem;
+  }
+
+  .program-title {
+      font-size: 2rem;
+  }
+
+  .quote-section {
+      padding: 1.5rem;
+  }
+
+  .info-grid, .modules-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .info-card, .module-card {
+      padding: 1.5rem;
+  }
+
+  .card-title {
+      font-size: 1.3rem;
+  }
+}

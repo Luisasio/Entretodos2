@@ -1,0 +1,49 @@
+@media (max-width: 768px) {
+  body {
+    padding-top: 90px; /* si tienes esto, ajústalo */
+  }
+  .parallax.ancho {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .parallax {
+    background-attachment: scroll; /* 👈 Elimina parallax en móviles */
+    height: auto;
+    background-size: cover;
+    background-position: center;
+    padding: 3rem 1rem;
+  }
+
+  .parallax::before {
+    background: rgba(0, 0, 0, 0.6); /* Oscurece igual */
+  }
+
+  .text-container {
+    padding: 1rem;
+    max-width: 90%;
+  }
+
+  .text-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .text-container p {
+    font-size: 1rem;
+  }
+
+  .section {
+    padding: 2rem 1rem;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+  }
+
+  .section p {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+}

@@ -5,44 +5,56 @@
 {% block content %}
 <div class="contenido-principal">
   <h2>Facilitadores</h2>
-  <p>En esta sección se podrán agregar los periodos correspondientes a las épocas del año.</p>
-  <a href="{% url 'agregar_periodo' %}" class="btn btn-primary">
+  <p>En esta sección se podrán agregar los facilitadores registrados al sistema.</p>
+  <a href="{% url 'agregar_facilitador' %}" class="btn btn-primary">
     <i class="fa-solid fa-plus"></i> Nuevo Facilitador
   </a>
 </div>
 
-<div class="card">
+<div class="card mt-4">
   <div class="card-header">
     <h3 class="card-title">Lista de facilitadores</h3>
   </div>
-  <div class="card-body">
+  <div class="card-body table-responsive p-0" style="max-height: 600px;">
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>clave unica</th>
+          <th>#</th>
+          <th>Clave única</th>
           <th>Clave de escuela</th>
-          <th>Nombres del facilitador</th>
-          <th>Apellido paterno</th>
-          <th>Apellido materno</th>
-          <th>Telefono</th>
+          <th>Nombre completo</th>
           <th>CURP</th>
-          <th style="width: 300px;">Acciones</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th style="width: 200px;">Acciones</th>
         </tr>
       </thead>
       <tbody>
+        {% for facilitador in facilitadores %}
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ facilitador.clave_facilitador }}</td>
+          <td>{{ facilitador.clave }}</td>
+          <td>{{ facilitador.nombres }} {{ facilitador.apellido_paterno }} {{ facilitador.apellido_materno }}</td>
+          <td>{{ facilitador.curp }}</td>
+          <td>{{ facilitador.correo }}</td>
+          <td>{{ facilitador.telefono }}</td>
+          <td>
+            <a href="{% url 'editar_facilitador' facilitador.id %}" class="btn btn-sm btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="{% url 'eliminar_facilitador' facilitador.id %}" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash"></i>
+            </a>
+          </td>
         </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center">No hay facilitadores registrados.</td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
-  
 </div>
 {% endblock %}

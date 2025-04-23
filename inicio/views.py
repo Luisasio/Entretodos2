@@ -8,9 +8,62 @@ from django.db.models import Q
 from django.contrib import messages
 from administracion.models import Curso, Taller, Inscripcion, Diplomado
 
+#estas son las vistas de la pagina web
 def index(request):
   
     return render(request, 'index.html')
+
+def historia(request):
+    return render(request, 'historia.html')
+
+#diplomados
+def diplomado_desarrollo(request):
+    return render(request, 'diplomado_desarrollo.html')
+
+def diplomado_literatura(request):
+    return render(request, 'ddiplomado_literatura.html')
+def diplomado_paz(request):
+    return render(request, 'diplomado_paz.html')
+def diplomado_tic(request):
+    return render(request, 'diplomado_tic.html')
+#-------------------
+#talleres
+def taller_creacion_literaria(request):
+    return render(request, 'taller_creacion_literaria.html')
+def taller_cuento(request):
+    return render(request, 'taller_cuento.html')
+def taller_danza(request):
+    return render(request, 'taller_danza.html')
+def taller_fotografia(request):
+    return render(request, 'taller_fotografia.html')
+def taller_huerto(request):
+    return render(request, 'taller_huerto.html')
+def taller_musica_coral(request):
+    return render(request, 'taller_musica_coral.html')
+def taller_ofimatica(request):
+    return render(request, 'taller_ofimatica.html')
+def taller_pintura(request):
+    return render(request, 'taller_pintura.html')
+def taller_teatro(request):
+    return render(request, 'taller_teatro.html')
+#-----------------------
+#cursos
+def curso_cultura_paz(request):
+    return render(request, 'curso_cultura_paz.html')
+def curso_felicidad(request):
+    return render(request, 'curso_felicidad.html')
+def curso_poesia(request):
+    return render(request, 'curso_poesia.html')
+def curso_rostro_humano(request):
+    return render(request, 'curso_rostro_humano.html')
+def curso_socioemocionales(request):
+    return render(request, 'curso_socioemocionales.html')
+def curso_tic(request):
+    return render(request, 'curso_tic.html')
+
+
+
+
   
 #esta vista es para el registro de alumnos
 def registro_alumno(request):
@@ -40,15 +93,26 @@ def inscripciones(request):
 
     alumno = Alumno.objects.get(id=alumno_id)
 
-    cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False)
-    talleres = Taller.objects.filter(publicado=True, cupos__gt=0)
-    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0)
-
+    # Obtener todas las inscripciones del alumno
     inscripciones = Inscripcion.objects.filter(alumno_id=alumno_id)
 
-    tiene_curso_o_taller = inscripciones.filter(estado__iexact="Inscrito").filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
+    # Obtener IDs de cursos/talleres/diplomados ya inscritos
+    inscritos_cursos = inscripciones.filter(curso__isnull=False).values_list('curso_id', flat=True)
+    inscritos_talleres = inscripciones.filter(taller__isnull=False).values_list('taller_id', flat=True)
+    inscritos_diplomados = inscripciones.filter(diplomado__isnull=False).values_list('diplomado_id', flat=True)
+
+    # Excluir los ya inscritos
+    cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_cursos)
+    talleres = Taller.objects.filter(publicado=True, cupos__gt=0).exclude(id__in=inscritos_talleres)
+    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0).exclude(id__in=inscritos_diplomados)
+
+    # Reglas de inscripción
+    tiene_curso_o_taller = inscripciones.filter(
+        estado__iexact="Inscrito"
+    ).filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
+
     tiene_diplomado = inscripciones.filter(
-    estado__iexact="Inscrito", diplomado__isnull=False
+        estado__iexact="Inscrito", diplomado__isnull=False
     ).exists()
 
     bloqueado = not alumno.restriccion_libre and tiene_curso_o_taller and tiene_diplomado

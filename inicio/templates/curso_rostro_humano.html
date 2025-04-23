@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Docencia con rostro humano</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>Docencia con rostro humano</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>La educación que se ofrece en el nivel básico, no debe dirigirse solamente a la apropiación del conocimiento y al desarrollo de la ciencia que acumula y desecha ideas, cuestiona hechos y construye y destruye teorías; sino que debe dársele un lugar y un tiempo al saber filosófico, a las experiencias y situaciones que son fuente de esclarecimiento de valores, que iluminan y dan sentido a la existencia de las personas y al destino de las comunidades.La educación puede y debe ser un espacio no sólo de aprendizaje, sino también de encuentro personal, en donde se puedan escuchar “las razones del corazón que la razón desconoce” como bien señalaba el filósofo Blas Pascal, una pedagogía meramente racional, sin la pasión de enseñar, tarde o temprano se convertirá en burocracia.</p>
+  </section>
+
+  <div class="curso-sesiones">
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">1</div>
+      <div>
+        <h3>Introducción.</h3>
+      </div>
+    </div>
+
+    <div class="tarjeta-sesion"><div class="numero-sesion">2</div><h3>Identidad del docente.</h3>
+  </div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">3</div><h3>La pasión de enseñar.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">4</div><h3>El maestro ante los retos actuales.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">5</div><h3>La persona del maestro.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">6</div><h3>Experiencias pedagógicas centradas en la persona I.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">7</div><h3>Experiencias pedagógicas centradas en la persona II.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">8</div><h3>Aprender a convivir I.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">9</div><h3>Aprender a convivir II.</h3></div>
+    <div class="tarjeta-sesion"><div class="numero-sesion">10</div><h3>Conclusiones del Curso.
+
+</h3></div>
+
+    <div class="tarjeta-final">
+      <a href="#">📥 Descargar Curso completo</a>
+    </div>
+  </div>
+</div>
+
+{% include 'pie.html' %}
+   <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

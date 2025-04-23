@@ -7,16 +7,16 @@ from django.db.models import Count, Q
 from reportlab.pdfgen import canvas
 
 from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm
-from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado
+from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado,Facilitador
 from administracion.models import Curso
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm
+from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitadorForm,EditarFacilitadorForm
 
 
 # Create your views here.
-# @login_required
+@   login_required
 def dashboard(request):
     return render(request, 'administracion/dashboard.html')
 
@@ -695,3 +695,42 @@ class CambiarContrasenaView(LoginRequiredMixin, PasswordChangeView):
     def form_valid(self, form):
         messages.success(self.request, "Contraseña actualizada correctamente.")
         return super().form_valid(form)
+    
+#esta parte es de los facilitadores su formulario y logica
+def agregar_facilitador(request):
+    if request.method == 'POST':
+        form = RegistroFacilitadorForm(request.POST)
+        if form.is_valid():
+            form.save()  # ya hace el cifrado en el método save del form
+            return redirect('facilitadores')  # o la vista/listado que tengas
+    else:
+        form = RegistroFacilitadorForm()
+
+    return render(request, 'administracion/agregar_facilitador.html', {'form': form})
+
+#esto es para que se vean el listado de los facilitadores
+def lista_facilitadores(request):
+    facilitadores = Facilitador.objects.all()
+    
+    return render(request, 'administracion/facilitadores.html', {'facilitadores': facilitadores})
+#esta logica es para editar a los facilitadores
+def editar_facilitador(request, facilitador_id):
+    facilitador = get_object_or_404(Facilitador, id=facilitador_id)
+    if request.method == 'POST':
+        form = EditarFacilitadorForm(request.POST, instance=facilitador)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Facilitador actualizado correctamente.')
+            return redirect('facilitadores')
+    else:
+        form = EditarFacilitadorForm(instance=facilitador)
+    return render(request, 'administracion/editar_facilitador.html', {'form': form, 'facilitador': facilitador})
+
+#esto es para eliminar a los facilitadores
+def eliminar_facilitador(request, facilitador_id):
+    facilitador = get_object_or_404(Facilitador, id=facilitador_id)
+    if request.method == 'POST':
+        facilitador.delete()
+        messages.success(request, 'Facilitador eliminado correctamente.')
+        return redirect('facilitadores')
+    return render(request, 'administracion/eliminar_facilitador.html', {'facilitador': facilitador})

@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+        <link rel="stylesheet" href="{% static 'css/diplomados.css' %}">
+        <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+        <link rel="stylesheet" href="{% static 'css/movil_diplomados.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <title>Docencia y Desarrollo Humano</title>
+      </head>
+<body>
+<body>
+    {% include 'cabecera.html' %}
+    <header class="program-header ancho">
+        <div class="container">
+            <h1 class="program-title">Docencia y Desarrollo Humano</h1>
+            <p>Programa General de Formación Continua</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+
+        <section class="info-grid">
+            <div class="info-card">
+                <h2 class="card-title">Destinatarios</h2>
+                <p>Docentes de educación básica en sus diferentes modalidades.</p>
+            </div>
+            <div class="info-card">
+                <h2 class="card-title">Nivel</h2>
+                <p>Educación básica en sus diferentes modalidades.</p>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <h2 class="card-title">Introducción</h2>
+            <p>Las sociedades modernas han puesto el énfasis del cambio en los avances científicos y tecnológicos. El ser humano de nuestro tiempo ha sido capaz de crear vínculos e instrumentos para la conquista del espacio y, sin embargo, no ha sido capaz de lograr una comunicación profunda y un entendimiento con sus familiares más cercanos, con sus compañeros de trabajo y consigo mismo. Se admite que alrededor del 80% de los problemas serios que aquejan a las organizaciones modernas se refieren al factor humano. Se han desarrollado mucho más rápido las ciencias de la naturaleza, que las ciencias del espíritu que estudian la existencia concreta del ser humano, al ser de "carne y hueso". Vivimos un desequilibrio entre la tecnología y el humanismo.</p>
+           
+        </section>
+
+        <section class="purpose-section">
+            <h2 class="card-title">Propósito General</h2>
+            <p>Contribuir al desarrollo personal del maestro/a, a través del autoconocimiento y reconocimiento de la trascendencia de su labor, para fortalecer su compromiso con la escuela y la comunidad.</p>
+            
+            <h3 class="module-title">Propósitos Particulares</h3>
+            <ul class="purpose-list">
+                <li>Analizar diversas concepciones sobre el ser humano y construir un concepto propio sobre la condición humana en la actualidad.</li>
+                <li>Reconocer la necesidad de aprender a convivir como un aspecto central del desarrollo personal y comunitario.</li>
+                <li>Identificar características y procesos del docente como persona y como profesional de la educación.</li>
+                <li>Conocer experiencias grupales y métodos pedagógicos centrados en la persona.</li>
+                <li>Integrar los conocimientos adquiridos durante el Diplomado y en la experiencia profesional,  en un proyecto que vincule la escuela y la comunidad y renueve nuestro compromiso como  personas y como educadores y educadoras.</li>
+            </ul>
+        </section>
+
+        <section class="modules-grid">
+            <div class="module-card">
+                <h3 class="module-title">Módulo I</h3>
+                <ul class="module-list">
+                    <li>La incógnita del hombre.</li>
+                    <li>Concepciones sobre Desarrollo Humano.</li>
+                    <li>El paradigma sinérgico.</li>
+                    <li>Educar en la era planetaria.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3 class="module-title">Módulo II</h3>
+                <ul class="module-list">
+                    <li>El personalismo comunitario.</li>
+                    <li>De la comunidad a la persona.</li>
+                    <li>Proyecto de vida.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3 class="module-title">Módulo III</h3>
+                <ul class="module-list">
+                    <li>Presentación de trabajos comunitarios.</li>
+                    <li>Transformación comunitaria.</li>
+                    <li>El compromiso educativo.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3 class="module-title">Módulo IV</h3>
+                <ul class="module-list">
+                    <li>El personalismo en la educación.</li>
+                    <li>Experiencias pedagógicas.</li>
+                    <li>Proyecto de vinculación Escuela-Comunidad.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3 class="module-title">Módulo V</h3>
+                <ul class="module-list">
+                    <li>Identidad y crecimiento personal del docente.</li>
+                    <li>El orgullo de ser maestro.</li>
+                   
+                </ul>
+            </div>
+        </section>
+
+      
+        <section class="additional-info">
+            <h2 class="card-title">Información Adicional</h2>
+            <div class="info-item">
+                <span class="highlight">Duración:</span> 27 sesiones de 4 horas 
+            </div>
+            <div class="info-item">
+                <span class="highlight">Modalidad:</span> Semipresencial
+            </div>
+            <div class="info-item">
+                <span class="highlight">Costo:</span> Gratuito
+            </div>
+            <div class="info-item">
+                <span class="highlight">Participantes:</span> Máximo 25 por grupo
+            </div>
+            <div class="info-item">
+                <span class="highlight">Responsable Académico:</span> M.D.H. Ingrid Vanessa Caballero Aragón
+            </div>
+            <div class="info-item">
+                <p>El diplomado tiene validez oficial y queda registrado formalmente en su historial académico de la Plataforma Estatal de Formación Continua.</p>
+            </div>
+            <a href="#" class="download-btn">Descargar programa completo</a>
+        </section>
+    </main>
+    {% include 'pie.html' %}
+    <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+
+
+</script>
+  
+</body>
+</html>
