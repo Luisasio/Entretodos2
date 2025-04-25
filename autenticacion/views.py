@@ -30,6 +30,9 @@ def logout_admin(request):
     logout(request)  # Cierra solo sesión del admin
     return redirect('login_admin')
 
+
+
+
 # -------------------- ALUMNO --------------------
 
 def login_alumno(request):
@@ -41,9 +44,7 @@ def login_alumno(request):
             try:
                 alumno = Alumno.objects.get(correo=correo)
                 if check_password(contrasena, alumno.contrasena):
-                    # Limpia solo sesiones de otros roles (no usa logout)
-                    request.session.pop('facilitador_id', None)
-                    request.session.pop('_auth_user_id', None)  # por si está logueado como admin
+                    # Solo limpia lo necesario (no toca admin)
                     request.session['alumno_id'] = alumno.id
                     return redirect('inicio')
                 else:
@@ -56,9 +57,11 @@ def login_alumno(request):
     return render(request, 'autenticacion/login_alumno.html', {'form': form})
 
 
+
 def logout_alumno(request):
-    request.session.pop('alumno_id', None)  # Solo elimina clave del alumno
+    request.session.pop('alumno_id', None)  # Solo quita la del alumno
     return redirect('login_alumno')
+
 
 # -------------------- FACILITADOR --------------------
 
@@ -71,9 +74,7 @@ def login_facilitador(request):
             try:
                 facilitador = Facilitador.objects.get(correo=correo)
                 if check_password(contrasena, facilitador.contrasena):
-                    # Limpia solo sesiones de otros roles (no usa logout)
-                    request.session.pop('alumno_id', None)
-                    request.session.pop('_auth_user_id', None)  # por si está logueado como admin
+                    # Solo limpia lo necesario (no toca admin)
                     request.session['facilitador_id'] = facilitador.id
                     return redirect('inicio_facilitador')
                 else:
@@ -87,5 +88,5 @@ def login_facilitador(request):
 
 
 def logout_facilitador(request):
-    request.session.pop('facilitador_id', None)  # Solo elimina clave del facilitador
+    request.session.pop('facilitador_id', None)  # Solo quita la del facilitador
     return redirect('login_facilitador')

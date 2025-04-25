@@ -16,9 +16,10 @@ from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitad
 
 
 # Create your views here.
-@   login_required
+@login_required
 def dashboard(request):
     return render(request, 'administracion/dashboard.html')
+
 
 def cursos(request):
     cursos = Curso.objects.all()  # Obtener todos los cursos
