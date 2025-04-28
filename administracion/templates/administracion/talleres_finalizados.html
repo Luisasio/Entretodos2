@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+
+{% block title %}Tallers Finalizados{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+    <h2>Talleres Finalizados</h2>
+    <p>Estos son los talleres que ya han concluido. Solo se muestran datos informativos.</p>
+    <a href="{% url 'talleres' %}" class="btn btn-secondary">
+      Regresar a Talleres Activos
+    </a>
+  </div>
+
+  <div class="contenedor-cursos">
+    {% for taller in talleres %}
+      <div class="tarjeta-curso">
+        <h4>{{ taller.nombre_taller }}</h4>
+        <p><strong>Grupo:</strong> {{ taller.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ taller.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ taller.fecha_inicio }} a {{ taller.fecha_fin }}</p>
+        <p><strong>Facilitador:</strong> {{ taller.facilitador }}</p>
+        <p><strong>Cupos iniciales:</strong> {{ taller.cupos }}</p>
+        <p><strong>Estado:</strong> <span class="estado no-inscrito">Finalizado</span></p>
+      </div>
+    {% empty %}
+      <p>No hay talleres finalizados.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

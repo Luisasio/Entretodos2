@@ -6,6 +6,8 @@
 body{
   font-size: 16px;
   line-height: 24px;
+  min-height: 100vh;
+
 }
 .ancho{
   max-width: 1200px;
@@ -18,8 +20,6 @@ body{
 a{
   text-decoration: none;
 }
-
-
 /* DISEÑO DE LOS FORMULARIOS */
 .diseño_formulario
 {
@@ -47,7 +47,6 @@ font-size: 20px;
   display: flex;
   flex-direction: column;
   padding: 10px;
-  height: 100vh;
   background-color: #f9f9f9;
   box-shadow: 0 0 22px rgba(0,0,0,0.1);
   border-right: 1px solid #ddd;
@@ -82,10 +81,10 @@ font-size: 20px;
   margin-bottom: 20px;
 }
 .logo-container{
-  width: 190px;
-  height: 90px;
+  width: 140px;
+  /* height: 90px; */
   text-align: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   /* margin-left: 20px; */
   /* border: 1px red solid; */
 }
@@ -363,6 +362,16 @@ font-size: 20px;
   font-weight: bold;
   animation: fadeSlideIn 1.2s ease-out;
 }
+
+.tarjeta-curso {
+  background-color: #f0f0f0;
+  border-left: 8px solid #6c757d;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 
 /* Animaciones Personalizadas */
 @keyframes fadeInUp {

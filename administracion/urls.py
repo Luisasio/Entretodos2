@@ -9,24 +9,29 @@ urlpatterns = [
     path('periodos/agregar/', views.agregar_periodo, name='agregar_periodo'),
     path('periodos/editar/<int:periodo_id>/', views.editar_periodo, name='editar_periodo'),
     path('periodos/eliminar/<int:periodo_id>/', views.eliminar_periodo, name='eliminar_periodo'),
-    #talleres
+    #cursos
     path('cursos/', views.cursos, name='cursos'),
     path('cursos/agregar/', views.agregar_curso, name='agregar_curso'),
     path('cursos/editar/<int:curso_id>/', views.editar_curso, name='editar_curso'),
     path('cursos/eliminar/<int:curso_id>/', views.eliminar_curso, name='eliminar_curso'),
     path('cursos/<int:curso_id>/finalizar/', views.finalizar_curso, name='finalizar_curso'),
+    path('cursos/finalizados/', views.cursos_finalizados, name='cursos_finalizados'),
     #talleres
     path('talleres/', views.talleres, name='talleres'),
     path('talleres/agregar/', views.agregar_taller, name='agregar_taller'),
     path('talleres/editar/<int:taller_id>/', views.editar_taller, name='editar_taller'),
     path('talleres/eliminar/<int:taller_id>/', views.eliminar_taller, name='eliminar_taller'),
     path('talleres/<int:taller_id>/finalizar/', views.finalizar_taller, name='finalizar_taller'),
+    path('talleres-finalizados/', views.talleres_finalizados, name='talleres_finalizados'),
+
     #diplomados
     path('diplomados/', views.diplomados, name='diplomados'),
     path('diplomados/agregar/', views.agregar_diplomado, name='agregar_diplomado'),
     path('diplomados/editar/<int:diplomado_id>/', views.editar_diplomado, name='editar_diplomado'),
     path('diplomados/eliminar/<int:diplomado_id>/', views.eliminar_diplomado, name='eliminar_diplomado'),
     path('diplomados/<int:diplomado_id>/finalizar/', views.finalizar_diplomado, name='finalizar_diplomado'),
+    path('diplomados-finalizados/', views.diplomados_finalizados, name='diplomados_finalizados'),
+
     #alumnos
     path('alumnos/', views.alumnos, name='alumnos'),
     path('alumnos/agregar/', views.agregar_alumno, name='agregar_alumno'),

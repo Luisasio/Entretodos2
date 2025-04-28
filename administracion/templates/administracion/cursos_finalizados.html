@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+
+{% block title %}Cursos Finalizados{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+    <h2>Cursos Finalizados</h2>
+    <p>Estos son los cursos que ya han concluido. Solo se muestran datos informativos.</p>
+    <a href="{% url 'cursos' %}" class="btn btn-secondary">
+      Regresar a Cursos Activos
+    </a>
+  </div>
+
+  <div class="contenedor-cursos">
+    {% for curso in cursos %}
+      <div class="tarjeta-curso">
+        <h4>{{ curso.nombre_curso }}</h4>
+        <p><strong>Grupo:</strong> {{ curso.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ curso.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ curso.fecha_inicio }} a {{ curso.fecha_fin }}</p>
+        <p><strong>Facilitador:</strong> {{ curso.facilitador }}</p>
+        <p><strong>Cupos iniciales:</strong> {{ curso.cupos }}</p>
+        <p><strong>Estado:</strong> <span class="estado no-inscrito">Finalizado</span></p>
+      </div>
+    {% empty %}
+      <p>No hay cursos finalizados.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

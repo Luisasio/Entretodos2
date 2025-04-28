@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+
+{% block title %}Diplomados Finalizados{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+    <h2>Diplomados Finalizados</h2>
+    <p>Estos son los diplomados que ya han concluido. Solo se muestran datos informativos.</p>
+    <a href="{% url 'diplomados' %}" class="btn btn-secondary">
+      Regresar a Diplomados Activos
+    </a>
+  </div>
+
+  <div class="contenedor-cursos">
+    {% for diplomado in diplomados %}
+      <div class="tarjeta-curso">
+        <h4>{{ diplomado.nombre_diplomado }}</h4>
+        <p><strong>Grupo:</strong> {{ diplomado.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ diplomado.periodo }}</p>
+        <p><strong>Fechas:</strong> {{ diplomado.fecha_inicio }} a {{ diplomado.fecha_fin }}</p>
+        <p><strong>Facilitador:</strong> {{ diplomado.facilitador }}</p>
+        <p><strong>Cupos iniciales:</strong> {{ diplomado.cupos }}</p>
+        <p><strong>Estado:</strong> <span class="estado no-inscrito">Finalizado</span></p>
+      </div>
+    {% empty %}
+      <p>No hay diplomados finalizados.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

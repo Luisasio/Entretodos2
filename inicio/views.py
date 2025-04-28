@@ -101,10 +101,10 @@ def inscripciones(request):
     inscritos_talleres = inscripciones.filter(taller__isnull=False).values_list('taller_id', flat=True)
     inscritos_diplomados = inscripciones.filter(diplomado__isnull=False).values_list('diplomado_id', flat=True)
 
-    # Excluir los ya inscritos
+    # Excluir los ya inscritos y finalizados
     cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_cursos)
-    talleres = Taller.objects.filter(publicado=True, cupos__gt=0).exclude(id__in=inscritos_talleres)
-    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0).exclude(id__in=inscritos_diplomados)
+    talleres = Taller.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_talleres)
+    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_diplomados)
 
     # Reglas de inscripción
     tiene_curso_o_taller = inscripciones.filter(
@@ -126,6 +126,7 @@ def inscripciones(request):
         'tiene_diplomado': tiene_diplomado,
         'bloqueado': bloqueado
     })
+
 
 
 
@@ -258,19 +259,21 @@ def registro_facilitador(request):
         form = RegistroFacilitadorForm()
     return render(request, 'registro_facilitador.html', {'form': form})
 
+
 @cargar_facilitador
 def impartir_cursos(request):
-    
     cursos = Curso.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
-    talleres = Taller.objects.filter(facilitador__isnull=True, publicado=True)
-    diplomados = Diplomado.objects.filter(facilitador__isnull=True, publicado=True)
+    talleres = Taller.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
+    diplomados = Diplomado.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
 
     return render(request, 'impartir_cursos.html', {
         'cursos': cursos,
         'talleres': talleres,
         'diplomados': diplomados,
         'facilitador': request.facilitador
+
     })
+
 
 @cargar_facilitador
 def tomar_curso(request, curso_id):

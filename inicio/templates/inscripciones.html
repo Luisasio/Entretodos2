@@ -54,6 +54,7 @@
                     <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
                     <p><strong>Inicio y Fin:</strong> {{ curso.fecha_inicio }} - {{ curso.fecha_fin }}</p>
                     <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
+                    <p><strong>Duracion:</strong>   {{curso.duracion}} hrs</p>
                     <p><strong>Cupos:</strong>  {{ curso.cupos }}</p>
                     <div class="botones-curso">
                         {% if alumno.restriccion_libre or not bloqueado and not tiene_curso_o_taller %}

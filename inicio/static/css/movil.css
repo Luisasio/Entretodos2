@@ -300,11 +300,12 @@
     background-position: center;
     background-repeat: no-repeat;
     height: auto;
-    padding: 2rem 0;
+    /* padding: 2rem 0; */
   }
 
   .filtro-negro {
-    background-color: rgba(7, 20, 161, 0.7);
+    background-color: rgba(110, 55, 43, 0.7);
+    height: 100%;
     width: 100%;
     padding: 2rem 1rem;
     display: flex;

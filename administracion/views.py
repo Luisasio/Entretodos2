@@ -22,8 +22,9 @@ def dashboard(request):
 
 
 def cursos(request):
-    cursos = Curso.objects.all()  # Obtener todos los cursos
+    cursos = Curso.objects.filter(finalizado=False)  # Solo cursos activos
     return render(request, 'administracion/cursos.html', {'cursos': cursos})
+
 
 def facilitadores(request):
     return render(request, 'administracion/facilitadores.html')
@@ -105,8 +106,13 @@ def eliminar_curso(request, curso_id):
     return render(request, 'administracion/eliminar_curso.html', {'curso': curso})
 
 def talleres(request):
-    talleres = Taller.objects.all()
+    talleres = Taller.objects.filter(finalizado=False)  # Solo talleres activos
     return render(request, 'administracion/talleres.html', {'talleres': talleres})
+
+def talleres_finalizados(request):
+    talleres = Taller.objects.filter(finalizado=True)
+    return render(request, 'administracion/talleres_finalizados.html', {'talleres': talleres})
+
 
 
 def agregar_taller(request):
@@ -186,8 +192,14 @@ def publicar_diplomado(request, diplomado_id):
     return redirect('diplomados')
 
 def diplomados(request):
-    diplomados = Diplomado.objects.all()  # Obtener todos los cursos
+    diplomados = Diplomado.objects.filter(finalizado=False)  # Solo diplomados activos
     return render(request, 'administracion/diplomados.html', {'diplomados': diplomados})
+
+def diplomados_finalizados(request):
+    diplomados = Diplomado.objects.filter(finalizado=True)
+    return render(request, 'administracion/diplomados_finalizados.html', {'diplomados': diplomados})
+
+
 
 def agregar_diplomado(request):
     if request.method == 'POST':
@@ -282,6 +294,12 @@ def finalizar_curso(request, curso_id):
     Inscripcion.objects.filter(curso=curso).update(estado='Finalizado', finalizado=True)
 
     return redirect('cursos')
+
+
+def cursos_finalizados(request):
+    cursos = Curso.objects.filter(finalizado=True).order_by('-fecha_fin')
+    return render(request, 'administracion/cursos_finalizados.html', {'cursos': cursos})
+
 
 @require_POST
 def finalizar_taller(request, taller_id):
