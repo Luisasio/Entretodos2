@@ -5,58 +5,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" type="image/png" href="/static/img/LogoEntreTodos.png">
   <link rel="stylesheet" href="{% static 'css/estiloAdmin.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
    <script src="https://kit.fontawesome.com/fe8b02346c.js" crossorigin="anonymous"></script>
-   <style>
-    body {
-        display: flex;
-    }
-</style>
 </head>
 <body>
-  <!-- sidebar -->
-    <div class="sidebar">
-      <div class="logo">
-        <figure class="logo-container">
-          <img src="/static/img/logo_et.png" alt="">
-        </figure>
+    <div class="contenedor">
+      <div class="sidebar">
+        <div class="logo">
+          <figure class="logo-container">
+            <img src="/static/img/LogoConRecorte.png" alt="">
+          </figure>
+        </div>
+        <a href="{% url 'dashboard' %}" >
+          <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/></svg>
+          &nbsp;Inicio
+        </a>
+        <a href="{% url 'inscripciones_admin' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M240-160q-33 0-56.5-23.5T160-240q0-33 23.5-56.5T240-320q33 0 56.5 23.5T320-240q0 33-23.5 56.5T240-160Zm0-240q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm0-240q-33 0-56.5-23.5T160-720q0-33 23.5-56.5T240-800q33 0 56.5 23.5T320-720q0 33-23.5 56.5T240-640Zm240 0q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Zm240 0q-33 0-56.5-23.5T640-720q0-33 23.5-56.5T720-800q33 0 56.5 23.5T800-720q0 33-23.5 56.5T720-640ZM480-400q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm40 240v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"/></svg>
+          &nbsp;Inscripciones
+        </a>
+        <a href="{% url 'facilitadores' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z"/></svg>
+          &nbsp;Facilitadores
+        </a>
+        <a href="{% url 'alumnos' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+          &nbsp;Alumnos
+        </a>
+        <a href="{% url 'periodos' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M320-400q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm160 0q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm160 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"/></svg>
+          &nbsp;Periodos
+        </a>
+        <a href="{% url 'cursos' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Zm0-241Zm0 90Zm0 0Z"/></svg>
+          &nbsp;Cursos
+        </a>
+        <a href="{% url 'talleres' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M480-400ZM80-160v-400q0-33 23.5-56.5T160-640h120v-80q0-33 23.5-56.5T360-800h240q33 0 56.5 23.5T680-720v80h120q33 0 56.5 23.5T880-560v400H80Zm240-200v40h-80v-40h-80v120h640v-120h-80v40h-80v-40H320ZM160-560v120h80v-40h80v40h320v-40h80v40h80v-120H160Zm200-80h240v-80H360v80Z"/></svg>
+          &nbsp;Talleres
+        </a>
+        <a href="{% url 'diplomados' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="22px" fill="#000000"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v280l-100-60-100 60v-280H200Zm0 560v-560 560Z"/></svg>
+          &nbsp;Diplomados
+        </a>
       </div>
-      <nav class="menu-sidebar">
-        <ul>
-          <li><a href="{% url 'dashboard' %}"><i class="fa-solid fa-house icono"></i>Inicio</a></li>
-          <li><a href="{% url 'inscripciones_admin' %}"><i class="fa-solid fa-pen-to-square icono"></i>Inscripciones</a></li>
-          <li><a href="{% url 'facilitadores' %}"><i class="fa-solid fa-users icono"></i>Facilitadores</a></li>
-          <li><a href="{% url 'alumnos' %}"><i class="fa-solid fa-user-graduate icono"></i>Alumnos</a></li>
-          <li><a href="{% url 'periodos' %}"><i class="fa-regular fa-calendar-days icono"></i>Periodos</a></li>
-          <li><a href="{% url 'cursos' %}"><i class="fa-solid fa-graduation-cap icono"></i>Cursos</a></li>
-          <li><a href="{% url 'talleres' %}"><i class="fa-solid fa-briefcase icono"></i>Talleres</a></li>
-          <li><a href="{% url 'diplomados' %}"><i class="fa-solid fa-scroll icono"></i>Diplomados</a></li>
-        </ul>
-      </nav>
-      <div>
-        <nav class="menu-sidebar">
-          <ul>
-            <li><a href="{% url 'administrador' %}"><i class="fa-solid fa-circle-user icono"></i>Cuenta</a></li>
-          </ul>
-        </nav>
+
+      <div class="main-content">
+
+            
+        <div class="header">
+            <div class="dashboard-title">Dashboard</div>
+            <div class="user-info">
+                <span>Usuario</span>
+                <div class="user-avatar">U</div>
+            </div>
+        </div>
+
+        <!-- grid que incluye el contenido -->
+        <div class="">
+            
+                {% block content %}
+                {% endblock %}
+            
+        </div>
       </div>
     </div>
-
-
-
-    
-    <div class="content">
-      <!-- navbar -->
-        <nav class="menu-contenido">
-          <h4>Dashboard</h4>
-          <a href="{% url 'logout_admin' %}" class="btn btn-danger">Cerrar sesion&nbsp;&nbsp;<i class="fa-solid fa-right-from-bracket"></i></a>
-        </nav>
-      {% block content %}
-      {% endblock %}
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
