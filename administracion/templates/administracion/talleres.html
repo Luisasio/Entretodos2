@@ -4,23 +4,121 @@
 
 {% block content %}
 <div class="contenido-principal">
-  <h2>Talleres</h2>
+  <h4>Talleres</h4>
   <p>Aquí puedes gestionar los talleres disponibles.</p>
-  <a href="{% url 'agregar_taller' %}" class="btn btn-primary">
-    <i class="fa-solid fa-plus"></i> Nuevo Taller
-  </a>
-  <a href="{% url 'talleres_finalizados' %}" class="btn btn-secondary">
-    <i class="fa-solid fa-box-archive"></i> Talleres Finalizados
-  </a>
+  <div class="controladores">
+    <input type="search" id="buscador" placeholder="Buscar taller..." class="form-control " title="Escribe el nombre del taller a buscar">
+    <div class="controladores 1 gap-3">
+      <a href="{% url 'agregar_taller' %}" class="btn-añadir">
+        <i class="fa-solid fa-plus"></i> Nuevo Taller
+      </a>
+      <a href="{% url 'talleres_finalizados' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-box-archive"></i> Talleres Finalizados
+      </a>
+    </div>
+  </div>
 </div>
-<div class="col-12 mt-3">
+
+<table class="table table-striped tabla1">
+  <thead>
+    <tr>
+      <th>#</th>
+        <th>Taller</th>
+        <th>Periodo</th>
+        <th>Estado</th>
+        <th>Cupos</th>
+        <th>Acciones</th>
+        <th>Detalles</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for taller in talleres %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>
+        <small><strong>Grupo: {{ taller.grupo }}</strong></small>
+        <p>{{ taller.nombre_taller }}</p>
+      </td>
+      <td>{% if taller.periodo %}{{ taller.periodo }}{% else %}Sin asignar{% endif %}</td>
+      <td>
+        {% if taller.finalizado %}
+          <span class="badge bg-danger">Finalizado</span>
+          {% else %}
+          <span class="estado inscrito">Activo</span>
+          {% endif %}
+      </td>
+      <td>{{ taller.cupos }}</td>
+      <td>
+              <a href="{% url 'editar_taller' taller.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+              <a href="{% url 'eliminar_taller' taller.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+              {% if not taller.publicado %}
+              <form action="{% url 'publicar_taller' taller.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success" title="Publicar">
+                  <i class="fa-solid fa-globe"></i>
+                </button>
+              </form>
+              {% else %}
+              <form action="{% url 'despublicar_taller' taller.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary" title="Despublicar">
+                  <i class="fa-solid fa-eye-slash"></i>
+                </button>
+          </form>
+          {% endif %}
+      </td>
+      <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTaller{{ taller.id }}">
+          Ver
+        </button>
+      </td>
+    </tr>
+    <!-- Modal de detalles -->
+    <div class="modal fade" id="modalTaller{{ taller.id }}" tabindex="-1" aria-labelledby="modalTallerLabel{{ taller.id }}" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="modalTallerLabel{{ taller.id }}">Detalles del Taller: {{ taller.nombre_taller }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Grupo:</strong> {{ taller.grupo }}</p>
+            <p><strong>Periodo:</strong> {{ taller.periodo }}</p>
+            <p><strong>Fecha de Inicio:</strong> {{ taller.fecha_inicio }}</p>
+            <p><strong>Fecha de Fin:</strong> {{ taller.fecha_fin }}</p>
+            <p><strong>Horario:</strong> {{ taller.hora_inicio }} - {{ taller.hora_fin }}</p>
+            <p><strong>Duración:</strong> {{ taller.duracion }}hrs</p>
+            <p><strong>Facilitador:</strong> {% if taller.facilitador %}{{ taller.facilitador }}{% else %}No asignado{% endif %}</p>
+            <p><strong>Cupos disponibles:</strong> {{ taller.cupos }}</p>
+            <p><strong>Descripción:</strong><br> {{ taller.descripcion|linebreaks }}</p>
+            <p>
+              <strong>Finalizar taller:  </strong>
+                &nbsp;
+                {% if not taller.finalizado %}
+                <form method="post" action="{% url 'finalizar_taller' taller.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
+                </form>
+                {% endif %}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- <div class="col-12 mt-3">
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Listado de talleres</h3>
       <div class="card-tools">
       </div>
     </div>
-    <!-- /.card-header -->
     <div class="card-body table-responsive p-0" style="height: 600px;">
       <table class="table table-head-fixed text-nowrap">
         <thead>
@@ -56,12 +154,7 @@
               {% endif %}
             </td>
             <td>
-              {% if not taller.finalizado %}
-              <form method="post" action="{% url 'finalizar_taller' taller.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
-              </form>
-              {% endif %}
+              
             </td>
             <td>
               <a href="{% url 'editar_taller' taller.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
@@ -92,9 +185,6 @@
         </tbody>
       </table>
     </div>
-    <!-- /.card-body -->
   </div>
-  <!-- /.card -->
-</div>
-</div>
+</div> -->
 {% endblock %}

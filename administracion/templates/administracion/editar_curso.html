@@ -3,66 +3,76 @@
 {% block title %}Editar Curso{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-    <div class="contenido-principal">
-        <h2>Editar Curso</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group mb-3">
-                <label for="id_nombre_curso">Nombre del curso:</label>
-                {{ form.nombre_curso }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_descripcion">Descripción:</label>
-                {{ form.descripcion }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_fecha_inicio">Fecha de inicio:</label>
-                {{ form.fecha_inicio }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_fecha_fin">Fecha de fin:</label>
-                {{ form.fecha_fin }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_hora_inicio">Hora de inicio:</label>
-                {{ form.hora_inicio }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_hora_fin">Hora de fin:</label>
-                {{ form.hora_fin }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_cupos">Cupos:</label>
-                {{ form.cupos }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_grupo">Grupo:</label>
-                {{ form.grupo }}
-            </div>
+<div class="contenido-principal-agregar">
+    <h4>Editar Curso</h4>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="id_nombre_curso">Nombre del curso:</label>
+            {{ form.nombre_curso }}
+        </div>
 
-            <div class="mb-3">
-                <label for="id_modalidad">Modalidad:</label>
-                {{ form.modalidad }}
-              </div>
-              
-              <div class="mb-3">
-                <label for="id_duracion">Duración (horas):</label>
-                {{ form.duracion }}
-              </div>
-              
-            <div class="form-group mb-3">
-                <label for="id_facilitador">Facilitador:</label>
-                {{ form.facilitador }}
-            </div>
-            <div class="form-group mb-3">
-                <label for="id_periodo">Periodo:</label>
-                {{ form.periodo }}
-            </div>
-            
-            <button type="submit" class="btn btn-success">Guardar Cambios</button>
-            <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
-        </form>
-    </div>
+        <div class="form-group mb-3">
+            <label for="id_descripcion">Descripción:</label>
+            {{ form.descripcion }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Fecha actual de inicio:</label>
+            <p><strong>{{ curso.fecha_inicio|date:"d/m/Y" }}</strong></p>
+            <label for="id_fecha_inicio">Nueva fecha de inicio:</label>
+            {{ form.fecha_inicio }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Fecha actual de fin:</label>
+            <p><strong>{{ curso.fecha_fin|date:"d/m/Y" }}</strong></p>
+            <label for="id_fecha_fin">Nueva fecha de fin:</label>
+            {{ form.fecha_fin }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_hora_inicio">Nueva hora de inicio:</label>
+            {{ form.hora_inicio }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_hora_fin">Nueva hora de fin:</label>
+            {{ form.hora_fin }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_cupos">Cupos:</label>
+            {{ form.cupos }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_grupo">Grupo:</label>
+            {{ form.grupo }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_modalidad">Modalidad:</label>
+            {{ form.modalidad }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_duracion">Duración (horas):</label>
+            {{ form.duracion }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_facilitador">Facilitador:</label>
+            {{ form.facilitador }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="id_periodo">Periodo:</label>
+            {{ form.periodo }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+        <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
 </div>
 {% endblock %}

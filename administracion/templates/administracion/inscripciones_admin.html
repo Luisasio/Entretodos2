@@ -3,12 +3,43 @@
 {% block title %}Inscripciones{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
   <div class="contenido-principal">
-    <h2>Inscripciones</h2>
+    <h4>Inscripciones</h4>
     <p>En esta sección se listan los cursos, talleres y diplomados para ver sus alumnos y dar de alta o baja a los alumnos.</p>
   </div>
-  <div class="tarjeta-inscripcion-cursos">
+  <table class="table table-striped tabla1">
+    <thead>
+      <tr>
+        <th>Tipo de inscripcion</th>
+        <th>Alumnos totales</th>
+        <th>Ver</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Cursos</td>
+        <td>{{ total_alumnos_cursos }}</td>
+        <td>
+          <a href="{% url 'ver_cursos' %}" class="btn-ver-inscripcion-curso">Ver los cursos</a>
+        </td>
+      </tr>
+      <tr>
+        <td>Talleres</td>
+        <td>{{ total_alumnos_talleres }}</td>
+        <td>
+          <a href="{% url 'ver_talleres' %}" class="btn-ver-inscripcion-taller">Ver los talleres</a>
+        </td>
+      </tr>
+      <tr>
+        <td>Diplomados</td>
+        <td>{{ total_alumnos_diplomados }}</td>
+        <td>
+          <a href="{% url 'ver_diplomados' %}" class="btn-ver-inscripcion-diplomado">Ver los diplomados</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div class="tarjeta-inscripcion-cursos">
     <h2>Cursos</h2>
     <p><strong>Total de cursos: </strong>{{ total_cursos }}</p>
     <p><strong>Total de alumnos: </strong>{{ total_alumnos_cursos }}</p>
@@ -27,7 +58,6 @@
     <p><strong>Total de diplomados: </strong>{{ total_diplomados }}</p>
     <p><strong>Total de alumnos: </strong>{{ total_alumnos_diplomados }}</p>
     <a href="{% url 'ver_diplomados' %}" class="btn-ver-inscripcion-diplomado">Ver los diplomados</a>
-  </div>
-</div>
+  </div> -->
 
 {% endblock %}

@@ -3,9 +3,8 @@
 {% block title %}Agregar Taller{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-  <div class="contenido-principal">
-    <h2>Agregar Nuevo Taller</h2>
+  <div class="contenido-principal-agregar">
+    <h4>Agregar Nuevo Taller</h4>
     <form method="POST">
       {% csrf_token %}
       
@@ -74,5 +73,4 @@
       <a href="{% url 'talleres' %}" class="btn btn-secondary">Cancelar</a>
     </form>
   </div>
-</div>
 {% endblock %}

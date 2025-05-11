@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 :root{
   --fuente1: 'Poppins', sans-serif;
 }
@@ -66,10 +66,10 @@ body {
 }
 /* sidebar */
 .sidebar {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   color: white;
   padding: 20px;
-  border-right: 1px solid #ccc;
+  border-right: 2px solid #ccc;
 }
 
 .sidebar h2 {
@@ -218,10 +218,28 @@ body {
   padding: 20px;
   gap: 10px;
 }
-/* .contenido-principal{
+.contenido-principal{
   margin-bottom: 20px;
- 
-}  */
+  /* outline: 1px red solid; */
+}
+.contenido-principal-agregar{
+  margin-bottom: 20px;
+  /* outline: 1px red solid; */
+  width: 80%;
+  margin: auto;
+}
+.contenido-principal p{
+  font-size: 16px;
+  color: #4d4d4d;
+}
+.controladores{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.controladores input{
+  width: 400px;
+}
 .btn-azul{
   background-color: #288cff;
   color: white;
@@ -422,5 +440,54 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* botones personalizados */
+.btn-añadir{
+  text-decoration: none;
+  background-color: #6E3737;
+  color: #fff;
+  padding: 8px 25px;
+  border-radius: 5px;
+  transition: all .3s ease-in-out;
+  font-size: 15px;
+  font-weight: 500;
+}
+.btn-añadir:hover{
+  background-color: #522929;
+  color: #fff;
+}
+/* Diseño de tablas */
+.tabla1{
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.tabla1 thead tr th{
+  font-family: 'inter', sans-serif;
+  font-size: 15px;
+}
+.tabla1 tbody tr td{
+  font-family: 'inter', sans-serif;
+  font-size: 15px;
+}
+.tabla1 p{
+  margin: 0;
+  font-family: 'inter', sans-serif;
+  font-size: 15px;
+}
+
+.input1 {
+  padding: 5px;
+  border: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+/* estilos modal */
+.bg-color-curso {
+  background-color: #F28A2E;
+}
+.bg-color-diplomado {
+  background-color: #096900;
 }
 

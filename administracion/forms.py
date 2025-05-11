@@ -51,6 +51,25 @@ class CursoForm(forms.ModelForm):
             'periodo': forms.Select(attrs={'class': 'form-control'}),
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        periodo = cleaned_data.get('periodo')
+        fecha_inicio = cleaned_data.get('fecha_inicio')
+        fecha_fin = cleaned_data.get('fecha_fin')
+
+        if periodo and fecha_inicio and fecha_fin:
+            if fecha_inicio < periodo.fecha_inicio or fecha_inicio > periodo.fecha_fin:
+                self.add_error('fecha_inicio', 'La fecha debe estar dentro del periodo seleccionado.')
+
+            if fecha_fin < periodo.fecha_inicio or fecha_fin > periodo.fecha_fin:
+                self.add_error('fecha_fin', 'La fecha debe estar dentro del periodo seleccionado.')
+
+        return cleaned_data
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.setdefault('class', 'form-control')
 
 
 class TallerForm(forms.ModelForm):

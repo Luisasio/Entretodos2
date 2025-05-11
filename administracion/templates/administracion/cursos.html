@@ -3,102 +3,118 @@
 {% block title %}Cursos{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
   <div class="contenido-principal">
-    <h2>Cursos</h2>
+    <h4>Cursos</h4>
     <p>En esta sección se podrán agregar y ver los cursos.</p>
-    <a href="{% url 'agregar_curso' %}" class="btn btn-primary">
-      <i class="fa-solid fa-plus"></i> Nuevo Curso
-    </a>
-    <a href="{% url 'cursos_finalizados' %}" class="btn btn-secondary">
-      <i class="fa-solid fa-box-archive"></i> Cursos Finalizados
-    </a>
-    
+    <div class="controladores">
+      <input type="search" id="buscador" placeholder="Buscar curso..." class="form-control " title="Escribe el nombre del curso a buscar">
+      <div class="controladores 1 gap-3">
+        <a href="{% url 'agregar_curso' %}" class="btn-añadir">
+          <i class="fa-solid fa-plus"></i> Nuevo Curso
+        </a>
+        <a href="{% url 'cursos_finalizados' %}" class="btn btn-secondary">
+          <i class="fa-solid fa-box-archive"></i> Cursos Finalizados
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="py-3 contenedor-cursos">
-  
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Listado de cursos</h3>
-          <div class="card-tools">
-          </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0" style="height: 600px;">
-          <table class="table table-striped text-nowrap">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Curso</th>
-                <th>Cupos</th>
-                <th>Periodo</th>
-                <th>Horario</th>
-                <th>Facilitador</th>
-                <th>Estado</th>
-                <th>finalizar</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for curso in cursos %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                  <small><strong>Grupo: {{ curso.grupo }}</strong></small>
-                  <p>{{ curso.nombre_curso }}</p>
-                </td>
-                <td>{{ curso.cupos }}</td>
-                <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
-                <td>{{ curso.hora_inicio}} - {{ curso.hora_fin }}</td>
-                <td>{% if curso.facilitador %}{{ curso.facilitador }}{% else %}Sin facilitador{% endif %}</td>
-                <td>
-                  {% if curso.finalizado %}
-                    <span class="badge bg-danger">Finalizado</span>
-                  {% else %}
-                    <span class="badge bg-success">Activo</span>
-                  {% endif %}
-                </td>
-                <td>
-                  {% if not curso.finalizado %}
+
+
+  <table class="table table-striped tabla1">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Curso</th>
+        <th>Periodo</th>
+        <th>Estado</th>
+        <th>Cupos</th>
+        <th>Acciones</th>
+        <th>Detalles</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for curso in cursos %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+          <small><strong>Grupo: {{ curso.grupo }}</strong></small>
+          <p>{{ curso.nombre_curso }}</p>
+        </td>
+        <td>{% if curso.periodo %}{{ curso.periodo }}{% else %}Sin asignar{% endif %}</td>
+        <td>
+          {% if curso.finalizado %}
+          <span class="badge bg-danger">Finalizado</span>
+          {% else %}
+          <span class="estado inscrito">Activo</span>
+          {% endif %}
+        </td>
+        <td>{{ curso.cupos }}</td>
+        <td>
+          <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+          <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+          {% if not curso.publicado %}
+          <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success" title="Publicar">
+              <i class="fa-solid fa-globe"></i>
+            </button>
+          </form>
+          {% else %}
+          <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary" title="Despublicar">
+              <i class="fa-solid fa-eye-slash"></i>
+            </button>
+          </form>
+          {% endif %}
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCurso{{ curso.id }}">
+            Ver
+          </button>
+        </td>
+      </tr>
+      <!-- Modal de Detalles -->
+      <div class="modal fade" id="modalCurso{{ curso.id }}" tabindex="-1" aria-labelledby="modalCursoLabel{{ curso.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header text-white bg-color-curso">
+              <h5 class="modal-title" id="modalCursoLabel{{ curso.id }}">Detalles del Curso: {{ curso.nombre_curso }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <p><strong>Grupo:</strong> {{ curso.grupo }}</p>
+              <p><strong>Periodo:</strong> {{ curso.periodo }}</p>
+              <p><strong>Fecha de Inicio:</strong> {{ curso.fecha_inicio }}</p>
+              <p><strong>Fecha de Fin:</strong> {{ curso.fecha_fin }}</p>
+              <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
+              <p><strong>Duración:</strong> {{ curso.duracion }}hrs</p>
+              <p><strong>Facilitador:</strong> {% if curso.facilitador %}{{ curso.facilitador }}{% else %}No asignado{% endif %}</p>
+              <p><strong>Cupos disponibles:</strong> {{ curso.cupos }}</p>
+              <p><strong>Descripción:</strong><br> {{ curso.descripcion|linebreaks }}</p>
+              <p>
+                <strong>Finalizar curso:  </strong>
+                &nbsp;
+                {% if not curso.finalizado %}
                   <form method="post" action="{% url 'finalizar_curso' curso.id %}" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
                   </form>
-                  {% endif %}
-                </td>
-                <td>
-                  <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                  <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                  {% if not curso.publicado %}
-                  <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-success" title="Publicar">
-                      <i class="fa-solid fa-globe"></i>
-                    </button>
-                  </form>
-                  {% else %}
-                  <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-secondary" title="Despublicar">
-                      <i class="fa-solid fa-eye-slash"></i>
-                    </button>
-                  </form>
-                  {% endif %}
-                </td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="9" class="text-center">No hay cursos registrados</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+                {% endif %}
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
         </div>
-        <!-- /.card-body -->
       </div>
-      <!-- /.card -->
-    </div>
-  </div>
-</div>
+      {% endfor %}
+    </tbody>
+  </table>
+  
 {% endblock %}

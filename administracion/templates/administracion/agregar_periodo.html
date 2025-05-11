@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="contenido-principal">
-  <h2>{% if editar %}Editar{% else %}Agregar Nuevo{% endif %} Periodo</h2>
+  <h4>{% if editar %}Editar{% else %}Agregar Nuevo{% endif %} Periodo</h4>
   <p>Llena el formulario para {% if editar %}actualizar{% else %}registrar{% endif %} el periodo.</p>
   <form method="post">
     {% csrf_token %}

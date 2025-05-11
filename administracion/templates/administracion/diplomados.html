@@ -4,17 +4,115 @@
 
 {% block content %}
 <div class="contenido-principal">
-  <h2>Diplomados</h2>
+  <h4>Diplomados</h4>
   <p>En esta sección se podrán agregar y ver los diplomados.</p>
-  <a href="{% url 'agregar_diplomado' %}" class="btn btn-primary">
-    <i class="fa-solid fa-plus"></i> Nuevo Diplomado
-  </a>
-  <a href="{% url 'diplomados_finalizados' %}" class="btn btn-secondary">
-    <i class="fa-solid fa-box-archive"></i> Diplomados Finalizados
-  </a>
+  <div class="controladores">
+    <input type="search" id="buscador" placeholder="Buscar Diplomado..." class="form-control " title="Escribe el nombre del diplomado a buscar">
+    <div class="controladores 1 gap-3">
+      <a href="{% url 'agregar_diplomado' %}" class="btn-añadir">
+        <i class="fa-solid fa-plus"></i> Nuevo Diplomado
+      </a>
+      <a href="{% url 'diplomados_finalizados' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-box-archive"></i> Diplomados Finalizados
+      </a>
+    </div>
+  </div>
 </div>
 
-<div class="py-3 contenedor-cursos">
+<table class="table table-striped tabla1">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Diplomado</th>
+        <th>Periodo</th>
+        <th>Estado</th>
+        <th>Cupos</th>
+        <th>Acciones</th>
+        <th>Detalles</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for diplomado in diplomados %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>
+        <small><strong>Grupo: {{ diplomado.grupo }}</strong></small>
+        <p>{{ diplomado.nombre_diplomado }}</p>
+      </td>
+      <td>{% if diplomado.periodo %}{{ diplomado.periodo }}{% else %}Sin asignar{% endif %}</td>
+      <td>
+        {% if diplomado.finalizado %}
+        <span class="badge bg-danger">Finalizado</span>
+        {% else %}
+        <span class="estado inscrito">Activo</span>
+        {% endif %}
+      </td>
+      <td>{{ diplomado.cupos }}</td>
+      <td>
+                <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                {% if not diplomado.publicado %}
+                <form action="{% url 'publicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success" title="Publicar">
+                    <i class="fa-solid fa-globe"></i>
+                  </button>
+                </form>
+                {% else %}
+                <form action="{% url 'despublicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-secondary" title="Despublicar">
+                    <i class="fa-solid fa-eye-slash"></i>
+                  </button>
+                </form>
+                {% endif %}
+      </td>
+      <td>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDiplomado{{ diplomado.id }}">
+          Ver
+        </button>
+      </td>
+    </tr>
+    <!-- Modal de Detalles del Diplomado -->
+<div class="modal fade" id="modalDiplomado{{ diplomado.id }}" tabindex="-1" aria-labelledby="modalDiplomadoLabel{{ diplomado.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-color-diplomado">
+        <h5 class="modal-title" id="modalDiplomadoLabel{{ diplomado.id }}">Detalles del Diplomado: {{ diplomado.nombre_diplomado }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Grupo:</strong> {{ diplomado.grupo }}</p>
+        <p><strong>Periodo:</strong> {{ diplomado.periodo }}</p>
+        <p><strong>Fecha de Inicio:</strong> {{ diplomado.fecha_inicio }}</p>
+        <p><strong>Fecha de Fin:</strong> {{ diplomado.fecha_fin }}</p>
+        <p><strong>Horario:</strong> {{ diplomado.hora_inicio }} - {{ diplomado.hora_fin }}</p>
+        <p><strong>Duración:</strong> {{ diplomado.duracion }}hrs</p>
+        <p><strong>Facilitador:</strong> {% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}No asignado{% endif %}</p>
+        <p><strong>Cupos disponibles:</strong> {{ diplomado.cupos }}</p>
+        <p><strong>Descripción:</strong><br> {{ diplomado.descripcion|linebreaks }}</p>
+        <p>
+          <strong>Finalizar Diplomado:  </strong>
+          &nbsp;
+          {% if not diplomado.finalizado %}
+          <form method="post" action="{% url 'finalizar_diplomado' diplomado.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
+          </form>
+          {% endif %}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- <div class="py-3 contenedor-cursos">
 
   <div class="col-12">
     <div class="card">
@@ -23,7 +121,6 @@
         <div class="card-tools">
         </div>
       </div>
-      <!-- /.card-header -->
       <div class="card-body table-responsive p-0" style="height: 600px;">
         <table class="table table-head-fixed text-nowrap">
           <thead>
@@ -59,31 +156,10 @@
                 {% endif %}
               </td>
               <td>
-                {% if not diplomado.finalizado %}
-                <form method="post" action="{% url 'finalizar_diplomado' diplomado.id %}" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-sm btn-outline-danger">Finalizar</button>
-                </form>
-                {% endif %}
+                
               </td>
               <td>
-                <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                {% if not diplomado.publicado %}
-                <form action="{% url 'publicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-success" title="Publicar">
-                    <i class="fa-solid fa-globe"></i>
-                  </button>
-                </form>
-                {% else %}
-                <form action="{% url 'despublicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-secondary" title="Despublicar">
-                    <i class="fa-solid fa-eye-slash"></i>
-                  </button>
-                </form>
-                {% endif %}
+                
               </td>
             </tr>
             {% empty %}
@@ -94,9 +170,7 @@
           </tbody>
         </table>
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
   </div>
-</div>
+</div> -->
 {% endblock %}

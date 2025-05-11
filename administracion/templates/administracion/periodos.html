@@ -4,42 +4,39 @@
 
 {% block content %}
 <div class="contenido-principal">
-  <h2>Periodos</h2>
+  <h4>Periodos</h4>
   <p>En esta sección se podrán agregar los periodos correspondientes a las épocas del año.</p>
-  <a href="{% url 'agregar_periodo' %}" class="btn btn-primary">
-    <i class="fa-solid fa-plus"></i> Nuevo Periodo
-  </a>
+  <div class="controladores">
+    <input type="search" id="buscador" placeholder="Buscar periodo..." class="form-control mb-3" title="Escribe el nombre del periodo a buscar">
+    <a href="{% url 'agregar_periodo' %}" class="btn-añadir">
+      <i class="fa-solid fa-plus"></i> Nuevo Periodo
+    </a>
+  </div>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Lista de periodos</h3>
-  </div>
-  <div class="card-body">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Nombre del periodo</th>
-          <th>Fecha de inicio</th>
-          <th>Fecha de finalización</th>
-          <th style="width: 300px;">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for periodo in periodos %}
+<table class="table table-striped tabla1">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre del periodo</th>
+      <th>Fecha de inicio</th>
+      <th>Fecha de finanlización</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for periodo in periodos %}
         <tr>
           <td>{{ forloop.counter }}</td>
           <td>{{ periodo.nombre_periodo }}</td>
           <td>{{ periodo.fecha_inicio|date:"j \\d\\e F \\d\\e Y" }}</td>
           <td>{{ periodo.fecha_fin|date:"j \\d\\e F \\d\\e Y" }}</td>
-
           <td>
             <a href="{% url 'editar_periodo' periodo.id %}" class="btn btn-warning">
-              <i class="fa-solid fa-pen-to-square"></i> Editar
+              <i class="fa-solid fa-pen-to-square"></i>
             </a>
             <a href="{% url 'eliminar_periodo' periodo.id %}" class="btn btn-danger">
-              <i class="fa-solid fa-trash-can"></i> Eliminar
+              <i class="fa-solid fa-trash-can"></i>
             </a>
           </td>
         </tr>
@@ -48,8 +45,9 @@
           <td colspan="4" class="text-center">No hay periodos registrados</td>
         </tr>
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
+  </tbody>
+</table>
+  
+
+
 {% endblock %}

@@ -3,9 +3,8 @@
 {% block title %}Agregar Curso{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-  <div class="contenido-principal">
-    <h2>Agregar Curso</h2>
+  <div class="contenido-principal-agregar">
+    <h4>Agregar Curso</h4>
     <p>Complete el formulario para registrar un nuevo curso.</p>
 
     <form method="post">
@@ -18,6 +17,11 @@
       <div class="mb-3">
         <label for="id_descripcion">Descripción:</label>
         {{ form.descripcion }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_periodo">Periodo:</label>
+        {{ form.periodo }}
       </div>
 
       <div class="mb-3">
@@ -65,14 +69,11 @@
         {{ form.facilitador }}
       </div>
 
-      <div class="mb-3">
-        <label for="id_periodo">Periodo:</label>
-        {{ form.periodo }}
-      </div>
 
       <button type="submit" class="btn btn-primary">Guardar Curso</button>
       <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
     </form>
   </div>
-</div>
+
+  
 {% endblock %}
