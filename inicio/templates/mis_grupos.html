@@ -10,16 +10,47 @@
   <div class="row">
     {% for curso in cursos %}
     <div class="col-md-4 mb-4">
-      <div class="tarjeta-curso">
-        <h5>{{ curso.nombre_curso }}</h5>
-        <p><strong>Grupo:</strong> {{ curso.grupo }}</p>
-        <p><strong>Periodo:</strong> {{ curso.periodo }}</p>
-        <p><strong>Fechas:</strong> {{ curso.fecha_inicio }} a {{ curso.fecha_fin }}</p>
+
+      <div class="contenedor-tarjeta-curso">
+        <div class="cabecera-tarjeta">
+          <span class="grupo-curso">Grupo: {{ curso.grupo }}</span>
+          {% if curso.modalidad == "presencial" %}
+          <span class="modalidad-curso2">{{ curso.modalidad }}</span>
+          {% else %}
+          <span class="modalidad-curso">{{ curso.modalidad }}</span>
+          {% endif %}
+        </div>
+        <h4>{{ curso.nombre_curso }}</h4>
+        <div class="info-principal">
+          <p><strong>Días:</strong> </p>
+          <p><strong>Horario:</strong> {{ curso.hora_inicio|time:"g:i A" }} - {{ curso.hora_fin|time:"g:i A" }}</p>
+          <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
+        </div>
+        <hr>
+        <div class="info-detallada">
+          <div class="fila">
+            <span><strong>Fecha de inicio</strong></span>
+            <span>{{ curso.fecha_inicio }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Fecha de fin</strong></span>
+            <span>{{ curso.fecha_fin }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Cupos</strong></span>
+            <span>{{ curso.cupos }} restantes</span>
+          </div>
+          <div class="fila">
+            <span><strong>Duración</strong></span>
+            <span>{{ curso.duracion }} horas</span>
+          </div>
+        </div>
+        <hr>
         <div>
           <a href="{% url 'lista_de_alumnos' 'curso' curso.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
-
         </div>
       </div>
+
     </div>
     {% empty %}
     <p>No estás impartiendo cursos actualmente.</p>
@@ -30,16 +61,47 @@
   <div class="row">
     {% for taller in talleres %}
     <div class="col-md-4 mb-4">
-      <div class="tarjeta-taller">
-        <h5>{{ taller.nombre_taller }}</h5>
-        <p><strong>Grupo:</strong> {{ taller.grupo }}</p>
-        <p><strong>Periodo:</strong> {{ taller.periodo }}</p>
-        <p><strong>Fechas:</strong> {{ taller.fecha_inicio }} a {{ taller.fecha_fin }}</p>
+
+      <div class="contenedor-tarjeta-taller">
+        <div class="cabecera-tarjeta">
+          <span class="grupo-curso">Grupo: {{ taller.grupo }}</span>
+          {% if taller.modalidad == "presencial" %}
+          <span class="modalidad-curso2">{{ taller.modalidad }}</span>
+          {% else %}
+          <span class="modalidad-curso">{{ taller.modalidad }}</span>
+          {% endif %}
+        </div>
+        <h4>{{ taller.nombre_taller }}</h4>
+        <div class="info-principal">
+          <p><strong>Días:</strong> </p>
+          <p><strong>Horario:</strong> {{ taller.hora_inicio|time:"g:i A" }} - {{ taller.hora_fin|time:"g:i A" }}</p>
+          <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
+        </div>
+        <hr>
+        <div class="info-detallada">
+          <div class="fila">
+            <span><strong>Fecha de inicio</strong></span>
+            <span>{{ taller.fecha_inicio }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Fecha de fin</strong></span>
+            <span>{{ taller.fecha_fin }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Cupos</strong></span>
+            <span>{{ taller.cupos }} restantes</span>
+          </div>
+          <div class="fila">
+            <span><strong>Duración</strong></span>
+            <span>{{ taller.duracion }} horas</span>
+          </div>
+        </div>
+        <hr>
         <div>
           <a href="{% url 'lista_de_alumnos' 'taller' taller.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
-
         </div>
       </div>
+
     </div>
     {% empty %}
     <p>No estás impartiendo talleres actualmente.</p>
@@ -50,15 +112,47 @@
   <div class="row">
     {% for diplomado in diplomados %}
     <div class="col-md-4 mb-4">
-      <div class="tarjeta-diplomado">
-        <h5>{{ diplomado.nombre_diplomado }}</h5>
-        <p><strong>Grupo:</strong> {{ diplomado.grupo }}</p>
-        <p><strong>Periodo:</strong> {{ diplomado.periodo }}</p>
-        <p><strong>Fechas:</strong> {{ diplomado.fecha_inicio }} a {{ diplomado.fecha_fin }}</p>
+
+      <div class="contenedor-tarjeta-diplomado">
+        <div class="cabecera-tarjeta">
+          <span class="grupo-curso">Grupo: {{ diplomado.grupo }}</span>
+          {% if diplomado.modalidad == "presencial" %}
+          <span class="modalidad-curso2">{{ diplomado.modalidad }}</span>
+          {% else %}
+          <span class="modalidad-curso">{{ diplomado.modalidad }}</span>
+          {% endif %}
+        </div>
+        <h4>{{ diplomado.nombre_taller }}</h4>
+        <div class="info-principal">
+          <p><strong>Días:</strong> </p>
+          <p><strong>Horario:</strong> {{ diplomado.hora_inicio|time:"g:i A" }} - {{ diplomado.hora_fin|time:"g:i A" }}</p>
+          <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
+        </div>
+        <hr>
+        <div class="info-detallada">
+          <div class="fila">
+            <span><strong>Fecha de inicio</strong></span>
+            <span>{{ diplomado.fecha_inicio }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Fecha de fin</strong></span>
+            <span>{{ diplomado.fecha_fin }}</span>
+          </div>
+          <div class="fila">
+            <span><strong>Cupos</strong></span>
+            <span>{{ diplomado.cupos }} restantes</span>
+          </div>
+          <div class="fila">
+            <span><strong>Duración</strong></span>
+            <span>{{ diplomado.duracion }} horas</span>
+          </div>
+        </div>
+        <hr>
         <div>
           <a href="{% url 'lista_de_alumnos' 'diplomado' diplomado.id %}" class="btn btn-success mt-2 mb-2">Ver alumnos</a>
         </div>
       </div>
+
     </div>
     {% empty %}
     <p>No estás impartiendo diplomados actualmente.</p>

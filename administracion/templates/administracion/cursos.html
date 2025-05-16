@@ -4,6 +4,13 @@
 
 {% block content %}
   <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
     <h4>Cursos</h4>
     <p>En esta sección se podrán agregar y ver los cursos.</p>
     <div class="controladores">
@@ -50,30 +57,30 @@
         </td>
         <td>{{ curso.cupos }}</td>
         <td>
-          <a href="{% url 'editar_curso' curso.id %}" class="btn btn-warning">
+          <a href="{% url 'editar_curso' curso.id %}" class="btn btn-sm btn-warning" title="Editar">
             <i class="fa-regular fa-pen-to-square"></i>
           </a>
-          <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-danger">
-            <i class="fa-solid fa-trash"></i>
+          <a href="{% url 'eliminar_curso' curso.id %}" class="btn btn-sm btn-danger" title="Eliminar">
+            <i class="fa-solid fa-trash-can"></i>
           </a>
           {% if not curso.publicado %}
           <form action="{% url 'publicar_curso' curso.id %}" method="post" style="display:inline;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-success" title="Publicar">
+            <button type="submit" class="btn btn-sm btn-success" title="Publicar">
               <i class="fa-solid fa-globe"></i>
             </button>
           </form>
           {% else %}
           <form action="{% url 'despublicar_curso' curso.id %}" method="post" style="display:inline;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-secondary" title="Despublicar">
+            <button type="submit" class="btn btn-sm btn-secondary" title="Despublicar">
               <i class="fa-solid fa-eye-slash"></i>
             </button>
           </form>
           {% endif %}
         </td>
         <td>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCurso{{ curso.id }}">
+          <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalCurso{{ curso.id }}">
             Ver
           </button>
         </td>
@@ -91,8 +98,13 @@
               <p><strong>Periodo:</strong> {{ curso.periodo }}</p>
               <p><strong>Fecha de Inicio:</strong> {{ curso.fecha_inicio }}</p>
               <p><strong>Fecha de Fin:</strong> {{ curso.fecha_fin }}</p>
-              <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
-              <p><strong>Duración:</strong> {{ curso.duracion }}hrs</p>
+              {% if curso.modalidad == "presencial" %}
+              <p><strong>Lugar:</strong> {{ curso.lugar }}</p>
+              <p><strong>Aula:</strong> {{ curso.aula }}</p>
+              {% endif %}
+              <p><strong>Dias:</strong> {{ curso.dias }}</p>
+              <p><strong>Horario:</strong> {{ curso.hora_inicio|time:"g:i A" }} - {{ curso.hora_fin|time:"g:i A" }}</p>
+              <p><strong>Duración:</strong> {{ curso.duracion }}  hrs</p>
               <p><strong>Facilitador:</strong> {% if curso.facilitador %}{{ curso.facilitador }}{% else %}No asignado{% endif %}</p>
               <p><strong>Cupos disponibles:</strong> {{ curso.cupos }}</p>
               <p><strong>Descripción:</strong><br> {{ curso.descripcion|linebreaks }}</p>

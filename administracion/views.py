@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import BytesIO
 from django.contrib import messages
 from django.http import FileResponse
@@ -34,11 +35,22 @@ def agregar_curso(request):
         form = CursoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('cursos')  # Redirigir a la lista de cursos
+            messages.success(request, "Curso creado exitosamente.")
+            return redirect('cursos')
     else:
         form = CursoForm()
-    
-    return render(request, 'administracion/agregar_curso.html', {'form': form})
+
+    periodos = Periodo.objects.all()
+    return render(request, 'administracion/agregar_curso.html', {
+        'form': form,
+        'periodos_data': [
+            {
+                'id': p.id,
+                'inicio': p.fecha_inicio.strftime('%Y-%m-%d'),
+                'fin': p.fecha_fin.strftime('%Y-%m-%d'),
+            } for p in periodos
+        ]
+    })
 
 def periodos(request):
     periodos = Periodo.objects.all()  # Obtener todos los periodos
@@ -113,18 +125,34 @@ def talleres_finalizados(request):
     talleres = Taller.objects.filter(finalizado=True)
     return render(request, 'administracion/talleres_finalizados.html', {'talleres': talleres})
 
-
+# funciones para agreagar taller
 
 def agregar_taller(request):
     if request.method == "POST":
         form = TallerForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Taller creado exitosamente")
             return redirect('talleres')  # Redirigir a la lista de talleres
     else:
         form = TallerForm()
 
-    return render(request, 'administracion/agregar_taller.html', {'form': form})
+    periodos = Periodo.objects.all()
+    return render(request, 'administracion/agregar_taller.html', {
+        'form': form,
+        'periodos_data': [
+            {
+                'id': p.id,
+                'inicio': p.fecha_inicio.strftime('%Y-%m-%d'),
+                'fin': p.fecha_fin.strftime('%Y-%m-%d'),
+            } for p in periodos
+        ]
+    })
+
+    # return render(request, 'administracion/agregar_taller.html', {'form': form})
+
+
+
 
 def editar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
@@ -206,11 +234,24 @@ def agregar_diplomado(request):
         form = DiplomadoForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Diplomado creado exitosamente")
             return redirect('diplomados')  # Redirigir a la lista de diplomados
     else:
         form = DiplomadoForm()
+
+    periodos = Periodo.objects.all()
+    return render(request, 'administracion/agregar_diplomado.html', {
+        'form': form,
+        'periodos_data': [
+            {
+                'id': p.id,
+                'inicio': p.fecha_inicio.strftime('%Y-%m-%d'),
+                'fin': p.fecha_fin.strftime('%Y-%m-%d'),
+            } for p in periodos
+        ]
+    })
     
-    return render(request, 'administracion/agregar_diplomado.html', {'form': form})
+    # return render(request, 'administracion/agregar_diplomado.html', {'form': form})
 
 def editar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
@@ -605,31 +646,34 @@ def toggle_restriccion_alumno(request, alumno_id):
 #esta es la funcion para poder descargar la lista de alumnos inscritos en un curso y la plantilla
 def generar_pdf_alumnos(inscripciones, titulo):
     buffer = BytesIO()
-    # Cambiar a orientación horizontal
     pdf = canvas.Canvas(buffer, pagesize=landscape(letter))
-    width, height = landscape(letter)  # Ahora width > height
+    width, height = landscape(letter)
 
-    # Datos del encabezado (dinamico con primer inscripcion si existe)
+    # Datos del encabezado
     entidad = inscripciones[0].curso if hasattr(inscripciones[0], 'curso') and inscripciones[0].curso else \
               inscripciones[0].taller if hasattr(inscripciones[0], 'taller') and inscripciones[0].taller else \
               inscripciones[0].diplomado
 
+    now = datetime.now()
+    fecha_hora = now.strftime("%d/%m/%Y %I:%M %p")  # Formato: 16/05/2025 03:20 PM
+
     pdf.setFont("Helvetica-Bold", 10)
-    pdf.drawString(40, height - 40, f"Nombre del {titulo.lower()}: {entidad.nombre_curso if titulo=='Curso' else entidad.nombre_taller if titulo=='Taller' else entidad.nombre_diplomado}")
+    pdf.drawString(40, height - 40, f"Nombre del {titulo.lower()}: {getattr(entidad, f'nombre_{titulo.lower()}')}")
     pdf.drawString(40, height - 55, f"Nombre del facilitador: {entidad.facilitador}")
     pdf.drawString(40, height - 70, f"Grupo: {entidad.grupo}")
     pdf.drawString(40, height - 85, f"Periodo: {entidad.periodo}")
+    pdf.drawString(500, height - 40, f"Generado: {fecha_hora}")
 
-    # Tabla - ajustar posiciones X para aprovechar el espacio horizontal
+    # Tabla
     y = height - 120
     pdf.setFont("Helvetica-Bold", 9)
     pdf.drawString(40, y, "Clave única")
     pdf.drawString(110, y, "Alumno")
     pdf.drawString(260, y, "Clave escolar")
-    pdf.drawString(350, y, "CURP")  # Ajustado para más espacio
-    pdf.drawString(480, y, "Correo")  # Ajustado para más espacio
-    pdf.drawString(620, y, "Teléfono")  # Ajustado para más espacio
-    pdf.line(40, y - 2, 750, y - 2)  # Línea más larga para el ancho horizontal
+    pdf.drawString(350, y, "CURP")
+    pdf.drawString(480, y, "Correo")
+    pdf.drawString(620, y, "Teléfono")
+    pdf.line(40, y - 2, 750, y - 2)
 
     pdf.setFont("Helvetica", 8)
     for ins in inscripciones:
@@ -638,13 +682,12 @@ def generar_pdf_alumnos(inscripciones, titulo):
         if y < 40:
             pdf.showPage()
             y = height - 40
-            # Si necesitas repetir encabezados en cada página, deberías agregarlos aquí
         pdf.drawString(40, y, alumno.clave_alumno)
         pdf.drawString(110, y, f"{alumno.nombres} {alumno.apellido_paterno} {alumno.apellido_materno}")
         pdf.drawString(260, y, alumno.clave)
-        pdf.drawString(350, y, alumno.curp)  # Ajustado para más espacio
-        pdf.drawString(480, y, alumno.correo)  # Ajustado para más espacio
-        pdf.drawString(620, y, str(alumno.telefono))  # Ajustado para más espacio
+        pdf.drawString(350, y, alumno.curp)
+        pdf.drawString(480, y, alumno.correo)
+        pdf.drawString(620, y, str(alumno.telefono))
 
     pdf.save()
     buffer.seek(0)

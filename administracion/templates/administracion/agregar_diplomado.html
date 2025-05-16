@@ -3,10 +3,17 @@
 {% block title %}Agregar Diplomado{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-  <div class="contenido-principal">
-    <h2>Agregar Diplomado</h2>
+  <div class="contenido-principal-agregar">
+    <h4>Agregar Diplomado</h4>
     <p>Complete el formulario para registrar un nuevo diplomado.</p>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     <form method="post">
       {% csrf_token %}
@@ -21,13 +28,28 @@
       </div>
 
       <div class="mb-3">
+        <label for="id_periodo">Periodo:</label>
+        {{ form.periodo }}
+      </div>
+
+      <div class="mb-3">
         <label for="id_fecha_inicio">Fecha de Inicio:</label>
         {{ form.fecha_inicio }}
+        {% if form.fecha_inicio.errors %}
+          <div class="text-danger small">
+            {{ form.fecha_inicio.errors.0 }}
+          </div>
+        {% endif %}
       </div>
 
       <div class="mb-3">
         <label for="id_fecha_fin">Fecha de Fin:</label>
         {{ form.fecha_fin }}
+        {% if form.fecha_fin.errors %}
+          <div class="text-danger small">
+            {{ form.fecha_fin.errors.0 }}
+          </div>
+        {% endif %}
       </div>
 
       <div class="mb-3">
@@ -48,11 +70,34 @@
       <div class="mb-3">
         <label for="id_grupo">Grupo:</label>
         {{ form.grupo }}
+        {% if form.grupo.errors %}
+          <div class="text-danger small">
+            {{ form.grupo.errors.0 }}
+          </div>
+        {% endif %}
       </div>
+
 
       <div class="mb-3">
         <label for="id_modalidad">Modalidad:</label>
         {{ form.modalidad }}
+      </div>
+
+      <div id="campos-presenciales" style="display: none;">
+        <div class="mb-3">
+          <label for="id_lugar">Lugar:</label>
+          {{ form.lugar }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_aula">Aula:</label>
+          {{ form.aula }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_dias">Días de la semana:</label>
+        {{ form.dias }}
       </div>
       
       <div class="mb-3">
@@ -65,14 +110,26 @@
         {{ form.facilitador }}
       </div>
 
-      <div class="mb-3">
-        <label for="id_periodo">Periodo:</label>
-        {{ form.periodo }}
-      </div>
-
       <button type="submit" class="btn btn-primary">Guardar Diplomado</button>
       <a href="{% url 'diplomados' %}" class="btn btn-secondary">Cancelar</a>
     </form>
   </div>
-</div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modalidad = document.getElementById('id_modalidad');
+    const contenedorPresencial = document.getElementById('campos-presenciales');
+
+    function toggleCamposPresencial() {
+        if (modalidad.value === 'presencial') {
+            contenedorPresencial.style.display = 'block';
+        } else {
+            contenedorPresencial.style.display = 'none';
+        }
+    }
+
+    modalidad.addEventListener('change', toggleCamposPresencial);
+    toggleCamposPresencial();  // Inicial
+});
+</script>
 {% endblock %}

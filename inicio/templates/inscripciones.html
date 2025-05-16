@@ -40,6 +40,14 @@
 <div class="container py-5">
     <h2 class="mb-4">Inscripciones disponibles</h2>
 
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <input type="search" id="buscador" placeholder="Buscar por nombre" class="form-control mb-3" title="Escribe el nombre del curso a buscar">
+
     {% if inscripcion %}
         <div class="alert alert-warning">Ya estás inscrito a un curso o taller.</div>
     {% endif %}
@@ -60,7 +68,7 @@
                     </div>
                     <h4>{{ curso.nombre_curso }}</h4>
                     <div class="info-principal">
-                        <p><strong>Días:</strong> </p>
+                        <p><strong>Días:</strong> {{ curso.dias }}</p>
                         <p><strong>Horario:</strong> {{ curso.hora_inicio|time:"g:i A" }} - {{ curso.hora_fin|time:"g:i A" }}</p>
                         <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
                     </div>
@@ -70,6 +78,16 @@
                             <span><strong>Facilitador</strong></span>
                             <span>{{ curso.facilitador}}</span>
                         </div>
+                        {% if curso.modalidad == "presencial" %}
+                            <div class="fila">
+                                <span><strong>Lugar</strong></span>
+                                <span>{{ curso.lugar }}</span>
+                            </div>
+                            <div class="fila">
+                                <span><strong>Aula</strong></span>
+                                <span>{{ curso.aula }}</span>
+                            </div>
+                        {% endif %}
                         <div class="fila">
                             <span><strong>Fecha de inicio</strong></span>
                             <span>{{ curso.fecha_inicio }}</span>
@@ -92,24 +110,10 @@
                             {% if alumno.restriccion_libre or not bloqueado and not tiene_curso_o_taller %}
                                 <a href="{% url 'inscribirse' 'curso' curso.id %}" class="">Inscribirme</a>
                             {% endif %}
+
                     </div>
                 </div>
 
-                <!-- <div class="tarjeta-curso">
-                    <h3>Grupo: {{curso.grupo}}</h3>
-                    <h2>{{ curso.nombre_curso }}</h2>
-                    <p><strong>Horario:</strong> {{ curso.hora_inicio }} - {{ curso.hora_fin }}</p>
-                    <p><strong>Inicio y Fin:</strong> {{ curso.fecha_inicio }} - {{ curso.fecha_fin }}</p>
-                    <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
-                    <p><strong>Duracion:</strong>   {{curso.duracion}} hrs</p>
-                    <p><strong>Cupos:</strong>  {{ curso.cupos }}</p>
-                    <div class="botones-curso">
-                        {% if alumno.restriccion_libre or not bloqueado and not tiene_curso_o_taller %}
-                            <a href="{% url 'inscribirse' 'curso' curso.id %}" class="">Inscribirme</a>
-                        {% endif %}
-                    </div>    
-                </div> -->
-                
             </div>
         {% endfor %}
     </div>
@@ -132,7 +136,7 @@
                     </div>
                     <h4>{{ taller.nombre_taller }}</h4>
                     <div class="info-principal">
-                        <p><strong>Días:</strong> </p>
+                        <p><strong>Días:</strong> {{ taller.dias }}</p>
                         <p><strong>Horario:</strong> {{ taller.hora_inicio|time:"g:i A" }} - {{ taller.hora_fin|time:"g:i A" }}</p>
                         <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
                     </div>
@@ -142,6 +146,16 @@
                             <span><strong>Facilitador</strong></span>
                             <span>{{ taller.facilitador}}</span>
                         </div>
+                        {% if taller.modalidad == "presencial" %}
+                            <div class="fila">
+                                <span><strong>Lugar</strong></span>
+                                <span>{{ taller.lugar }}</span>
+                            </div>
+                            <div class="fila">
+                                <span><strong>Aula</strong></span>
+                                <span>{{ taller.aula }}</span>
+                            </div>
+                        {% endif %}
                         <div class="fila">
                             <span><strong>Fecha de inicio</strong></span>
                             <span>{{ taller.fecha_inicio }}</span>
@@ -167,20 +181,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="tarjeta-taller">
-                    <h3>Grupo: {{ taller.grupo }}</h3>
-                    <h2>{{ taller.nombre_taller }}</h2>
-                    <p><strong>Horario:</strong> {{ taller.hora_inicio }} - {{ taller.hora_fin }}</p>
-                    <p><strong>Inicio y Fin:</strong> {{ taller.fecha_inicio }} - {{ taller.fecha_fin }}</p>
-                    <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
-                    <p><strong>Cupos:</strong>  {{ taller.cupos }}</p>
-                    <div class="botones-taller">
-                        {% if alumno.restriccion_libre or not bloqueado and not tiene_curso_o_taller %}
-                            <a href="{% url 'inscribirse' 'taller' taller.id %}" class="">Inscribirme</a>
-                        {% endif %}
-                    </div>
-                </div> -->
-
             </div>
         {% endfor %}
     </div>
@@ -192,7 +192,7 @@
                 <div class="contenedor-tarjeta-diplomado">
                     <div class="cabecera-tarjeta">
                         <span class="grupo-curso">Grupo: {{ diplomado.grupo }}</span>
-                        {% if taller.modalidad == "presencial" %}
+                        {% if diplomado.modalidad == "presencial" %}
                             <span class="modalidad-curso2">{{ diplomado.modalidad }}</span>
                         {% else %}
                             <span class="modalidad-curso">{{ diplomado.modalidad }}</span>
@@ -200,7 +200,7 @@
                     </div>
                     <h4>{{ diplomado.nombre_diplomado }}</h4>
                     <div class="info-principal">
-                        <p><strong>Días:</strong> </p>
+                        <p><strong>Días:</strong> {{ diplomado.dias }}</p>
                         <p><strong>Horario:</strong> {{ diplomado.hora_inicio|time:"g:i A" }} - {{ diplomado.hora_fin|time:"g:i A" }}</p>
                         <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
                     </div>
@@ -210,6 +210,16 @@
                             <span><strong>Facilitador</strong></span>
                             <span>{{ diplomado.facilitador}}</span>
                         </div>
+                        {% if diplomado.modalidad == "presencial" %}
+                            <div class="fila">
+                                <span><strong>Lugar</strong></span>
+                                <span>{{ diplomado.lugar }}</span>
+                            </div>
+                            <div class="fila">
+                                <span><strong>Aula</strong></span>
+                                <span>{{ diplomado.aula }}</span>
+                            </div>
+                        {% endif %}
                         <div class="fila">
                             <span><strong>Fecha de inicio</strong></span>
                             <span>{{ diplomado.fecha_inicio }}</span>
@@ -235,22 +245,6 @@
                     </div>
                 </div>
 
-
-
-
-                <!-- <div class="tarjeta-diplomado">
-                    <h3>Grupo: {{ diplomado.grupo }}</h3>
-                    <h2>{{ diplomado.nombre_diplomado }}</h2>
-                    <p><strong>Horario:</strong> {{ diplomado.hora_inicio }} - {{ diplomado.hora_fin }}</p>
-                    <p><strong>Inicio y Fin:</strong> {{ diplomado.fecha_inicio }} - {{ diplomado.fecha_fin }}</p>
-                    <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
-                    <p><strong>Cupos:</strong>  {{ diplomado.cupos }}</p>
-                    <div class="botones-diplomado">
-                        {% if alumno.restriccion_libre or not bloqueado and not tiene_diplomado %}
-                            <a href="{% url 'inscribirse' 'diplomado' diplomado.id %}" class="">Inscribirme</a>
-                        {% endif %}
-                    </div>
-                </div> -->
             </div>
         {% endfor %}
     </div>

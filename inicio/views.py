@@ -164,6 +164,9 @@ def inscribirse(request, tipo, id):
     # PASA LA REGLA → inscribirse
     if tipo == 'curso':
         curso = Curso.objects.get(id=id)
+        if not curso.facilitador:
+            messages.error(request, "Este curso aún no tiene un facilitador asignado.")
+            return redirect('inscripciones')
         if curso.cupos and curso.cupos > 0:
             Inscripcion.objects.create(alumno_id=alumno_id, curso=curso, estado="Inscrito")
             curso.cupos -= 1
@@ -174,6 +177,9 @@ def inscribirse(request, tipo, id):
 
     elif tipo == 'taller':
         taller = Taller.objects.get(id=id)
+        if not taller.facilitador:
+            messages.error(request, "Este taller aún no tiene un facilitador asignado.")
+            return redirect('inscripciones')
         if taller.cupos and taller.cupos > 0:
             Inscripcion.objects.create(alumno_id=alumno_id, taller=taller, estado="Inscrito")
             taller.cupos -= 1
@@ -184,6 +190,9 @@ def inscribirse(request, tipo, id):
 
     elif tipo == 'diplomado':
         diplomado = Diplomado.objects.get(id=id)
+        if not diplomado.facilitador:
+            messages.error(request, "Este diplomado aún no tiene un facilitador asignado.")
+            return redirect('inscripciones')
         if diplomado.cupos and diplomado.cupos > 0:
             Inscripcion.objects.create(alumno_id=alumno_id, diplomado=diplomado, estado="Inscrito")
             diplomado.cupos -= 1
@@ -192,9 +201,6 @@ def inscribirse(request, tipo, id):
             messages.error(request, "El diplomado ya no tiene cupos disponibles.")
             return redirect('inscripciones')
 
-    else:
-        messages.error(request, "Tipo de inscripción no válido.")
-        return redirect('inscripciones')
 
     messages.success(request, "¡Inscripción exitosa!")
     return redirect('mis_cursos')

@@ -11,7 +11,7 @@ class Alumno(models.Model):
     correo = models.CharField(max_length=250)
     contrasena = models.CharField(max_length=250)
     telefono = models.BigIntegerField()
-    clave = models.CharField(max_length=255, unique=True) # esta es la clave de la escuela
+    clave = models.CharField(max_length=255) # esta es la clave de la escuela
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=250)
     restriccion_libre = models.BooleanField(default=False, help_text="Permitir que el alumno se inscriba sin restricciones")
@@ -39,7 +39,7 @@ class Facilitador(models.Model):
     correo = models.CharField(max_length=250)
     contrasena = models.CharField(max_length=250)
     telefono = models.BigIntegerField()
-    clave = models.CharField(max_length=255, unique=True)
+    clave = models.CharField(max_length=255)
     curp = models.CharField(max_length=255, unique=True)
     sexo = models.CharField(max_length=150)
 
@@ -63,7 +63,8 @@ class Periodo(models.Model):
     fecha_fin = models.DateField()
 
     def __str__(self):
-        return self.nombre_periodo  
+        return self.nombre_periodo 
+
 
 class Curso(models.Model):
     nombre_curso = models.CharField(max_length=255)
@@ -73,13 +74,17 @@ class Curso(models.Model):
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
-    grupo = models.CharField(max_length=255)
+    grupo = models.CharField(max_length=255, unique=True)
     modalidad = models.CharField(max_length=255,null=True, blank=True)
     duracion = models.IntegerField(blank=True, null=True)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
     finalizado = models.BooleanField(default=False)
+    lugar = models.CharField(max_length=255, null=True, blank=True)
+    aula = models.CharField(max_length=255, null=True, blank=True)
+    dias = models.CharField(max_length=255, null=True, blank=True)
+
 
 
     def __str__(self):
@@ -93,13 +98,16 @@ class Taller(models.Model):
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
-    grupo = models.CharField(max_length=255)
+    grupo = models.CharField(max_length=255, unique=True)
     modalidad = models.CharField(max_length=255, null=True, blank=True)
     duracion = models.IntegerField(blank=True, null=True)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True) 
     periodo = models.ForeignKey(Periodo, on_delete=models.SET_NULL, null=True, blank=True)
     publicado = models.BooleanField(default=False)
     finalizado = models.BooleanField(default=False)
+    lugar = models.CharField(max_length=255, null=True, blank=True)
+    aula = models.CharField(max_length=255, null=True, blank=True)
+    dias = models.CharField(max_length=255, null=True, blank=True)
 
 
     def __str__(self):
@@ -113,13 +121,16 @@ class Diplomado(models.Model):
     hora_inicio = models.TimeField(blank=True, null=True)
     hora_fin = models.TimeField(blank=True, null=True)
     cupos = models.IntegerField(blank=True, null=True)
-    grupo = models.CharField(max_length=255)
+    grupo = models.CharField(max_length=255, unique=True)
     modalidad = models.CharField(max_length=255, null=True, blank=True)
     duracion = models.IntegerField(blank=True, null=True)
     facilitador = models.ForeignKey(Facilitador, on_delete=models.CASCADE, null=True, blank=True)
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE)
     publicado = models.BooleanField(default=False)
     finalizado = models.BooleanField(default=False)
+    lugar = models.CharField(max_length=255, null=True, blank=True)
+    aula = models.CharField(max_length=255, null=True, blank=True)
+    dias = models.CharField(max_length=255, null=True, blank=True)
 
 
 

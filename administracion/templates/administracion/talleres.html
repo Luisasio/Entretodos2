@@ -4,6 +4,13 @@
 
 {% block content %}
 <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
   <h4>Talleres</h4>
   <p>Aquí puedes gestionar los talleres disponibles.</p>
   <div class="controladores">
@@ -49,26 +56,26 @@
       </td>
       <td>{{ taller.cupos }}</td>
       <td>
-              <a href="{% url 'editar_taller' taller.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-              <a href="{% url 'eliminar_taller' taller.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+              <a href="{% url 'editar_taller' taller.id %}" class="btn btn-sm btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
+              <a href="{% url 'eliminar_taller' taller.id %}" class="btn btn-sm btn-danger"><i class="fa-solid fa-trash-can"></i></a>
               {% if not taller.publicado %}
               <form action="{% url 'publicar_taller' taller.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-success" title="Publicar">
+                <button type="submit" class="btn btn-sm btn-success" title="Publicar">
                   <i class="fa-solid fa-globe"></i>
                 </button>
               </form>
               {% else %}
               <form action="{% url 'despublicar_taller' taller.id %}" method="post" style="display:inline;">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-secondary" title="Despublicar">
+                <button type="submit" class="btn btn-sm btn-secondary" title="Despublicar">
                   <i class="fa-solid fa-eye-slash"></i>
                 </button>
           </form>
           {% endif %}
       </td>
       <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTaller{{ taller.id }}">
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalTaller{{ taller.id }}">
           Ver
         </button>
       </td>
@@ -86,7 +93,12 @@
             <p><strong>Periodo:</strong> {{ taller.periodo }}</p>
             <p><strong>Fecha de Inicio:</strong> {{ taller.fecha_inicio }}</p>
             <p><strong>Fecha de Fin:</strong> {{ taller.fecha_fin }}</p>
-            <p><strong>Horario:</strong> {{ taller.hora_inicio }} - {{ taller.hora_fin }}</p>
+            {% if taller.modalidad == "presencial" %}
+            <p><strong>Lugar:</strong> {{ taller.lugar }}</p>
+            <p><strong>Aula:</strong> {{ taller.aula }}</p>
+            {% endif %}
+            <p><strong>Dias:</strong> {{ taller.dias }}</p>
+            <p><strong>Horario:</strong> {{ taller.hora_inicio|time:"g:i A" }} - {{ taller.hora_fin|time:"g:i A" }}</p>
             <p><strong>Duración:</strong> {{ taller.duracion }}hrs</p>
             <p><strong>Facilitador:</strong> {% if taller.facilitador %}{{ taller.facilitador }}{% else %}No asignado{% endif %}</p>
             <p><strong>Cupos disponibles:</strong> {{ taller.cupos }}</p>

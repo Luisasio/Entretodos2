@@ -6,12 +6,57 @@
 <div class="contenido-principal">
   <h4>Facilitadores</h4>
   <p>En esta sección se podrán agregar los facilitadores registrados al sistema.</p>
-  <a href="{% url 'agregar_facilitador' %}" class="btn btn-primary">
-    <i class="fa-solid fa-plus"></i> Nuevo Facilitador
-  </a>
+    <div class="controladores">
+      <input type="search" id="buscador" placeholder="Buscar alumno..." class="form-control " title="Escribe el nombre del facilitador a buscar">
+
+      <div class="controladores 1 gap-3">
+        <a href="{% url 'agregar_facilitador' %}" class="btn-añadir">
+          <i class="fa-solid fa-plus"></i> Nuevo Facilitador
+        </a>
+
+      </div>
+    </div>
 </div>
 
-<div class="card mt-4">
+<table class="table table-striped tabla1">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Clave escolar</th>
+      <th>Facilitador</th>
+      <th>CURP</th>
+      <th>Correo</th>
+      <th>Telefono</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for facilitador in facilitadores %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ facilitador.clave }}</td>
+      <td>
+        <small>Clave Unica: <strong>{{ facilitador.clave_facilitador }}</strong></small>
+        <br>
+        {{ facilitador.nombres }} {{ facilitador.apellido_paterno }} {{ facilitador.apellido_materno }}
+      </td>
+      <td>{{ facilitador.curp }}</td>
+      <td>{{ facilitador.correo }}</td>
+      <td>{{ facilitador.telefono }}</td>
+      <td>
+        <a href="{% url 'editar_facilitador' facilitador.id %}" class="btn btn-sm btn-warning">
+          <i class="fa fa-edit"></i>
+        </a>
+        <a href="{% url 'eliminar_facilitador' facilitador.id %}" class="btn btn-sm btn-danger">
+          <i class="fa fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- <div class="card mt-4">
   <div class="card-header">
     <h3 class="card-title">Lista de facilitadores</h3>
   </div>
@@ -56,5 +101,5 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
 {% endblock %}

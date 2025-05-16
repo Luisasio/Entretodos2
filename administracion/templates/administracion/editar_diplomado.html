@@ -3,9 +3,8 @@
 {% block title %}Editar Diplomado{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-    <div class="contenido-principal">
-        <h2>Editar Diplomado</h2>
+    <div class="contenido-principal-agregar">
+        <h4>Editar Diplomado</h4>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group mb-3">
@@ -16,14 +15,19 @@
                 <label for="id_descripcion">Descripción:</label>
                 {{ form.descripcion }}
             </div>
+            
             <div class="form-group mb-3">
+                <label for="id_periodo">Periodo:</label>
+                {{ form.periodo }}
+            </div>
+            <!-- <div class="form-group mb-3">
                 <label for="id_fecha_inicio">Fecha de inicio:</label>
                 {{ form.fecha_inicio }}
             </div>
             <div class="form-group mb-3">
                 <label for="id_fecha_fin">Fecha de fin:</label>
                 {{ form.fecha_fin }}
-            </div>
+            </div> -->
             <div class="form-group mb-3">
                 <label for="id_hora_inicio">Hora de inicio:</label>
                 {{ form.hora_inicio }}
@@ -41,10 +45,10 @@
                 {{ form.grupo }}
             </div>
 
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="id_modalidad">Modalidad:</label>
                 {{ form.modalidad }}
-              </div>
+              </div> -->
               
               <div class="mb-3">
                 <label for="id_duracion">Duración (horas):</label>
@@ -55,14 +59,9 @@
                 <label for="id_facilitador">Facilitador:</label>
                 {{ form.facilitador }}
             </div>
-            <div class="form-group mb-3">
-                <label for="id_periodo">Periodo:</label>
-                {{ form.periodo }}
-            </div>
             
-            <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             <a href="{% url 'diplomados' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
-</div>
 {% endblock %}

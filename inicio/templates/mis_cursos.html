@@ -29,6 +29,13 @@
 
 <!-- Contenido principal -->
 <div class="container py-5">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
     <h2 class="mb-4">Mis cursos, talleres o diplomados</h2>
 
     {% if inscripciones %}

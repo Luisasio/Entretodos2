@@ -6,6 +6,13 @@
 <div class="contenido-principal">
   <h4>Diplomados</h4>
   <p>En esta sección se podrán agregar y ver los diplomados.</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
   <div class="controladores">
     <input type="search" id="buscador" placeholder="Buscar Diplomado..." class="form-control " title="Escribe el nombre del diplomado a buscar">
     <div class="controladores 1 gap-3">
@@ -49,26 +56,26 @@
       </td>
       <td>{{ diplomado.cupos }}</td>
       <td>
-                <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                <a href="{% url 'editar_diplomado' diplomado.id %}" class="btn btn-sm btn-warning" title="Editar"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a href="{% url 'eliminar_diplomado' diplomado.id %}" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa-solid fa-trash-can"></i></a>
                 {% if not diplomado.publicado %}
                 <form action="{% url 'publicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
                   {% csrf_token %}
-                  <button type="submit" class="btn btn-success" title="Publicar">
+                  <button type="submit" class="btn btn-sm btn-success" title="Publicar">
                     <i class="fa-solid fa-globe"></i>
                   </button>
                 </form>
                 {% else %}
                 <form action="{% url 'despublicar_diplomado' diplomado.id %}" method="post" style="display:inline;">
                   {% csrf_token %}
-                  <button type="submit" class="btn btn-secondary" title="Despublicar">
+                  <button type="submit" class="btn btn-sm btn-secondary" title="Despublicar">
                     <i class="fa-solid fa-eye-slash"></i>
                   </button>
                 </form>
                 {% endif %}
       </td>
       <td>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDiplomado{{ diplomado.id }}">
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalDiplomado{{ diplomado.id }}">
           Ver
         </button>
       </td>
@@ -86,7 +93,12 @@
         <p><strong>Periodo:</strong> {{ diplomado.periodo }}</p>
         <p><strong>Fecha de Inicio:</strong> {{ diplomado.fecha_inicio }}</p>
         <p><strong>Fecha de Fin:</strong> {{ diplomado.fecha_fin }}</p>
-        <p><strong>Horario:</strong> {{ diplomado.hora_inicio }} - {{ diplomado.hora_fin }}</p>
+        {% if diplomado.modalidad == "presencial" %}
+        <p><strong>Lugar:</strong> {{ diplomado.lugar }}</p>
+        <p><strong>Aula:</strong> {{ diplomado.aula }}</p>
+        {% endif %}
+        <p><strong>Dias:</strong> {{ diplomado.dias }}</p>
+        <p><strong>Horario:</strong> {{ diplomado.hora_inicio|time:"g:i A" }} - {{ diplomado.hora_fin|time:"g:i A" }}</p>
         <p><strong>Duración:</strong> {{ diplomado.duracion }}hrs</p>
         <p><strong>Facilitador:</strong> {% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}No asignado{% endif %}</p>
         <p><strong>Cupos disponibles:</strong> {{ diplomado.cupos }}</p>
