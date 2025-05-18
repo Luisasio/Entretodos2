@@ -6,6 +6,20 @@
   <div class="contenido-principal-agregar">
     <h4>Agregar Curso</h4>
     <p>Complete el formulario para registrar un nuevo curso.</p>
+ {% if messages %}
+  {% for message in messages %}
+    <div 
+      class="alert alert-{{ message.tags|default:"info" }} alert-dismissible fade show" 
+      role="alert"
+      {% if message.tags == 'success' %}style="background-color: #d1e7dd; color: #0f5132; border-color: #badbcc;"{% endif %}
+      {% if message.tags == 'error' %}style="background-color: #f8d7da; color: #842029; border-color: #f5c2c7;"{% endif %}
+    >
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
     
     {% if form.non_field_errors %}
       <div class="alert alert-danger">

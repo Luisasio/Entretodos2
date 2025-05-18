@@ -7,13 +7,57 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Count, Q
 from reportlab.pdfgen import canvas
 
-from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm
+from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm, EditarCursoForm, EditarTallerForm, EditarDiplomadoForm
 from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado,Facilitador
 from administracion.models import Curso
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitadorForm,EditarFacilitadorForm
+
+
+# esto es para la validacion del admin al querer agregar un facilitador que choquen sus horarios
+def conflicto_horario_facilitador(nuevo, facilitador):
+    from administracion.models import Curso, Taller, Diplomado
+
+    # Obtener todos los cursos, talleres y diplomados del facilitador, excluyendo el actual si ya existe
+    cursos = Curso.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+    talleres = Taller.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+    diplomados = Diplomado.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+
+    for existente in list(cursos) + list(talleres) + list(diplomados):
+        if not set(nuevo.dias).intersection(set(existente.dias or [])):
+            continue
+        if nuevo.hora_inicio < existente.hora_fin and existente.hora_inicio < nuevo.hora_fin:
+            return True
+    return False
+
+
+# --------------------------------------------------------------------------------------------------
+
+#validacion de la sede y el aula, que no sea en el mismo lugar, 4 validaciones, la hora, el aula, la fecha y el lugar
+from django.db.models import Q
+
+def conflicto_salon_presencial(nuevo):
+    if nuevo.modalidad != 'presencial':
+        return False
+
+    cursos = Curso.objects.filter(modalidad='presencial', lugar__iexact=nuevo.lugar.strip(), aula__iexact=nuevo.aula.strip())
+    talleres = Taller.objects.filter(modalidad='presencial', lugar__iexact=nuevo.lugar.strip(), aula__iexact=nuevo.aula.strip())
+    diplomados = Diplomado.objects.filter(modalidad='presencial', lugar__iexact=nuevo.lugar.strip(), aula__iexact=nuevo.aula.strip())
+
+    grupos = list(cursos) + list(talleres) + list(diplomados)
+
+    for existente in grupos:
+        if not set(nuevo.dias).intersection(set(existente.dias or [])):
+            continue
+        if nuevo.hora_inicio < existente.hora_fin and existente.hora_inicio < nuevo.hora_fin:
+            return True
+    return False
+
+
+
+
 
 
 # Create your views here.
@@ -34,9 +78,17 @@ def agregar_curso(request):
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Curso creado exitosamente.")
-            return redirect('cursos')
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if conflicto_salon_presencial(nuevo):
+                messages.error(request, "Ya existe un grupo presencial con el mismo lugar, aula y horario.")
+            elif facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            else:
+                nuevo.save()
+                messages.success(request, "Curso creado exitosamente.")
+                return redirect('cursos')
     else:
         form = CursoForm()
 
@@ -51,6 +103,9 @@ def agregar_curso(request):
             } for p in periodos
         ]
     })
+
+
+
 
 def periodos(request):
     periodos = Periodo.objects.all()  # Obtener todos los periodos
@@ -97,16 +152,25 @@ def eliminar_periodo(request, periodo_id):
 
 def editar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
-    
+
     if request.method == "POST":
-        form = CursoForm(request.POST, instance=curso)
+        form = EditarCursoForm(request.POST, instance=curso)
         if form.is_valid():
-            form.save()
-            return redirect('cursos')  # Redirige a la lista de cursos después de editar
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            else:
+                nuevo.save()
+                messages.success(request, "Curso actualizado correctamente.")
+                return redirect('cursos')
     else:
-        form = CursoForm(instance=curso)
+        form = EditarCursoForm(instance=curso)
 
     return render(request, 'administracion/editar_curso.html', {'form': form, 'curso': curso})
+
+
 
 def eliminar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
@@ -131,9 +195,17 @@ def agregar_taller(request):
     if request.method == "POST":
         form = TallerForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Taller creado exitosamente")
-            return redirect('talleres')  # Redirigir a la lista de talleres
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            elif conflicto_salon_presencial(nuevo):
+                messages.error(request, "Ya existe un grupo presencial en ese mismo lugar, aula, día y horario.")
+            else:
+                nuevo.save()
+                messages.success(request, "Taller creado exitosamente")
+                return redirect('talleres')
     else:
         form = TallerForm()
 
@@ -149,6 +221,8 @@ def agregar_taller(request):
         ]
     })
 
+
+
     # return render(request, 'administracion/agregar_taller.html', {'form': form})
 
 
@@ -156,16 +230,24 @@ def agregar_taller(request):
 
 def editar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
-    
+
     if request.method == "POST":
-        form = TallerForm(request.POST, instance=taller)
+        form = EditarTallerForm(request.POST, instance=taller)
         if form.is_valid():
-            form.save()
-            return redirect('talleres')  # Redirigir a la lista de talleres
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            else:
+                nuevo.save()
+                messages.success(request, "Taller actualizado correctamente.")
+                return redirect('talleres')
     else:
-        form = TallerForm(instance=taller)
+        form = EditarTallerForm(instance=taller)
 
     return render(request, 'administracion/editar_taller.html', {'form': form, 'taller': taller})
+
 
 def eliminar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
@@ -233,9 +315,17 @@ def agregar_diplomado(request):
     if request.method == 'POST':
         form = DiplomadoForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Diplomado creado exitosamente")
-            return redirect('diplomados')  # Redirigir a la lista de diplomados
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            elif conflicto_salon_presencial(nuevo):
+                messages.error(request, "Ya existe un grupo presencial en ese mismo lugar, aula, día y horario.")
+            else:
+                nuevo.save()
+                messages.success(request, "Diplomado creado exitosamente")
+                return redirect('diplomados')
     else:
         form = DiplomadoForm()
 
@@ -250,21 +340,30 @@ def agregar_diplomado(request):
             } for p in periodos
         ]
     })
+
     
     # return render(request, 'administracion/agregar_diplomado.html', {'form': form})
 
 def editar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
-    
-    if request.method == "POST":
-        form = DiplomadoForm(request.POST, instance=diplomado)
-        if form.is_valid():
-            form.save()
-            return redirect('diplomados')  # Redirige a la lista de cursos después de editar
-    else:
-        form = DiplomadoForm(instance=diplomado)
 
-    return render(request, 'administracion/editar_diplomado.html', {'form': form, 'diplomados': diplomado})
+    if request.method == "POST":
+        form = EditarDiplomadoForm(request.POST, instance=diplomado)
+        if form.is_valid():
+            nuevo = form.save(commit=False)
+            facilitador = nuevo.facilitador
+
+            if facilitador and conflicto_horario_facilitador(nuevo, facilitador):
+                messages.error(request, "El facilitador ya tiene asignado otro grupo con un horario o día que se empalma.")
+            else:
+                nuevo.save()
+                messages.success(request, "Diplomado actualizado correctamente.")
+                return redirect('diplomados')
+    else:
+        form = EditarDiplomadoForm(instance=diplomado)
+
+    return render(request, 'administracion/editar_diplomado.html', {'form': form, 'diplomado': diplomado})
+
 
 def eliminar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
@@ -406,6 +505,17 @@ def ver_diplomados(request):
         total_inscritos=Count('inscripcion')
     )
     return render(request, 'administracion/ver_diplomado.html', {'ver_diplomado': diplomados})
+# funcion de conficto de horario
+def hay_conflicto_horario(nuevo, existente):
+    if not nuevo or not existente:
+        return False
+    if not set(nuevo.dias).intersection(set(existente.dias or [])):
+        return False
+    return (
+        nuevo.hora_inicio < existente.hora_fin and
+        existente.hora_inicio < nuevo.hora_fin
+    )
+
 
 
 def ver_alumnos_curso(request, curso_id):
@@ -517,25 +627,34 @@ def dar_de_baja_diplomado(request, inscripcion_id):
 def dar_de_alta_alumno_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     query = request.GET.get('q', '')
+    alumnos = Alumno.objects.all()
+    disponibles = []
 
-    # Alumnos que NO están en cursos ni talleres (pero sí pueden tener diplomado)
-    alumnos_disponibles = Alumno.objects.exclude(
-        Q(inscripcion__curso__isnull=False) |
-        Q(inscripcion__taller__isnull=False)
-    ).distinct()
+    for alumno in alumnos:
+        inscripciones = alumno.inscripcion_set.filter(estado="Inscrito")
+        conflicto = any(hay_conflicto_horario(curso, i.curso or i.taller or i.diplomado) for i in inscripciones)
+
+        if alumno.restriccion_libre:
+            if not conflicto:
+                disponibles.append(alumno)
+        else:
+            tiene_curso_o_taller = inscripciones.filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
+            if not tiene_curso_o_taller and not conflicto:
+                disponibles.append(alumno)
+
+    if not disponibles:
+        messages.info(request, "No hay alumnos disponibles. Todos los alumnos tienen curso/taller activo o conflicto de horario.")
 
     if query:
-        alumnos_disponibles = alumnos_disponibles.filter(
-            Q(nombres__icontains=query) |
-            Q(apellido_paterno__icontains=query) |
-            Q(apellido_materno__icontains=query) |
-            Q(clave_alumno__icontains=query) |
-            Q(telefono__icontains=query)
-        )
+        disponibles = [a for a in disponibles if query.lower() in a.nombres.lower()
+                       or query.lower() in a.apellido_paterno.lower()
+                       or query.lower() in a.apellido_materno.lower()
+                       or query.lower() in a.clave_alumno.lower()
+                       or query.lower() in a.telefono.lower()]
 
     return render(request, 'administracion/dar_de_alta_alumno_curso.html', {
         'curso': curso,
-        'alumnos_disponibles': alumnos_disponibles,
+        'alumnos_disponibles': disponibles,
         'query': query
     })
 
@@ -543,51 +662,68 @@ def dar_de_alta_alumno_curso(request, curso_id):
 def dar_de_alta_alumno_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
     query = request.GET.get('q', '')
+    alumnos = Alumno.objects.all()
+    disponibles = []
 
-    # Alumnos que NO están en cursos ni talleres (pero sí pueden tener diplomado)
-    alumnos_disponibles = Alumno.objects.exclude(
-        Q(inscripcion__curso__isnull=False) |
-        Q(inscripcion__taller__isnull=False)
-    ).distinct()
+    for alumno in alumnos:
+        inscripciones = alumno.inscripcion_set.filter(estado="Inscrito")
+        conflicto = any(hay_conflicto_horario(taller, i.curso or i.taller or i.diplomado) for i in inscripciones)
+
+        if alumno.restriccion_libre:
+            if not conflicto:
+                disponibles.append(alumno)
+        else:
+            tiene_curso_o_taller = inscripciones.filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
+            if not tiene_curso_o_taller and not conflicto:
+                disponibles.append(alumno)
+
+    if not disponibles:
+        messages.info(request, "No hay alumnos disponibles. Todos tienen curso/taller activo o conflicto de horario.")
 
     if query:
-        alumnos_disponibles = alumnos_disponibles.filter(
-            Q(nombres__icontains=query) |
-            Q(apellido_paterno__icontains=query) |
-            Q(apellido_materno__icontains=query) |
-            Q(clave_alumno__icontains=query) |
-            Q(telefono__icontains=query)
-        )
+        disponibles = [a for a in disponibles if query.lower() in a.nombres.lower()
+                       or query.lower() in a.apellido_paterno.lower()
+                       or query.lower() in a.apellido_materno.lower()
+                       or query.lower() in a.clave_alumno.lower()
+                       or query.lower() in a.telefono.lower()]
 
     return render(request, 'administracion/dar_de_alta_alumno_taller.html', {
         'taller': taller,
-        'alumnos_disponibles': alumnos_disponibles,
+        'alumnos_disponibles': disponibles,
         'query': query
     })
 
 def dar_de_alta_alumno_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
     query = request.GET.get('q', '')
+    alumnos = Alumno.objects.all()
+    disponibles = []
 
-    # Solo alumnos no inscritos a nada
-    alumnos_disponibles = Alumno.objects.exclude(
-        Q(inscripcion__curso__isnull=False) |
-        Q(inscripcion__taller__isnull=False) |
-        Q(inscripcion__diplomado__isnull=False)
-    ).distinct()
+    for alumno in alumnos:
+        inscripciones = alumno.inscripcion_set.filter(estado="Inscrito")
+        conflicto = any(hay_conflicto_horario(diplomado, i.curso or i.taller or i.diplomado) for i in inscripciones)
+
+        if alumno.restriccion_libre:
+            if not conflicto:
+                disponibles.append(alumno)
+        else:
+            tiene_diplomado = inscripciones.filter(diplomado__isnull=False).exists()
+            if not tiene_diplomado and not conflicto:
+                disponibles.append(alumno)
+
+    if not disponibles:
+        messages.info(request, "No hay alumnos disponibles. Todos tienen un diplomado activo o conflicto de horario.")
 
     if query:
-        alumnos_disponibles = alumnos_disponibles.filter(
-            Q(nombres__icontains=query) |
-            Q(apellido_paterno__icontains=query) |
-            Q(apellido_materno__icontains=query) |
-            Q(clave_alumno__icontains=query) |
-            Q(telefono__icontains=query)
-        )
+        disponibles = [a for a in disponibles if query.lower() in a.nombres.lower()
+                       or query.lower() in a.apellido_paterno.lower()
+                       or query.lower() in a.apellido_materno.lower()
+                       or query.lower() in a.clave_alumno.lower()
+                       or query.lower() in a.telefono.lower()]
 
     return render(request, 'administracion/dar_de_alta_alumno_diplomado.html', {
         'diplomado': diplomado,
-        'alumnos_disponibles': alumnos_disponibles,
+        'alumnos_disponibles': disponibles,
         'query': query
     })
 

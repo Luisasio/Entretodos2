@@ -5,7 +5,10 @@
 {% block content %}
 <div class="container py-5">
   <h2 class="mb-4">Cursos, Talleres y Diplomados disponibles para impartir</h2>
+
+
   <h4 class="mt-4 mb-4">Cursos</h4>
+  
   <div class="row">
     {% for curso in cursos %}
     <div class="col-md-4 mb-4">
@@ -21,7 +24,13 @@
         </div>
         <h4>{{ curso.nombre_curso }}</h4>
         <div class="info-principal">
-          <p><strong>Días:</strong> </p>
+                    <p><strong>Días:</strong>
+  <span class="d-flex flex-wrap gap-1 mt-1">
+    {% for dia in curso.dias %}
+      <span class="badge bg-primary">{{ dia|capfirst }}</span>
+    {% endfor %}
+  </span>
+</p>
           <p><strong>Horario:</strong> {{ curso.hora_inicio|time:"g:i A" }} - {{ curso.hora_fin|time:"g:i A" }}</p>
           <p><strong>Periodo:</strong> {{ curso.periodo}}</p>
         </div>
@@ -77,7 +86,13 @@
         </div>
         <h4>{{ taller.nombre_taller }}</h4>
         <div class="info-principal">
-          <p><strong>Días:</strong> </p>
+                  <p><strong>Días:</strong>
+  <span class="d-flex flex-wrap gap-1 mt-1">
+    {% for dia in taller.dias %}
+      <span class="badge bg-success">{{ dia|capfirst }}</span>
+    {% endfor %}
+  </span>
+</p>
           <p><strong>Horario:</strong> {{ taller.hora_inicio|time:"g:i A" }} - {{ taller.hora_fin|time:"g:i A" }}</p>
           <p><strong>Periodo:</strong> {{ taller.periodo}}</p>
         </div>
@@ -143,7 +158,13 @@
         </div>
         <h4>{{ diplomado.nombre_diplomado }}</h4>
         <div class="info-principal">
-          <p><strong>Días:</strong> </p>
+                   <p><strong>Días:</strong>
+  <span class="d-flex flex-wrap gap-1 mt-1">
+    {% for dia in diplomado.dias %}
+      <span class="badge bg-secondary">{{ dia|capfirst }}</span>
+    {% endfor %}
+  </span>
+</p>
           <p><strong>Horario:</strong> {{ diplomado.hora_inicio|time:"g:i A" }} - {{ diplomado.hora_fin|time:"g:i A" }}</p>
           <p><strong>Periodo:</strong> {{ diplomado.periodo}}</p>
         </div>

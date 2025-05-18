@@ -2,6 +2,17 @@ from django.db import models
 import uuid
 # Create your models here.
 from django.db import models
+from multiselectfield import MultiSelectField
+
+
+# parte para agregar los dias
+DIAS_SEMANA = [
+    ('lunes', 'Lunes'),
+    ('martes', 'Martes'),
+    ('miercoles', 'Miércoles'),
+    ('jueves', 'Jueves'),
+    ('viernes', 'Viernes'),
+]
 
 class Alumno(models.Model):
     clave_alumno = models.CharField(max_length=255, unique=True, null=True, blank=True)
@@ -83,7 +94,8 @@ class Curso(models.Model):
     finalizado = models.BooleanField(default=False)
     lugar = models.CharField(max_length=255, null=True, blank=True)
     aula = models.CharField(max_length=255, null=True, blank=True)
-    dias = models.CharField(max_length=255, null=True, blank=True)
+    dias = MultiSelectField(choices=DIAS_SEMANA, blank=True, default=list)
+
 
 
 
@@ -107,7 +119,9 @@ class Taller(models.Model):
     finalizado = models.BooleanField(default=False)
     lugar = models.CharField(max_length=255, null=True, blank=True)
     aula = models.CharField(max_length=255, null=True, blank=True)
-    dias = models.CharField(max_length=255, null=True, blank=True)
+    dias = MultiSelectField(choices=DIAS_SEMANA, blank=True, default=list)
+
+
 
 
     def __str__(self):
@@ -130,7 +144,8 @@ class Diplomado(models.Model):
     finalizado = models.BooleanField(default=False)
     lugar = models.CharField(max_length=255, null=True, blank=True)
     aula = models.CharField(max_length=255, null=True, blank=True)
-    dias = models.CharField(max_length=255, null=True, blank=True)
+    dias = MultiSelectField(choices=DIAS_SEMANA, blank=True, default=list)
+
 
 
 

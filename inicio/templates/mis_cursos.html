@@ -39,27 +39,55 @@
     <h2 class="mb-4">Mis cursos, talleres o diplomados</h2>
 
     {% if inscripciones %}
-        {% for inscripcion in inscripciones %}
-        <div class="card shadow p-4 mb-4">
-            {% if inscripcion.curso %}
-                <h4 class="mb-2">Curso: {{ inscripcion.curso.nombre_curso }}</h4>
-                <p><strong>Horario:</strong> {{ inscripcion.curso.hora_inicio }} - {{ inscripcion.curso.hora_fin }}</p>
-                <p><strong>Duración:</strong> {{ inscripcion.curso.fecha_inicio }} - {{ inscripcion.curso.fecha_fin }}</p>
-
-            {% elif inscripcion.taller %}
-                <h4 class="mb-2">Taller: {{ inscripcion.taller.nombre_taller }}</h4>
-                <p><strong>Horario:</strong> {{ inscripcion.taller.hora_inicio }} - {{ inscripcion.taller.hora_fin }}</p>
-                <p><strong>Duración:</strong> {{ inscripcion.taller.fecha_inicio }} - {{ inscripcion.taller.fecha_fin }}</p>
-
-            {% elif inscripcion.diplomado %}
-                <h4 class="mb-2">Diplomado: {{ inscripcion.diplomado.nombre_diplomado }}</h4>
-                <p><strong>Horario:</strong> {{ inscripcion.diplomado.hora_inicio }} - {{ inscripcion.diplomado.hora_fin }}</p>
-                <p><strong>Duración:</strong> {{ inscripcion.diplomado.fecha_inicio }} - {{ inscripcion.diplomado.fecha_fin }}</p>
-            {% endif %}
-
-            <p><strong>Estado:</strong> {{ inscripcion.estado }}</p>
+       {% for inscripcion in inscripciones %}
+<div class="card shadow p-4 mb-4">
+    {% if inscripcion.curso %}
+        <h4 class="mb-2">Curso: {{ inscripcion.curso.nombre_curso }}</h4>
+        <p><strong>Facilitador:</strong> {{ inscripcion.curso.facilitador }}</p>
+        <div class="mb-2">
+          <strong>Días:</strong>
+          <div class="d-inline-flex flex-wrap gap-1">
+            {% for dia in inscripcion.curso.dias %}
+              <span class="badge bg-primary">{{ dia|capfirst }}</span>
+            {% endfor %}
+          </div>
         </div>
-        {% endfor %}
+        <p><strong>Horario:</strong> {{ inscripcion.curso.hora_inicio }} - {{ inscripcion.curso.hora_fin }}</p>
+        <p><strong>Duración:</strong> {{ inscripcion.curso.fecha_inicio }} - {{ inscripcion.curso.fecha_fin }}</p>
+
+    {% elif inscripcion.taller %}
+        <h4 class="mb-2">Taller: {{ inscripcion.taller.nombre_taller }}</h4>
+        <p><strong>Facilitador:</strong> {{ inscripcion.taller.facilitador }}</p>
+        <div class="mb-2">
+          <strong>Días:</strong>
+          <div class="d-inline-flex flex-wrap gap-1">
+            {% for dia in inscripcion.taller.dias %}
+              <span class="badge bg-primary">{{ dia|capfirst }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <p><strong>Horario:</strong> {{ inscripcion.taller.hora_inicio }} - {{ inscripcion.taller.hora_fin }}</p>
+        <p><strong>Duración:</strong> {{ inscripcion.taller.fecha_inicio }} - {{ inscripcion.taller.fecha_fin }}</p>
+
+    {% elif inscripcion.diplomado %}
+        <h4 class="mb-2">Diplomado: {{ inscripcion.diplomado.nombre_diplomado }}</h4>
+        <p><strong>Facilitador:</strong> {{ inscripcion.diplomado.facilitador }}</p>
+        <div class="mb-2">
+          <strong>Días:</strong>
+          <div class="d-inline-flex flex-wrap gap-1">
+            {% for dia in inscripcion.diplomado.dias %}
+              <span class="badge bg-primary">{{ dia|capfirst }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <p><strong>Horario:</strong> {{ inscripcion.diplomado.hora_inicio }} - {{ inscripcion.diplomado.hora_fin }}</p>
+        <p><strong>Duración:</strong> {{ inscripcion.diplomado.fecha_inicio }} - {{ inscripcion.diplomado.fecha_fin }}</p>
+    {% endif %}
+
+    <p><strong>Estado:</strong> {{ inscripcion.estado }}</p>
+</div>
+{% endfor %}
+
     {% else %}
         <div class="alert alert-info">Aún no estás inscrito a ningún curso, taller o diplomado.</div>
     {% endif %}

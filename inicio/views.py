@@ -62,6 +62,25 @@ def curso_tic(request):
     return render(request, 'curso_tic.html')
 
 
+# esto es la validacion del conflicto de horario en la parte de la vista del facilitador
+
+def conflicto_horario_facilitador(nuevo, facilitador):
+    from administracion.models import Curso, Taller, Diplomado
+
+    # Obtener todos los cursos, talleres y diplomados del facilitador, excluyendo el actual si ya existe
+    cursos = Curso.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+    talleres = Taller.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+    diplomados = Diplomado.objects.filter(facilitador=facilitador).exclude(id=getattr(nuevo, 'id', None))
+
+    for existente in list(cursos) + list(talleres) + list(diplomados):
+        if not set(nuevo.dias).intersection(set(existente.dias or [])):
+            continue
+        if nuevo.hora_inicio < existente.hora_fin and existente.hora_inicio < nuevo.hora_fin:
+            return True
+    return False
+
+
+
 
 
   
@@ -127,7 +146,20 @@ def inscripciones(request):
         'bloqueado': bloqueado
     })
 
+# parte de la validacion que dijo luis "Verificar que el alumno no tenga choques de horarios"
 
+def hay_conflicto_horario(inscripcion_existente, nuevo, dias_nuevo):
+    dias_existente = inscripcion_existente.dias or []
+    
+    # Verifica si hay al menos un día en común
+    if not set(dias_existente).intersection(dias_nuevo):
+        return False
+
+    # Verifica cruce de horas
+    return (
+        nuevo.hora_inicio < inscripcion_existente.hora_fin and
+        inscripcion_existente.hora_inicio < nuevo.hora_fin
+    )
 
 
 # esto es para que el alumno se inscriba es decir la logica
@@ -141,16 +173,15 @@ def inscribirse(request, tipo, id):
 
     if not alumno.restriccion_libre:
         tiene_curso_o_taller = inscripciones.filter(
-        estado__iexact="Inscrito"
+            estado__iexact="Inscrito"
         ).filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
 
         tiene_diplomado = inscripciones.filter(
             estado__iexact="Inscrito", diplomado__isnull=False
         ).exists()
 
-
-        if tiene_curso_o_taller and tipo in ['curso', 'taller', 'diplomado']:
-            messages.warning(request, "Ya estás inscrito a un curso o taller. No puedes inscribirte a más.")
+        if tiene_curso_o_taller and tipo in ['curso', 'taller']:
+            messages.warning(request, "Ya estás inscrito a un curso o taller. Solo puedes inscribirte a un diplomado.")
             return redirect('inscripciones')
 
         if tiene_diplomado and tipo == 'diplomado':
@@ -164,6 +195,14 @@ def inscribirse(request, tipo, id):
     # PASA LA REGLA → inscribirse
     if tipo == 'curso':
         curso = Curso.objects.get(id=id)
+
+        # Validación de conflicto de horario y días
+        for ins in inscripciones.filter(estado="Inscrito"):
+            existente = ins.curso or ins.taller or ins.diplomado
+            if hay_conflicto_horario(existente, curso, curso.dias):
+                messages.error(request, "Conflicto de horario y días con otra inscripción activa.")
+                return redirect('inscripciones')
+
         if not curso.facilitador:
             messages.error(request, "Este curso aún no tiene un facilitador asignado.")
             return redirect('inscripciones')
@@ -177,6 +216,14 @@ def inscribirse(request, tipo, id):
 
     elif tipo == 'taller':
         taller = Taller.objects.get(id=id)
+
+        # Validación de conflicto de horario y días
+        for ins in inscripciones.filter(estado="Inscrito"):
+            existente = ins.curso or ins.taller or ins.diplomado
+            if hay_conflicto_horario(existente, taller, taller.dias):
+                messages.error(request, "Conflicto de horario y días con otra inscripción activa.")
+                return redirect('inscripciones')
+
         if not taller.facilitador:
             messages.error(request, "Este taller aún no tiene un facilitador asignado.")
             return redirect('inscripciones')
@@ -190,6 +237,14 @@ def inscribirse(request, tipo, id):
 
     elif tipo == 'diplomado':
         diplomado = Diplomado.objects.get(id=id)
+
+        # Validación de conflicto de horario y días
+        for ins in inscripciones.filter(estado="Inscrito"):
+            existente = ins.curso or ins.taller or ins.diplomado
+            if hay_conflicto_horario(existente, diplomado, diplomado.dias):
+                messages.error(request, "Conflicto de horario y días con otra inscripción activa.")
+                return redirect('inscripciones')
+
         if not diplomado.facilitador:
             messages.error(request, "Este diplomado aún no tiene un facilitador asignado.")
             return redirect('inscripciones')
@@ -201,9 +256,9 @@ def inscribirse(request, tipo, id):
             messages.error(request, "El diplomado ya no tiene cupos disponibles.")
             return redirect('inscripciones')
 
-
     messages.success(request, "¡Inscripción exitosa!")
     return redirect('mis_cursos')
+
 
 
 #esto es para ver los cursos inscitos:
@@ -281,17 +336,28 @@ def impartir_cursos(request):
     })
 
 
+
 @cargar_facilitador
 def tomar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id, facilitador__isnull=True)
+    if conflicto_horario_facilitador(curso, request.facilitador):
+        messages.error(request, "Ya tienes asignado otro grupo con un horario o día que se empalma.")
+        return redirect('impartir_cursos')
+
     curso.facilitador = request.facilitador
     curso.save()
     messages.success(request, "Curso asignado correctamente.")
     return redirect('impartir_cursos')
 
+
 @cargar_facilitador
 def tomar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id, facilitador__isnull=True)
+
+    if conflicto_horario_facilitador(taller, request.facilitador):
+        messages.error(request, "Ya tienes asignado otro grupo con un horario o día que se empalma.")
+        return redirect('impartir_cursos')
+
     taller.facilitador = request.facilitador
     taller.save()
     messages.success(request, "Taller asignado correctamente.")
@@ -300,10 +366,16 @@ def tomar_taller(request, taller_id):
 @cargar_facilitador
 def tomar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id, facilitador__isnull=True)
+
+    if conflicto_horario_facilitador(diplomado, request.facilitador):
+        messages.error(request, "Ya tienes asignado otro grupo con un horario o día que se empalma.")
+        return redirect('impartir_cursos')
+
     diplomado.facilitador = request.facilitador
     diplomado.save()
     messages.success(request, "Diplomado asignado correctamente.")
     return redirect('impartir_cursos')
+
 
 
 @cargar_facilitador
@@ -344,3 +416,5 @@ def lista_de_alumnos(request, tipo, id):
         'nombre': nombre,
         'tipo': tipo
     })
+
+

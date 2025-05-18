@@ -77,13 +77,12 @@ WSGI_APPLICATION = 'entretodos.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'entre_todos',
         'USER' : 'postgres',
-        'PASSWORD' : 'lu15',
+        'PASSWORD' : 'marco123',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }

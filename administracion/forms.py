@@ -3,6 +3,8 @@ from .models import Diplomado, Facilitador, Periodo, Taller
 from .models import Curso
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from multiselectfield.forms.fields import MultiSelectFormField
+from .models import DIAS_SEMANA
 
 
 
@@ -17,6 +19,7 @@ class PeriodoForm(forms.ModelForm):
         }
 
 class CursoForm(forms.ModelForm):
+    
     facilitador = forms.ModelChoiceField(
         queryset=Facilitador.objects.all(),
         required=False,
@@ -28,7 +31,7 @@ class CursoForm(forms.ModelForm):
         fields = [
             'nombre_curso', 'descripcion', 'fecha_inicio', 'fecha_fin',
             'hora_inicio', 'hora_fin', 'cupos', 'grupo',
-            'modalidad', 'duracion',  # 👈 nuevos campos
+            'modalidad', 'duracion',
             'facilitador', 'periodo','lugar', 'aula', 'dias'
         ]
         MODALIDAD_CHOICES = [
@@ -53,7 +56,7 @@ class CursoForm(forms.ModelForm):
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
             'lugar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Cede Paulo Friere'}),
             'aula': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Aula 4, Salon ...'}),
-            'dias': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ej. Lunes, Miércoles y Viernes'}),
+            
 
         }
     # para añadir la parte de presencial
@@ -100,11 +103,14 @@ class CursoForm(forms.ModelForm):
     # es para arreglar el input de facilitador
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+        for name, field in self.fields.items():
+          if name != 'dias':
             field.widget.attrs.setdefault('class', 'form-control')
 
 
 class TallerForm(forms.ModelForm):
+    
     facilitador = forms.ModelChoiceField(
         queryset=Facilitador.objects.all(),
         required=False,
@@ -135,7 +141,7 @@ class TallerForm(forms.ModelForm):
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
             'lugar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Cede Paulo Friere'}),
             'aula': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Aula 4, Salon ...'}),
-            'dias': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ej. Lunes, Miércoles y Viernes'}),
+            
         }
 
     def clean(self):
@@ -178,12 +184,15 @@ class TallerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+        for name, field in self.fields.items():
+          if name != 'dias':
             field.widget.attrs.setdefault('class', 'form-control')
 
 
 
 class DiplomadoForm(forms.ModelForm):
+    
     facilitador = forms.ModelChoiceField(
         queryset=Facilitador.objects.all(),
         required=False,
@@ -214,7 +223,7 @@ class DiplomadoForm(forms.ModelForm):
             'facilitador': forms.Select(attrs={'class': 'form-control'}),
             'lugar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Cede Paulo Friere'}),
             'aula': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej. Aula 4, Salon ...'}),
-            'dias': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Ej. Lunes, Miércoles y Viernes'}),
+           
         }
 
     def clean(self):
@@ -259,7 +268,9 @@ class DiplomadoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+        for name, field in self.fields.items():
+          if name != 'dias':
             field.widget.attrs.setdefault('class', 'form-control')
 
 
@@ -274,3 +285,62 @@ class RegisterForm(UserCreationForm):
         super(RegisterForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
+
+
+
+class EditarCursoForm(forms.ModelForm):
+    class Meta:
+        model = Curso
+        fields = ['nombre_curso', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        widgets = {
+            'nombre_curso': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
+            'grupo': forms.TextInput(attrs={'class': 'form-control'}),
+            'duracion': forms.NumberInput(attrs={'class': 'form-control'}),
+            'facilitador': forms.Select(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+
+class EditarTallerForm(forms.ModelForm):
+    class Meta:
+        model = Taller
+        fields = ['nombre_taller', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        widgets = {
+            'nombre_taller': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
+            'grupo': forms.TextInput(attrs={'class': 'form-control'}),
+            'duracion': forms.NumberInput(attrs={'class': 'form-control'}),
+            'facilitador': forms.Select(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+
+class EditarDiplomadoForm(forms.ModelForm):
+    class Meta:
+        model = Diplomado
+        fields = ['nombre_diplomado', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        widgets = {
+            'nombre_diplomado': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
+            'grupo': forms.TextInput(attrs={'class': 'form-control'}),
+            'duracion': forms.NumberInput(attrs={'class': 'form-control'}),
+            'facilitador': forms.Select(attrs={'class': 'form-control'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
