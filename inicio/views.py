@@ -112,18 +112,34 @@ def inscripciones(request):
 
     alumno = Alumno.objects.get(id=alumno_id)
 
-    # Obtener todas las inscripciones del alumno
+    # Obtener inscripciones del alumno
     inscripciones = Inscripcion.objects.filter(alumno_id=alumno_id)
 
-    # Obtener IDs de cursos/talleres/diplomados ya inscritos
+    # Excluir ya inscritos
     inscritos_cursos = inscripciones.filter(curso__isnull=False).values_list('curso_id', flat=True)
     inscritos_talleres = inscripciones.filter(taller__isnull=False).values_list('taller_id', flat=True)
     inscritos_diplomados = inscripciones.filter(diplomado__isnull=False).values_list('diplomado_id', flat=True)
 
-    # Excluir los ya inscritos y finalizados
-    cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_cursos)
-    talleres = Taller.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_talleres)
-    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0, finalizado=False).exclude(id__in=inscritos_diplomados)
+    # 🔍 Capturar búsqueda
+    query = request.GET.get('q', '')
+
+    # Cursos disponibles
+    cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
+        .exclude(id__in=inscritos_cursos)
+    if query:
+        cursos = cursos.filter(Q(nombre_curso__icontains=query) | Q(grupo__icontains=query))
+
+    # Talleres disponibles
+    talleres = Taller.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
+        .exclude(id__in=inscritos_talleres)
+    if query:
+        talleres = talleres.filter(Q(nombre_taller__icontains=query) | Q(grupo__icontains=query))
+
+    # Diplomados disponibles
+    diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
+        .exclude(id__in=inscritos_diplomados)
+    if query:
+        diplomados = diplomados.filter(Q(nombre_diplomado__icontains=query) | Q(grupo__icontains=query))
 
     # Reglas de inscripción
     tiene_curso_o_taller = inscripciones.filter(
@@ -143,7 +159,8 @@ def inscripciones(request):
         'diplomados': diplomados,
         'tiene_curso_o_taller': tiene_curso_o_taller,
         'tiene_diplomado': tiene_diplomado,
-        'bloqueado': bloqueado
+        'bloqueado': bloqueado,
+        'query': query  # 👈 Opcional: para que el input recuerde lo buscado
     })
 
 # parte de la validacion que dijo luis "Verificar que el alumno no tenga choques de horarios"
@@ -323,16 +340,23 @@ def registro_facilitador(request):
 
 @cargar_facilitador
 def impartir_cursos(request):
+    query = request.GET.get('q', '')
+
     cursos = Curso.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
     talleres = Taller.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
     diplomados = Diplomado.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
+
+    if query:
+        cursos = cursos.filter(Q(nombre_curso__icontains=query) | Q(grupo__icontains=query))
+        talleres = talleres.filter(Q(nombre_taller__icontains=query) | Q(grupo__icontains=query))
+        diplomados = diplomados.filter(Q(nombre_diplomado__icontains=query) | Q(grupo__icontains=query))
 
     return render(request, 'impartir_cursos.html', {
         'cursos': cursos,
         'talleres': talleres,
         'diplomados': diplomados,
-        'facilitador': request.facilitador
-
+        'facilitador': request.facilitador,
+        'query': query
     })
 
 

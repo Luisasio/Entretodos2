@@ -3,7 +3,6 @@
 {% block title %}Ver alumnos{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
   <div class="contenido-principal"> 
     <h2>Alumnos inscritos en: {{ curso.nombre_curso }}</h2>
     {% if messages %}
@@ -40,7 +39,7 @@
   </form>
   
   <div class="card-body table-responsive p-0" style="height: 600px;">
-    <table class="table table-head-fixed text-nowrap">
+    <table class="table table-head-fixed text-nowrap tabla1">
       <thead>
         <tr>
           <th>#</th>
@@ -75,5 +74,4 @@
       </tbody>
     </table>
   </div>
-</div>
 {% endblock %}

@@ -65,14 +65,42 @@ def conflicto_salon_presencial(nuevo):
 def dashboard(request):
     return render(request, 'administracion/dashboard.html')
 
+# donde se listan los cursos 
 
 def cursos(request):
-    cursos = Curso.objects.filter(finalizado=False)  # Solo cursos activos
-    return render(request, 'administracion/cursos.html', {'cursos': cursos})
+    query = request.GET.get('q', '')  # nombre del input de búsqueda
+    cursos = Curso.objects.filter(finalizado=False)
+
+    if query:
+        cursos = cursos.filter(
+            Q(nombre_curso__icontains=query) |
+            Q(grupo__icontains=query)
+        )
+
+    return render(request, 'administracion/cursos.html', {
+        'cursos': cursos,
+        'query': query
+    })
+
 
 
 def facilitadores(request):
-    return render(request, 'administracion/facilitadores.html')
+    query = request.GET.get('q', '')
+    facilitadores = Facilitador.objects.all()
+
+    if query:
+        facilitadores = facilitadores.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(curp__icontains=query) |
+            Q(correo__icontains=query)
+        )
+
+    return render(request, 'administracion/facilitadores.html', {
+        'facilitadores': facilitadores,
+        'query': query
+    })
 
 def agregar_curso(request):
     if request.method == 'POST':
@@ -108,8 +136,20 @@ def agregar_curso(request):
 
 
 def periodos(request):
-    periodos = Periodo.objects.all()  # Obtener todos los periodos
-    return render(request, 'administracion/periodos.html', {'periodos': periodos})
+    query = request.GET.get('q', '')
+    periodos = Periodo.objects.all()
+
+    if query:
+        periodos = periodos.filter(
+            Q(nombre_periodo__icontains=query) |
+            Q(fecha_inicio__icontains=query) |
+            Q(fecha_fin__icontains=query)
+        )
+
+    return render(request, 'administracion/periodos.html', {
+        'periodos': periodos,
+        'query': query
+    })
 
 def agregar_periodo(request):
     if request.method == 'POST':
@@ -182,8 +222,19 @@ def eliminar_curso(request, curso_id):
     return render(request, 'administracion/eliminar_curso.html', {'curso': curso})
 
 def talleres(request):
-    talleres = Taller.objects.filter(finalizado=False)  # Solo talleres activos
-    return render(request, 'administracion/talleres.html', {'talleres': talleres})
+    query = request.GET.get('q', '')
+    talleres = Taller.objects.filter(finalizado=False)
+
+    if query:
+        talleres = talleres.filter(
+            Q(nombre_taller__icontains=query) |
+            Q(grupo__icontains=query)
+        )
+
+    return render(request, 'administracion/talleres.html', {
+        'talleres': talleres,
+        'query': query
+    })
 
 def talleres_finalizados(request):
     talleres = Taller.objects.filter(finalizado=True)
@@ -302,8 +353,19 @@ def publicar_diplomado(request, diplomado_id):
     return redirect('diplomados')
 
 def diplomados(request):
-    diplomados = Diplomado.objects.filter(finalizado=False)  # Solo diplomados activos
-    return render(request, 'administracion/diplomados.html', {'diplomados': diplomados})
+    query = request.GET.get('q', '')
+    diplomados = Diplomado.objects.filter(finalizado=False)
+
+    if query:
+        diplomados = diplomados.filter(
+            Q(nombre_diplomado__icontains=query) |
+            Q(grupo__icontains=query)
+        )
+
+    return render(request, 'administracion/diplomados.html', {
+        'diplomados': diplomados,
+        'query': query
+    })
 
 def diplomados_finalizados(request):
     diplomados = Diplomado.objects.filter(finalizado=True)
@@ -374,18 +436,40 @@ def eliminar_diplomado(request, diplomado_id):
 
     return render(request, 'administracion/eliminar_diplomado.html', {'diplomados': diplomado})
 
+from django.db.models import Q
+
 def alumnos(request):
+    query = request.GET.get('q', '')
     alumnos = Alumno.objects.all()
+
+    if query:
+        alumnos = alumnos.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(clave_alumno__icontains=query)
+        )
 
     for alumno in alumnos:
         inscripciones_activas = Inscripcion.objects.filter(
             alumno=alumno,
             estado='Inscrito'
         ).filter(Q(curso__isnull=False) | Q(taller__isnull=False) | Q(diplomado__isnull=False))
-
         alumno.estado_inscripcion = 'Inscrito' if inscripciones_activas.exists() else 'No inscrito'
 
-    return render(request, 'administracion/alumnos.html', {'alumnos': alumnos})
+    for alumno in alumnos:
+        inscripciones = Inscripcion.objects.filter(alumno=alumno, estado='Inscrito')
+
+        # Lo almacenamos en una propiedad personalizada del objeto alumno
+        alumno.inscripciones_activas = inscripciones
+
+        alumno.estado_inscripcion = 'Inscrito' if inscripciones.exists() else 'No inscrito'
+
+    return render(request, 'administracion/alumnos.html', {
+        'alumnos': alumnos,
+        'query': query
+    })
+
 
 
 def agregar_alumno(request):
@@ -908,9 +992,26 @@ def agregar_facilitador(request):
 
 #esto es para que se vean el listado de los facilitadores
 def lista_facilitadores(request):
+    query = request.GET.get('q', '')
     facilitadores = Facilitador.objects.all()
-    
-    return render(request, 'administracion/facilitadores.html', {'facilitadores': facilitadores})
+
+    if query:
+        facilitadores = facilitadores.filter(
+            Q(nombres__icontains=query) |
+            Q(apellido_paterno__icontains=query) |
+            Q(apellido_materno__icontains=query) |
+            Q(curp__icontains=query) |
+            Q(correo__icontains=query) |
+            Q(clave_facilitador__icontains=query) |
+            Q(clave__icontains=query)
+        )
+
+    return render(request, 'administracion/facilitadores.html', {
+        'facilitadores': facilitadores,
+        'query': query
+    })
+
+
 #esta logica es para editar a los facilitadores
 def editar_facilitador(request, facilitador_id):
     facilitador = get_object_or_404(Facilitador, id=facilitador_id)

@@ -14,7 +14,11 @@
     {% endif %}
 
   <div class="controladores">
-    <input type="search" id="buscador" placeholder="Buscar Diplomado..." class="form-control " title="Escribe el nombre del diplomado a buscar">
+    <form method="get" class="d-flex gap-2">
+      <input type="search" name="q" placeholder="Buscar diplomado..." value="{{ query }}" class="form-control">
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
     <div class="controladores 1 gap-3">
       <a href="{% url 'agregar_diplomado' %}" class="btn-añadir">
         <i class="fa-solid fa-plus"></i> Nuevo Diplomado

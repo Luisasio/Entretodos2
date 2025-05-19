@@ -6,6 +6,11 @@
 <div class="container py-5">
   <h2 class="mb-4">Cursos, Talleres y Diplomados disponibles para impartir</h2>
 
+  <form method="get" class="mb-4">
+    <input type="search" name="q" placeholder="Buscar curso, taller o diplomado..."
+           class="form-control" value="{{ query|default:'' }}">
+  </form>
+
 
   <h4 class="mt-4 mb-4">Cursos</h4>
   

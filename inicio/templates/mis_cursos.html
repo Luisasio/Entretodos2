@@ -52,8 +52,14 @@
             {% endfor %}
           </div>
         </div>
-        <p><strong>Horario:</strong> {{ inscripcion.curso.hora_inicio }} - {{ inscripcion.curso.hora_fin }}</p>
+        <p><strong>Horario:</strong> {{ inscripcion.curso.hora_inicio|time:"g:i A" }} - {{ inscripcion.curso.hora_fin|time:"g:i A" }}</p>
         <p><strong>Duración:</strong> {{ inscripcion.curso.fecha_inicio }} - {{ inscripcion.curso.fecha_fin }}</p>
+
+        {% if inscripcion.curso.modalidad == "presencial" %}
+          <p><strong>Lugar:</strong> {{ inscripcion.curso.lugar }}</p>
+          <p><strong>Aula:</strong> {{ inscripcion.curso.aula }}</p>
+        {% endif %}
+
 
     {% elif inscripcion.taller %}
         <h4 class="mb-2">Taller: {{ inscripcion.taller.nombre_taller }}</h4>
@@ -66,8 +72,14 @@
             {% endfor %}
           </div>
         </div>
-        <p><strong>Horario:</strong> {{ inscripcion.taller.hora_inicio }} - {{ inscripcion.taller.hora_fin }}</p>
+        <p><strong>Horario:</strong> {{ inscripcion.taller.hora_inicio|time:"g:i A" }} - {{ inscripcion.taller.hora_fin|time:"g:i A" }}</p>
         <p><strong>Duración:</strong> {{ inscripcion.taller.fecha_inicio }} - {{ inscripcion.taller.fecha_fin }}</p>
+        {% if inscripcion.taller.modalidad == "presencial" %}
+          <p><strong>Lugar:</strong> {{ inscripcion.taller.lugar }}</p>
+          <p><strong>Aula:</strong> {{ inscripcion.taller.aula }}</p>
+        {% endif %}
+
+  
 
     {% elif inscripcion.diplomado %}
         <h4 class="mb-2">Diplomado: {{ inscripcion.diplomado.nombre_diplomado }}</h4>
@@ -80,9 +92,16 @@
             {% endfor %}
           </div>
         </div>
-        <p><strong>Horario:</strong> {{ inscripcion.diplomado.hora_inicio }} - {{ inscripcion.diplomado.hora_fin }}</p>
+        <p><strong>Horario:</strong> {{ inscripcion.diplomado.hora_inicio|time:"g:i A" }} - {{ inscripcion.diplomado.hora_fin|time:"g:i A" }}</p>
         <p><strong>Duración:</strong> {{ inscripcion.diplomado.fecha_inicio }} - {{ inscripcion.diplomado.fecha_fin }}</p>
-    {% endif %}
+        {% if inscripcion.diplomado.modalidad == "presencial" %}
+          <p><strong>Lugar:</strong> {{ inscripcion.diplomado.lugar }}</p>
+          <p><strong>Aula:</strong> {{ inscripcion.diplomado.aula }}</p>
+        {% endif %}
+        
+    
+    
+        {% endif %}
 
     <p><strong>Estado:</strong> {{ inscripcion.estado }}</p>
 </div>

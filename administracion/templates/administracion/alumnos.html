@@ -9,7 +9,11 @@
     <h4>Alumnos</h4>
     <p>En esta sección se podrán ver alumnos.</p>
     <div class="controladores">
-      <input type="search" id="buscador" placeholder="Buscar alumno..." class="form-control " title="Escribe el nombre del alumno a buscar">
+      <form method="get" class="d-flex gap-2 mb-4">
+        <input type="search" name="q" placeholder="Buscar alumno..." value="{{ query }}" class="form-control" title="Escribe el nombre, apellido o clave del alumno">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form>
+
       <div class="controladores 1 gap-3">
         <a href="{% url 'agregar_alumno' %}" class="btn-añadir">
           <i class="fa-solid fa-plus"></i> Dar de alta alumno
@@ -80,12 +84,34 @@
             <div class="modal-body">
               <p><strong>Clave única:</strong> {{ alumno.clave_alumno }}</p>
               <p><strong>Alumno:</strong> {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}</p>
-              <p><strong>Clave escolar:</strong> {{ alumno.clave }}</p>
+              <p><strong>Clave de trabajo CCT:</strong> {{ alumno.clave }}</p>
               <hr>
               <p><strong>CURP:</strong> {{ alumno.curp }}</p>
               <p><strong>Correo:</strong> {{ alumno.correo }}</p>
               <p><strong>Teléfono:</strong> {{ alumno.telefono }}</p>
               <p><strong>Sexo:</strong> {{ alumno.sexo }}</p>
+              <hr>
+              <p><strong>Inscrito en:</strong></p>
+              {% if alumno.inscripciones_activas %}
+                <ul>
+                  {% for ins in alumno.inscripciones_activas %}
+                    <li>
+                      {% if ins.curso %}
+                        Curso: {{ ins.curso.nombre_curso }}
+                        (Grupo: {{ ins.curso.grupo }})
+                      {% elif ins.taller %}
+                        Taller: {{ ins.taller.nombre_taller }}
+                        (Grupo: {{ ins.taller.grupo }})
+                      {% elif ins.diplomado %}
+                        Diplomado: {{ ins.diplomado.nombre_diplomado }}
+                        (Grupo: {{ ins.diplomado.grupo }})
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="text-muted">No tiene inscripciones activas.</p>
+              {% endif %}
               <hr>
               <p>
                 <strong>Historial:</strong>

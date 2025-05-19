@@ -3,9 +3,8 @@
 {% block title %}Agregar administrador{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
-  <div class="contenido-principal">
-    <h2>Agregar administrador</h2>
+  <div class="contenido-principal-agregar">
+    <h4>Agregar administrador</h4>
     <p>En esta se agregaran a los administradores que se necesiten.</p>
     <form method="post">
       {% csrf_token %}
@@ -22,5 +21,4 @@
   {% endif %}
   </div>
 
-</div>
 {% endblock %}

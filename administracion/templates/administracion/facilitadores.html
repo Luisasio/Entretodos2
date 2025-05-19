@@ -7,7 +7,11 @@
   <h4>Facilitadores</h4>
   <p>En esta sección se podrán agregar los facilitadores registrados al sistema.</p>
     <div class="controladores">
-      <input type="search" id="buscador" placeholder="Buscar alumno..." class="form-control " title="Escribe el nombre del facilitador a buscar">
+      <form method="get" class="d-flex gap-2 mb-4">
+        <input type="search" name="q" placeholder="Buscar facilitador..." value="{{ query }}" class="form-control" title="Escribe el nombre, apellido, CURP o correo">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+      </form>
+
 
       <div class="controladores 1 gap-3">
         <a href="{% url 'agregar_facilitador' %}" class="btn-añadir">
@@ -22,7 +26,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Clave escolar</th>
+      <th>CCT (clave de trabajo)</th>
       <th>Facilitador</th>
       <th>CURP</th>
       <th>Correo</th>

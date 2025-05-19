@@ -14,7 +14,10 @@
   <h4>Talleres</h4>
   <p>Aquí puedes gestionar los talleres disponibles.</p>
   <div class="controladores">
-    <input type="search" id="buscador" placeholder="Buscar taller..." class="form-control " title="Escribe el nombre del taller a buscar">
+    <form method="get" class="d-flex gap-2">
+      <input type="search" name="q" placeholder="Buscar taller..." value="{{ query }}" class="form-control">
+      <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <div class="controladores 1 gap-3">
       <a href="{% url 'agregar_taller' %}" class="btn-añadir">
         <i class="fa-solid fa-plus"></i> Nuevo Taller

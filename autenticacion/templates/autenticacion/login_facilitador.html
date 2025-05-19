@@ -12,7 +12,13 @@
     <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+<body class="bg-light flex-column d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
 
     <div class="card p-4 shadow login-card">
         <div class="text-center mb-3">

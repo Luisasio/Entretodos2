@@ -46,7 +46,9 @@
       {% endfor %}
     {% endif %}
 
-    <input type="search" id="buscador" placeholder="Buscar por nombre" class="form-control mb-3" title="Escribe el nombre del curso a buscar">
+    <form method="get" class="mb-4">
+        <input type="search" name="q" placeholder="Buscar curso, taller o diplomado..." class="form-control" value="{{ query|default:'' }}">
+    </form>
 
     {% if inscripcion %}
         <div class="alert alert-warning">Ya estás inscrito a un curso o taller.</div>
