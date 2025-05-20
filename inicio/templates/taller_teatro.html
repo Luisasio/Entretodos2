@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/estilo.css">
-  <link rel="stylesheet" href="css/talleres.css">
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/talleres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_talleres.css' %}">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <link rel="stylesheet" href="css/movil.css">
-  <link rel="stylesheet" href="css/movil_talleres.css">
   <title>Teatro para docentes</title>
 </head>
 <body>
@@ -67,7 +67,11 @@
                 <p> Puesta en escena de una obra teatral</p>
             </div>
             <div class="session-card">
-              <a href="">Descargar Curso completo</a>
+               <a href="{% static 'pdf/T06 TALLER Teatro para docentes Programa General.pdf' %}" target="_blank" class="download-btn">
+          
+  Descargar programa completo
+</a>
+              
             </div>
         </div>
     </div>

@@ -8,6 +8,12 @@ from django.db.models import Q
 from django.contrib import messages
 from administracion.models import Curso, Taller, Inscripcion, Diplomado
 
+
+
+
+
+
+
 #estas son las vistas de la pagina web
 def index(request):
   
@@ -21,9 +27,11 @@ def diplomado_desarrollo(request):
     return render(request, 'diplomado_desarrollo.html')
 
 def diplomado_literatura(request):
-    return render(request, 'ddiplomado_literatura.html')
+    return render(request, 'diplomado_literatura.html')
+
 def diplomado_paz(request):
     return render(request, 'diplomado_paz.html')
+
 def diplomado_tic(request):
     return render(request, 'diplomado_tic.html')
 #-------------------
@@ -440,5 +448,39 @@ def lista_de_alumnos(request, tipo, id):
         'nombre': nombre,
         'tipo': tipo
     })
+
+
+#esto es simplemente para que se envie el correo
+from django.core.mail import send_mail
+
+def contacto_view(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        email = request.POST.get('email')
+        mensaje = request.POST.get('mensaje')
+
+        cuerpo = f"""
+        Nuevo mensaje de contacto:
+        
+        Nombre: {nombre} {apellido}
+        Correo: {email}
+        
+        Mensaje:
+        {mensaje}
+        """
+
+        send_mail(
+            subject='Mensaje desde formulario de contacto',
+            message=cuerpo,
+            from_email=email,
+            recipient_list=['correopruebadjango196@gmail.com'],  # puede ser tu propio correo
+            fail_silently=False,
+        )
+
+        messages.success(request, 'Tu mensaje fue enviado correctamente.')
+        return redirect('index')  # o la ruta que corresponda
+
+    return render(request, 'index.html')  # si es solo render normal
 
 

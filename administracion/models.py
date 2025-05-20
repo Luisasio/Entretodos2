@@ -23,7 +23,7 @@ class Alumno(models.Model):
     contrasena = models.CharField(max_length=250)
     telefono = models.BigIntegerField()
     clave = models.CharField(max_length=255) # esta es la clave de la escuela
-    curp = models.CharField(max_length=255, unique=True)
+    curp = models.CharField(max_length=18, unique=True)
     sexo = models.CharField(max_length=250)
     restriccion_libre = models.BooleanField(default=False, help_text="Permitir que el alumno se inscriba sin restricciones")
 
@@ -51,7 +51,7 @@ class Facilitador(models.Model):
     contrasena = models.CharField(max_length=250)
     telefono = models.BigIntegerField()
     clave = models.CharField(max_length=255)
-    curp = models.CharField(max_length=255, unique=True)
+    curp = models.CharField(max_length=18, unique=True)
     sexo = models.CharField(max_length=150)
 
     def __str__(self):

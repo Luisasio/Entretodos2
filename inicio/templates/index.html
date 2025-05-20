@@ -17,6 +17,7 @@
 
   {% block content %}
  <section>
+  
   <div class="fondo ancho wow animate__animated animate__fadeInDown">
     <div class="fondo_texto">
       <h1>Impulsamos la educación y el desarrollo profesional</h1>
@@ -314,26 +315,34 @@
                 <!-- Columna del formulario -->
                 <div class="contact-form">
                     <h3>Envíanos un mensaje</h3>
-                    <form id="contactForm">
-                      {% csrf_token %}
-                        <div class="form-group">
-                            <input type="text" id="nombre" name="nombre" required>
-                            <label for="nombre">Nombre</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="apellido" name="apellido" required>
-                            <label for="apellido">Apellido</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" required>
-                            <label for="email">Correo electrónico</label>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
-                            <label for="mensaje">Mensaje</label>
-                        </div>
-                        <button type="submit" class="submit-btn">Enviar Mensaje <i class="fas fa-paper-plane"></i></button>
-                    </form>
+                  
+
+                  <form method="POST" action="{% url 'contacto' %}">
+  {% csrf_token %}
+    {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+  <div class="form-group">
+    <input type="text" name="nombre" required>
+    <label for="nombre">Nombre</label>
+  </div>
+  <div class="form-group">
+    <input type="text" name="apellido" required>
+    <label for="apellido">Apellido</label>
+  </div>
+  <div class="form-group">
+    <input type="email" name="email" required>
+    <label for="email">Correo electrónico</label>
+  </div>
+  <div class="form-group">
+    <textarea name="mensaje" rows="4" required></textarea>
+    <label for="mensaje">Mensaje</label>
+  </div>
+  <button type="submit" class="submit-btn">Enviar Mensaje <i class="fas fa-paper-plane"></i></button>
+</form>
+
                 </div>
             </div>
         </div>

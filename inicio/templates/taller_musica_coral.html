@@ -4,12 +4,12 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estilo.css">
-    <link rel="stylesheet" href="css/talleres.css">
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/talleres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_talleres.css' %}">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="css/movil.css">
-    <link rel="stylesheet" href="css/movil_talleres.css">
     <title>Música Coral</title>
   </head>
 <body>
@@ -21,7 +21,7 @@
         </header>
 
         <section class="resumen">
-            <p>Se deberá defimir aún</p>
+            <p>El taller tiene como objetivo brindar a los participantes un espacio de aprendizaje práctico donde puedan desarrollar habilidades clave relacionadas con el tema central. A través de actividades dinámicas, reflexiones grupales y ejercicios específicos, se busca fomentar el pensamiento crítico, la creatividad y el trabajo colaborativo. Este espacio no solo promueve el conocimiento técnico o artístico, sino también el crecimiento personal y social de los asistentes, fortaleciendo su participación activa en la comunidad.</p>
         </section>
 
         <div class="sessions-grid">
@@ -67,7 +67,10 @@
                 <p>El valor educativo de los videos</p>
             </div>
             <div class="session-card">
-              <a href="">Descargar Curso completo</a>
+                 <a href="{% static 'pdf/T01 TALLER Lectura-Cuento y Poesía Programa General.pdf' %}" target="_blank" class="download-btn">
+          
+  Descargar programa completo
+</a>
             </div>
         </div>
     </div>
