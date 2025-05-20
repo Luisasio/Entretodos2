@@ -1,0 +1,9 @@
+Hola {{ nombre }},
+
+Has solicitado recuperar tu contraseña.
+
+Haz clic en el siguiente enlace para restablecerla:
+
+{{ url }}
+
+Si no solicitaste este cambio, ignora este mensaje.

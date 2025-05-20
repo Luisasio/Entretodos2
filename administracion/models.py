@@ -25,6 +25,7 @@ class Alumno(models.Model):
     clave = models.CharField(max_length=255) # esta es la clave de la escuela
     curp = models.CharField(max_length=18, unique=True)
     sexo = models.CharField(max_length=250)
+    token_recuperacion = models.CharField(max_length=64, blank=True, null=True)
     restriccion_libre = models.BooleanField(default=False, help_text="Permitir que el alumno se inscriba sin restricciones")
 
 
@@ -53,6 +54,7 @@ class Facilitador(models.Model):
     clave = models.CharField(max_length=255)
     curp = models.CharField(max_length=18, unique=True)
     sexo = models.CharField(max_length=150)
+    token_recuperacion = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"
