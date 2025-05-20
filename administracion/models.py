@@ -27,6 +27,9 @@ class Alumno(models.Model):
     sexo = models.CharField(max_length=250)
     token_recuperacion = models.CharField(max_length=64, blank=True, null=True)
     restriccion_libre = models.BooleanField(default=False, help_text="Permitir que el alumno se inscriba sin restricciones")
+    estado = models.CharField(max_length=100, blank=True, null=True)
+    municipio = models.CharField(max_length=100, blank=True, null=True)
+
 
 
     def __str__(self):
@@ -55,6 +58,8 @@ class Facilitador(models.Model):
     curp = models.CharField(max_length=18, unique=True)
     sexo = models.CharField(max_length=150)
     token_recuperacion = models.CharField(max_length=64, null=True, blank=True)
+    estado = models.CharField(max_length=100, blank=True, null=True)
+    municipio = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.nombres} {self.apellido_paterno} {self.apellido_materno}"

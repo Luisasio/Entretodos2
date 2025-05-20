@@ -19,7 +19,7 @@ class RegistroAlumnoForm(forms.ModelForm):
         model = Alumno
         fields = [
             'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
-            'contrasena', 'telefono', 'clave', 'curp', 'sexo'
+            'contrasena', 'telefono', 'clave', 'curp', 'sexo', 'estado', 'municipio'
         ]
         labels = {
             'clave': 'CCT (clave de trabajo)',
@@ -60,10 +60,15 @@ class EditarAlumnoForm(forms.ModelForm):
         model = Alumno
         fields = [
             'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
-            'telefono', 'clave', 'curp', 'sexo'
+            'telefono', 'clave', 'curp', 'sexo', 'estado', 'municipio'
         ]
+        labels = {
+            'clave': 'CCT (clave de trabajo)',
+        }
 
 
+
+# registro del facilitador
 class RegistroFacilitadorForm(forms.ModelForm):
     contrasena = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
     SEXO_CHOICES = [
@@ -77,7 +82,7 @@ class RegistroFacilitadorForm(forms.ModelForm):
         model = Facilitador
         fields = [
             'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
-            'contrasena', 'telefono', 'clave', 'curp', 'sexo'
+            'contrasena', 'telefono', 'clave', 'curp', 'sexo', 'estado', 'municipio'
         ]
         labels = {
             'clave': 'CCT (clave de trabajo)',
@@ -115,5 +120,8 @@ class EditarFacilitadorForm(forms.ModelForm):
         model = Facilitador
         fields = [
             'nombres', 'apellido_paterno', 'apellido_materno', 'correo',
-            'telefono', 'clave', 'curp', 'sexo'
+            'telefono', 'clave', 'curp', 'sexo', 'estado', 'municipio'
         ]
+        labels = {
+            'clave': 'CCT (clave de trabajo)',
+        }
