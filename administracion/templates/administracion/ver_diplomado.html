@@ -3,9 +3,8 @@
 {% block title %}Ver Diplomados{% endblock %}
 
 {% block content %}
-<div class="contenedor-con-scroll">
   <div class="contenido-principal">
-    <h2>Ver Diplomados</h2>
+    <h4>Ver Diplomados</h4>
     <p>Aquí se listan los diplomados activos y los alumnos inscritos en cada uno.</p>
     <a href="{% url 'inscripciones_admin' %}" class="btn btn-secondary mt-3">Regresar</a>
   </div>
@@ -27,6 +26,5 @@
   {% endfor %}
 
  
-</div>
 
 {% endblock %}
