@@ -310,19 +310,41 @@ def eliminar_taller(request, taller_id):
     return render(request, 'administracion/eliminar_taller.html', {'taller': taller})
 
 # esto es la logica para publicar el curso o taller
-@require_POST
 def publicar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
+    hoy = datetime.today().date()
+
+    if curso.periodo:
+        if curso.periodo.fecha_inicio > hoy:
+            messages.error(request, "No se puede publicar un curso con un periodo que aún no ha comenzado.")
+            return redirect('cursos')
+        elif curso.periodo.fecha_fin < hoy:
+            messages.error(request, "No se puede publicar un curso con un periodo que ya finalizó.")
+            return redirect('cursos')
+
     curso.publicado = True
     curso.save()
+    messages.success(request, "Curso publicado correctamente.")
     return redirect('cursos')
 
 @require_POST
 def publicar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
+    hoy = datetime.today().date()
+
+    if taller.periodo:
+        if taller.periodo.fecha_inicio > hoy:
+            messages.error(request, "No se puede publicar un taller con un periodo que aún no ha comenzado.")
+            return redirect('talleres')
+        elif taller.periodo.fecha_fin < hoy:
+            messages.error(request, "No se puede publicar un taller con un periodo que ya finalizó.")
+            return redirect('talleres')
+
     taller.publicado = True
     taller.save()
+    messages.success(request, "Taller publicado correctamente.")
     return redirect('talleres')
+
 # logica para despublicarlo si hay algun error
 @require_POST
 def despublicar_curso(request, curso_id):
@@ -348,9 +370,21 @@ def despublicar_diplomado(request, diplomado_id):
 @require_POST
 def publicar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
+    hoy = datetime.today().date()
+
+    if diplomado.periodo:
+        if diplomado.periodo.fecha_inicio > hoy:
+            messages.error(request, "No se puede publicar un diplomado con un periodo que aún no ha comenzado.")
+            return redirect('diplomados')
+        elif diplomado.periodo.fecha_fin < hoy:
+            messages.error(request, "No se puede publicar un diplomado con un periodo que ya finalizó.")
+            return redirect('diplomados')
+
     diplomado.publicado = True
     diplomado.save()
+    messages.success(request, "Diplomado publicado correctamente.")
     return redirect('diplomados')
+
 
 def diplomados(request):
     query = request.GET.get('q', '')
