@@ -119,45 +119,50 @@ def inscripciones(request):
         return redirect('login_alumno')
 
     alumno = Alumno.objects.get(id=alumno_id)
+    inscripciones = Inscripcion.objects.filter(alumno_id=alumno_id, estado="Inscrito")
 
-    # Obtener inscripciones del alumno
-    inscripciones = Inscripcion.objects.filter(alumno_id=alumno_id)
-
-    # Excluir ya inscritos
+    # Listado de cursos/talleres/diplomados ya inscritos
     inscritos_cursos = inscripciones.filter(curso__isnull=False).values_list('curso_id', flat=True)
     inscritos_talleres = inscripciones.filter(taller__isnull=False).values_list('taller_id', flat=True)
     inscritos_diplomados = inscripciones.filter(diplomado__isnull=False).values_list('diplomado_id', flat=True)
 
-    # 🔍 Capturar búsqueda
     query = request.GET.get('q', '')
 
-    # Cursos disponibles
+    # Función local para filtrar sin conflicto
+    def sin_conflicto(queryset):
+        resultado = []
+        for nuevo in queryset:
+            conflicto = False
+            for ins in inscripciones:
+                actual = ins.curso or ins.taller or ins.diplomado
+                if nuevo.dias and set(nuevo.dias).intersection(actual.dias or []):
+                    if nuevo.hora_inicio < actual.hora_fin and actual.hora_inicio < nuevo.hora_fin:
+                        conflicto = True
+                        break
+            if not conflicto:
+                resultado.append(nuevo)
+        return resultado
+
     cursos = Curso.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
         .exclude(id__in=inscritos_cursos)
     if query:
         cursos = cursos.filter(Q(nombre_curso__icontains=query) | Q(grupo__icontains=query))
+    cursos = sin_conflicto(cursos)
 
-    # Talleres disponibles
     talleres = Taller.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
         .exclude(id__in=inscritos_talleres)
     if query:
         talleres = talleres.filter(Q(nombre_taller__icontains=query) | Q(grupo__icontains=query))
+    talleres = sin_conflicto(talleres)
 
-    # Diplomados disponibles
     diplomados = Diplomado.objects.filter(publicado=True, cupos__gt=0, finalizado=False)\
         .exclude(id__in=inscritos_diplomados)
     if query:
         diplomados = diplomados.filter(Q(nombre_diplomado__icontains=query) | Q(grupo__icontains=query))
+    diplomados = sin_conflicto(diplomados)
 
-    # Reglas de inscripción
-    tiene_curso_o_taller = inscripciones.filter(
-        estado__iexact="Inscrito"
-    ).filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
-
-    tiene_diplomado = inscripciones.filter(
-        estado__iexact="Inscrito", diplomado__isnull=False
-    ).exists()
-
+    tiene_curso_o_taller = inscripciones.filter(Q(curso__isnull=False) | Q(taller__isnull=False)).exists()
+    tiene_diplomado = inscripciones.filter(diplomado__isnull=False).exists()
     bloqueado = not alumno.restriccion_libre and tiene_curso_o_taller and tiene_diplomado
 
     return render(request, 'inscripciones.html', {
@@ -168,8 +173,9 @@ def inscripciones(request):
         'tiene_curso_o_taller': tiene_curso_o_taller,
         'tiene_diplomado': tiene_diplomado,
         'bloqueado': bloqueado,
-        'query': query  # 👈 Opcional: para que el input recuerde lo buscado
+        'query': query
     })
+
 
 # parte de la validacion que dijo luis "Verificar que el alumno no tenga choques de horarios"
 
@@ -349,21 +355,44 @@ def registro_facilitador(request):
 @cargar_facilitador
 def impartir_cursos(request):
     query = request.GET.get('q', '')
+    facilitador = request.facilitador
 
     cursos = Curso.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
     talleres = Taller.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
     diplomados = Diplomado.objects.filter(facilitador__isnull=True, publicado=True, finalizado=False)
 
+    # Obtener asignaciones actuales
+    cursos_asignados = Curso.objects.filter(facilitador=facilitador)
+    talleres_asignados = Taller.objects.filter(facilitador=facilitador)
+    diplomados_asignados = Diplomado.objects.filter(facilitador=facilitador)
+
+    asignados = list(cursos_asignados) + list(talleres_asignados) + list(diplomados_asignados)
+
+    # Función para detectar conflicto
+    def hay_conflicto(nuevo):
+        for existente in asignados:
+            if not set(nuevo.dias).intersection(set(existente.dias or [])):
+                continue
+            if nuevo.hora_inicio < existente.hora_fin and existente.hora_inicio < nuevo.hora_fin:
+                return True
+        return False
+
+    # Aplicar el filtro
+    cursos = [c for c in cursos if not hay_conflicto(c)]
+    talleres = [t for t in talleres if not hay_conflicto(t)]
+    diplomados = [d for d in diplomados if not hay_conflicto(d)]
+
+    # Filtrar por búsqueda si hay query
     if query:
-        cursos = cursos.filter(Q(nombre_curso__icontains=query) | Q(grupo__icontains=query))
-        talleres = talleres.filter(Q(nombre_taller__icontains=query) | Q(grupo__icontains=query))
-        diplomados = diplomados.filter(Q(nombre_diplomado__icontains=query) | Q(grupo__icontains=query))
+        cursos = [c for c in cursos if query.lower() in c.nombre_curso.lower() or query.lower() in c.grupo.lower()]
+        talleres = [t for t in talleres if query.lower() in t.nombre_taller.lower() or query.lower() in t.grupo.lower()]
+        diplomados = [d for d in diplomados if query.lower() in d.nombre_diplomado.lower() or query.lower() in d.grupo.lower()]
 
     return render(request, 'impartir_cursos.html', {
         'cursos': cursos,
         'talleres': talleres,
         'diplomados': diplomados,
-        'facilitador': request.facilitador,
+        'facilitador': facilitador,
         'query': query
     })
 
