@@ -1,0 +1,65 @@
+{% extends './base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <h4>Posts</h4>
+    <p>En esta sección se podran agregar posts y noticias en formato de imagen.</p>
+  </div>
+
+  <div class="controladores 1 gap-3 mb-3">
+        <a href="{% url 'agregar_noticia' %}" class="btn-añadir">
+          <i class="fa-solid fa-plus"></i> Nuevo Post
+        </a>
+
+  </div>
+
+  <table class="table table-striped tabla1">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Nombre de la noticia</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for noticia in noticias %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ noticia.titulo }}</td>  <!-- Aquí renderizas el título de la noticia -->
+        <td>
+          {% if noticia.imagen %}
+            <img src="{{ noticia.imagen.url }}" alt="Imagen de {{ noticia.titulo }}" width="100">
+          {% else %}
+            <p>No imagen</p>
+          {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'editar_noticia' noticia.id %}" class="btn btn-warning btn-sm">
+              <i class="fa fa-edit"></i>
+            </a>
+
+            <a href="{% url 'eliminar_noticia' noticia.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta noticia?')">
+              <i class="fa-solid fa-trash-can"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  
+
+
+  
+  
+{% endblock %}

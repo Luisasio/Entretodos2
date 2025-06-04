@@ -13,19 +13,26 @@
         {{ form.nombre_taller }}
       </div>
   
-      <div class="form-group mb-3">
+      <!-- <div class="form-group mb-3">
         <label for="id_descripcion">Descripción:</label>
         {{ form.descripcion }}
+      </div> -->
+
+      
+  
+      <div class="form-group mb-3">
+            <label>Fecha de inicio:</label>
+            <p><strong>{{ taller.fecha_inicio|date:"d/m/Y" }}</strong></p>
       </div>
   
       <div class="form-group mb-3">
-        <label for="id_fecha_inicio">Fecha de Inicio:</label>
-        {{ form.fecha_inicio }}
+            <label>Fecha de fin:</label>
+            <p><strong>{{ taller.fecha_fin|date:"d/m/Y" }}</strong></p>
       </div>
-  
+
       <div class="form-group mb-3">
-        <label for="id_fecha_fin">Fecha de Fin:</label>
-        {{ form.fecha_fin }}
+            <label>Periodo:</label>
+            <p><strong>{{ taller.periodo }}</strong></p>
       </div>
   
       <div class="form-group mb-3">
@@ -63,12 +70,7 @@
         <label for="id_facilitador">Facilitador:</label>
         {{ form.facilitador }}
       </div>
-  
-      <div class="form-group mb-3">
-        <label for="id_periodo">Periodo:</label>
-        {{ form.periodo }}
-      </div>
-
+      
       <button type="submit" class="btn btn-primary">
         <i class="fa-solid fa-save"></i> Guardar Cambios
       </button>

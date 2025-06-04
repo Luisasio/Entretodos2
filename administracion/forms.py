@@ -1,5 +1,5 @@
 from django import forms
-from .models import Diplomado, Facilitador, Periodo, Taller
+from .models import CursoLanding, Diplomado, Facilitador, Noticia, Periodo, SesionCurso, SesionTaller, Taller, TallerLanding
 from .models import Curso
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -29,18 +29,19 @@ class CursoForm(forms.ModelForm):
     class Meta:
         model = Curso
         fields = [
-            'nombre_curso', 'descripcion', 'fecha_inicio', 'fecha_fin',
+            'nombre_curso', 'fecha_inicio', 'fecha_fin',
             'hora_inicio', 'hora_fin', 'cupos', 'grupo',
             'modalidad', 'duracion',
             'facilitador', 'periodo','lugar', 'aula', 'dias'
         ]
         MODALIDAD_CHOICES = [
-        ('virtual', 'Virtual'),
+        ('virtual', 'Virtual', ),
         ('presencial', 'Presencial'),
+        # ('mixto', 'Mixto'),
         ]
         widgets = {
             'nombre_curso': forms.TextInput(attrs={'class': 'form-control custom-input'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
             'fecha_inicio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
@@ -119,13 +120,13 @@ class TallerForm(forms.ModelForm):
 
     class Meta:
         model = Taller
-        fields = ['nombre_taller', 'descripcion', 'fecha_inicio', 'fecha_fin',
+        fields = ['nombre_taller', 'fecha_inicio', 'fecha_fin',
                   'hora_inicio', 'hora_fin', 'cupos', 'grupo',
                   'modalidad', 'duracion', 'facilitador', 'periodo','lugar', 'aula', 'dias'
                   ]
         widgets = {
             'nombre_taller': forms.TextInput(attrs={'class': 'form-control custom-input'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
             'fecha_inicio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
@@ -201,13 +202,13 @@ class DiplomadoForm(forms.ModelForm):
 
     class Meta:
         model = Diplomado
-        fields = ['nombre_diplomado', 'descripcion', 'fecha_inicio', 'fecha_fin',
+        fields = ['nombre_diplomado', 'fecha_inicio', 'fecha_fin',
                   'hora_inicio', 'hora_fin', 'cupos', 'grupo',
                   'modalidad', 'duracion', 'facilitador', 'periodo'
                   ,'lugar', 'aula', 'dias']
         widgets = {
             'nombre_diplomado': forms.TextInput(attrs={'class': 'form-control custom-input'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control custom-input'}),
             'fecha_inicio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_fin': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
@@ -291,10 +292,10 @@ class RegisterForm(UserCreationForm):
 class EditarCursoForm(forms.ModelForm):
     class Meta:
         model = Curso
-        fields = ['nombre_curso', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        fields = ['nombre_curso', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
         widgets = {
             'nombre_curso': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -310,10 +311,10 @@ class EditarCursoForm(forms.ModelForm):
 class EditarTallerForm(forms.ModelForm):
     class Meta:
         model = Taller
-        fields = ['nombre_taller', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        fields = ['nombre_taller', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
         widgets = {
             'nombre_taller': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -329,10 +330,10 @@ class EditarTallerForm(forms.ModelForm):
 class EditarDiplomadoForm(forms.ModelForm):
     class Meta:
         model = Diplomado
-        fields = ['nombre_diplomado', 'descripcion', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
+        fields = ['nombre_diplomado', 'hora_inicio', 'hora_fin', 'cupos', 'grupo', 'duracion', 'dias', 'facilitador']
         widgets = {
             'nombre_diplomado': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
+            # 'descripcion': forms.Textarea(attrs={'class': 'form-control'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'hora_fin': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'cupos': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -344,3 +345,292 @@ class EditarDiplomadoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
+
+from django import forms
+from django.forms import inlineformset_factory
+from .models import DiplomadoLanding, ModuloDiplomado
+
+class DiplomadoLandingForm(forms.ModelForm):
+    class Meta:
+        model = DiplomadoLanding
+        fields = [
+            'titulo','descripcion','imagen',
+            'destinatarios', 'introduccion', 'nivel',
+            'proposito', 'particulares', 'recursos',
+            'duracion', 'modalidad','costo', 'participantes', 'responsable', 'programa_pdf'
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el titulo del diplomado'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 5 , 'placeholder': 'Escriba la descripcion del diplomado', 'style': 'rezise: none;'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'destinatarios': forms.Textarea(attrs={'class': 'form-control', 'rows': 2,'placeholder': 'Escriba los destinatarios del diplomado'}),
+            'introduccion': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba la introduccion del diplomado'}),
+            'nivel': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el nivel para este diplomado'}),
+            'proposito': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba el proposito general del diplomado'}),
+            'particulares': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba los propositos generales del diplomado'}),
+            'recursos': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba los recursos tecnicos del diplomado'}),
+            'duracion': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba la duracion de este diplomado'}),
+            'modalidad': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba la modalidad de este diplomado'}),
+            'costo': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el costo de este diplomado'}),
+            'participantes': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el total de participantes para este diplomado'}),
+            'responsable': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba al responsable para este diplomado'}),
+            'programa_pdf': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+class DiplomadoLandingEditForm(forms.ModelForm):
+    class Meta:
+        model = DiplomadoLanding
+        fields = [
+            'titulo','descripcion', 'imagen',
+            'destinatarios', 'introduccion', 'nivel',
+            'proposito', 'particulares', 'recursos',
+            'duracion', 'modalidad','costo', 'participantes', 'responsable', 'programa_pdf'
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el titulo del diplomado'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 5 , 'placeholder': 'Escriba la descripcion del diplomado', 'style': 'resize: none;'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'destinatarios': forms.Textarea(attrs={'class': 'form-control', 'rows': 2,'placeholder': 'Escriba los destinatarios del diplomado'}),
+            'introduccion': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba la introduccion del diplomado'}),
+            'nivel': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el nivel para este diplomado'}),
+            'proposito': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba el proposito general del diplomado'}),
+            'particulares': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba los propositos generales del diplomado'}),
+            'recursos': forms.Textarea(attrs={'class': 'form-control', 'rows': 5,'placeholder': 'Escriba los recursos tecnicos del diplomado'}),
+            'duracion': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba la duracion de este diplomado'}),
+            'modalidad': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba la modalidad de este diplomado'}),
+            'costo': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el costo de este diplomado'}),
+            'participantes': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba el total de participantes para este diplomado'}),
+            'responsable': forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Escriba al responsable para este diplomado'}),
+            'programa_pdf': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+# sirve para crear un modulos dentro del formulario para el diplomado
+class ModuloDiplomadoForm(forms.ModelForm):
+    class Meta:
+        model = ModuloDiplomado
+        fields = ['titulo', 'descripcion']
+        widgets = {  # <- ¡CORREGIDO aquí!
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título del módulo'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba la descripción del módulo',
+                'style': 'resize: none;'
+            }),
+        }
+
+ModuloFormSet = inlineformset_factory(
+    DiplomadoLanding, ModuloDiplomado,
+    form=ModuloDiplomadoForm,
+    extra=1, can_delete=True
+)
+
+class TallerLandingForm(forms.ModelForm):
+    class Meta:
+        model = TallerLanding
+        fields = [
+            'titulo',
+            'descripcion_corta',
+            'imagen',
+            'subtitulo',
+            'descripcion_larga',
+            'responsable',
+            'duracion',
+            'programa_pdf',
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título del taller'
+            }),
+            'descripcion_corta': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba una descripción corta del taller',
+                'style': 'resize: none;'
+            }),
+            'subtitulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el subtítulo del taller'
+            }),
+            'descripcion_larga': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Escriba la descripción larga del taller',
+                'style': 'resize: none;'
+            }),
+            'responsable': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre del responsable académico'
+            }),
+            'duracion': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Duración total del taller'
+            }),
+            'programa_pdf': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+
+class TallerLandingEditForm(forms.ModelForm):
+    class Meta:
+        model = TallerLanding
+        fields = [
+            'titulo',
+            'descripcion_corta',
+            'imagen',
+            'subtitulo',
+            'descripcion_larga',
+            'responsable',
+            'duracion',
+            'programa_pdf',
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título del taller'
+            }),
+            'descripcion_corta': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba una descripción corta del taller',
+                'style': 'resize: none;'
+            }),
+            'subtitulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el subtítulo del taller'
+            }),
+            'descripcion_larga': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Escriba la descripción larga del taller',
+                'style': 'resize: none;'
+            }),
+            'responsable': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre del responsable académico'
+            }),
+            'duracion': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Duración total del taller'
+            }),
+            'programa_pdf': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+class SesionTallerForm(forms.ModelForm):
+    class Meta:
+        model = SesionTaller
+        fields = ['titulo', 'descripcion']
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título de la sesión'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba la descripción de la sesión',
+                'style': 'resize: none;'
+            }),
+        }
+
+SesionFormSet = inlineformset_factory(
+    TallerLanding,
+    SesionTaller,
+    form=SesionTallerForm,
+    extra=1,
+    can_delete=True
+)
+
+class CursoLandingForm(forms.ModelForm):
+    class Meta:
+        model = CursoLanding
+        fields = [
+            'titulo',
+            'descripcion_corta',
+            'imagen',
+            'subtitulo',
+            'descripcion_larga',
+            'responsable',
+            'duracion',
+            'programa_pdf'
+        ]
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título del curso'
+            }),
+            'descripcion_corta': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba una descripción corta del curso',
+                'style': 'resize: none;'
+            }),
+            'subtitulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el subtítulo del curso'
+            }),
+            'descripcion_larga': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Escriba la descripción larga del curso',
+                'style': 'resize: none;'
+            }),
+            'responsable': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre del responsable académico'
+            }),
+            'duracion': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Duración total del curso'
+            }),
+            'programa_pdf': forms.FileInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+class SesionCursoForm(forms.ModelForm):
+    class Meta:
+        model = SesionCurso
+        fields = ['titulo', 'descripcion']
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título de la sesión'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Escriba la descripción de la sesión',
+                'style': 'resize: none;'
+            }),
+        }
+
+SesionFormSet = inlineformset_factory(
+    CursoLanding,
+    SesionCurso,
+    form=SesionCursoForm,
+    extra=1,
+    can_delete=True
+)
+
+
+
+
+
+class NoticiasForm(forms.ModelForm):
+    class Meta:
+        model = Noticia
+        fields = ['titulo', 'imagen']
+        widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Escriba el título de la noticia'
+            }),
+        }

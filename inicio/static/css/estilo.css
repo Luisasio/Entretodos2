@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+html{
+  scroll-behavior: smooth;
+}
 body {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   line-height: 24px;
   color: #333;
 }
 *{
+  font-family: 'Montserrat', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -20,6 +24,53 @@ body {
 /* CONTENEDOR HEADER */
 
 /* ===== BARRA GENERAL ===== */
+header{
+  background-color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 990;
+}
+.contenedor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* .menu-header{
+  display: flex;
+  align-items: center;
+
+} */
+.menu-header ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+
+}
+.menu-header ul li a{
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+.btn-acceder{
+  display: inline-block;
+  background-color: #592C2C;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+    transition: all .3s;
+
+}
+.btn-acceder:hover{
+  background-color: #462121;
+  color: white;
+}
+/* ------- Barra mia --------- */
 .barra-elegante {
   background-color: #ffffff;
   position: fixed;
@@ -47,7 +98,7 @@ body {
 }
 
 .logo-elegante {
-  max-width: 95px;
+  max-width: 150px;
 }
 
 .logo-elegante img {
@@ -97,29 +148,32 @@ body {
   color: #c59d00;
   border-bottom: 2px solid #c59d00;
 }
+.submenu {
+  position: relative;
+}
 
-/* Submenú */
 #submenu-items {
-  display: none; /* 👈 OCULTO por default */
+  display: none;
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 100%; /* Justo debajo */
+  left: 0;    /* Alineado al borde izquierdo del <li> padre */
   background-color: #ffffff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   min-width: 150px;
-  flex-direction: column;
-  z-index: 1000;
+  z-index: 999999;
 }
 #submenu-items a {
   display: block;
   padding: 0.5rem 1rem;
   color: #333333;
 }
-
 #submenu-items a:hover {
   background-color: #f4f4f4;
-  color: #c59d00;
+  color: #592C2C;
+}
+.submenu:hover #submenu-items {  
+  display: block;
 }
 
 
@@ -134,29 +188,41 @@ body {
 /* parte de arriba de las inscripciones */
 .fondo
 {
-  background-image: url(../img/fondo33.png);
+  background-image: url(../img/entretodosslide2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 400px;
+  height: 500px;
   background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 90px 0px 0px;
+  position: relative;
+}
+.filtro-slide{
+  background-color: rgba(110, 55, 43, 0.7);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 }
 .fondo_texto 
 {
-
  width: 800px;
  text-align: center;
  line-height: 40px;
+ position: relative;
+ z-index: 300;
 }
 .fondo_texto h1{
-
+  color: #fff;
   font-size: 40px;
 }
 .fondo_texto p
 {
-  color: black;
+  color: #fff;
 }
 
 .fondo_texto a{
@@ -190,7 +256,7 @@ body {
   border: 0;
   width: 170px;
   height: 6px;
-  margin-bottom: 20px;
+  margin: 10px 0px 20px;
 }
 .acerca h2{
   font-size: 42px;
@@ -211,12 +277,16 @@ body {
   align-items: center;
   padding: 10px;
 }
+.texto_acerca p
+{
+  margin: 0px 0px 20px;
+}
 .texto_acerca h2
 {
   font-size: 42px;
   line-height: 50px;
   font-weight: bold;
-
+  margin: 0px 0px 20px;
 }
 .texto_acerca span
 {
@@ -283,6 +353,7 @@ body {
   display: flex;
   gap: 1.5rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .diplomado-card {
@@ -430,7 +501,7 @@ body {
 }
 /* esto es la parte de parallax */
 .parallax-estadisticas {
-  background-image: url('../img/ofimatica.png'); /* tu imagen real */
+  background-image: url('../img/parallaxentretodos2.jpg'); /* tu imagen real */
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -851,4 +922,85 @@ body {
   margin-top: 2rem;
   font-size: 0.9rem;
   opacity: 0.8;
+}
+.seccion-unete{
+  margin: 120px 0px 110px;
+  background-image: url(../img/entretodosslide2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.contenedor-unete{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 120px 0px 120px;
+  color: white;
+  position: relative;
+  z-index: 500;
+}
+.contenedor-unete h1{
+  font-size: 50px;
+}
+.contenedor-unete p{
+  font-size: 16px;
+}
+
+.seccion-posts{
+  margin: 120px 0px 110px;
+
+}
+
+.news-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.news-item {
+  width: 30%;
+  text-align: center;
+}
+.news-item a{
+  display: inline-block;
+  /* border: 1px red solid; */
+}
+.item-img{
+  width: 300px;
+  position: relative;
+}
+.item-img img{
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  transition: transform 0.3s ease-in-out;
+
+
+}
+.item-img:hover img {
+  transform: scale(1.05);
+}
+.news-item h3 {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px;
+  border-radius: 5px;
+}
+.seccion-posts h2{
+  font-size: 42px;
+  margin: 20px 0px 20px;
+  text-align: center;
+}
+.seccion-posts hr{
+  text-align: center;
+  margin: auto;
 }

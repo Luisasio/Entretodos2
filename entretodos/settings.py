@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'entre_todos',
         'USER' : 'postgres',
-        'PASSWORD' : 'marco123',
+        'PASSWORD' : 'lu15',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }
@@ -126,6 +126,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 
 # Default primary key field type

@@ -1,0 +1,38 @@
+{% extends './base.html' %}
+
+{% block title %}Publicaciones{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <h4>Publicaciones</h4>
+    <p>En esta sección se selecciona el apartado para añadir contenido en la pagina de inicio.</p>
+  </div>
+
+  <h5>Pagina de inicio</h5>
+
+  <div class="contenedor-tarjetas-cursos">
+    <div class="tarjeta-publicar-cursos">
+      <h3>Cursos, Talleres Diplomados</h3>
+      <p>Agrega, visualiza o elimina los cursos</p>
+      <a href="{% url 'publicaciones_cursos' %}" class="btn btn-primary mt-4">Ver</a>
+    </div>
+
+    <div class="tarjeta-publicar-cursos">
+      <h3>Noticias o eventos</h3>
+      <p>Agrega, visualiza o elimina los eventos o noticias proximas</p>
+      <a href="{% url 'publicaciones_noticias' %}" class="btn btn-primary mt-4">Ver</a>
+    </div>
+
+  </div>
+
+
+  
+  
+{% endblock %}

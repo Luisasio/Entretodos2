@@ -106,7 +106,6 @@
         <p><strong>Duración:</strong> {{ diplomado.duracion }}hrs</p>
         <p><strong>Facilitador:</strong> {% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}No asignado{% endif %}</p>
         <p><strong>Cupos disponibles:</strong> {{ diplomado.cupos }}</p>
-        <p><strong>Descripción:</strong><br> {{ diplomado.descripcion|linebreaks }}</p>
         <p>
           <strong>Finalizar Diplomado:  </strong>
           &nbsp;
@@ -127,66 +126,4 @@
     {% endfor %}
   </tbody>
 </table>
-
-<!-- <div class="py-3 contenedor-cursos">
-
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Listado de Diplomados</h3>
-        <div class="card-tools">
-        </div>
-      </div>
-      <div class="card-body table-responsive p-0" style="height: 600px;">
-        <table class="table table-head-fixed text-nowrap">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Diplomado</th>
-              <th>Cupos</th>
-              <th>Periodo</th>
-              <th>Horario</th>
-              <th>Facilitador</th>
-              <th>Estado</th>
-              <th>finalizar</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for diplomado in diplomados %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>
-                <small><strong>Grupo: {{ diplomado.grupo }}</strong></small>
-                <p>{{ diplomado.nombre_diplomado }}</p>
-              </td>
-              <td>{{ diplomado.cupos }}</td>
-              <td>{% if diplomado.periodo %}{{ diplomado.periodo }}{% else %}Sin asignar{% endif %}</td>
-              <td>{{ diplomado.hora_inicio}} - {{ diplomado.hora_fin }}</td>
-              <td>{% if diplomado.facilitador %}{{ diplomado.facilitador }}{% else %}Sin facilitador{% endif %}</td>
-              <td>
-                {% if diplomado.finalizado %}
-                  <span class="badge bg-danger">Finalizado</span>
-                {% else %}
-                  <span class="badge bg-success">Activo</span>
-                {% endif %}
-              </td>
-              <td>
-                
-              </td>
-              <td>
-                
-              </td>
-            </tr>
-            {% empty %}
-            <tr>
-              <td colspan="9" class="text-center">No hay Diplomados registrados</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div> -->
 {% endblock %}

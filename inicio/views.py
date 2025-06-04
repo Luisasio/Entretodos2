@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from .forms import RegistroAlumnoForm, RegistroFacilitadorForm
-from administracion.models import Alumno, Facilitador
+from administracion.models import Alumno, DiplomadoLanding, Facilitador, ModuloDiplomado, Noticia, SesionCurso, SesionTaller, TallerLanding, CursoLanding
 from django.db.models import Q
 from django.contrib import messages
 from administracion.models import Curso, Taller, Inscripcion, Diplomado
@@ -16,8 +16,16 @@ from administracion.models import Curso, Taller, Inscripcion, Diplomado
 
 #estas son las vistas de la pagina web
 def index(request):
-  
-    return render(request, 'index.html')
+    diplomados = DiplomadoLanding.objects.all()
+    talleres = TallerLanding.objects.all()
+    cursos =CursoLanding.objects.all()
+    noticias = Noticia.objects.all()
+    return render(request, 'index.html', {
+        'diplomados': diplomados,
+        'talleres': talleres,
+        'cursos': cursos,
+        'noticias': noticias
+    })
 
 def historia(request):
     return render(request, 'historia.html')
@@ -105,11 +113,21 @@ def registro_alumno(request):
     return render(request, 'registro.html', {'form': form})
 
 def inicio(request):
-    alumno_id = request.session.get('alumno_id')
+    alumno_id = request.session.get("alumno_id")
     if not alumno_id:
         return redirect('login_alumno')
+
     alumno = Alumno.objects.get(id=alumno_id)
-    return render(request, 'inicio.html', {'alumno': alumno})
+
+    inscripciones = Inscripcion.objects.filter(
+        alumno=alumno,
+        estado='Inscrito'
+    ).filter(Q(curso__isnull=False) | Q(taller__isnull=False) | Q(diplomado__isnull=False))
+
+    return render(request, 'inicio.html', {
+        'alumno': alumno,
+        'inscripciones': inscripciones,
+    })
 
 
 # esta es la parte para que el alumno vea la parte de los cursos y talleres
@@ -331,6 +349,7 @@ def cargar_facilitador(vista_funcion):
 
     return funcion_envuelta
 
+
 def inicio_facilitador(request):
     facilitador_id = request.session.get("facilitador_id")
     if not facilitador_id:
@@ -338,7 +357,16 @@ def inicio_facilitador(request):
 
     facilitador = Facilitador.objects.get(id=facilitador_id)
 
-    return render(request, 'inicio_facilitador.html', {'facilitador': facilitador})
+    cursos = Curso.objects.filter(facilitador=facilitador)
+    talleres = Taller.objects.filter(facilitador=facilitador)
+    diplomados = Diplomado.objects.filter(facilitador=facilitador)
+
+    return render(request, 'inicio_facilitador.html', {
+        'facilitador': facilitador,
+        'cursos': cursos,
+        'talleres': talleres,
+        'diplomados': diplomados
+    })
 
 def registro_facilitador(request):
     if request.method == 'POST':
@@ -513,3 +541,29 @@ def contacto_view(request):
     return render(request, 'index.html')  # si es solo render normal
 
 
+def diplomado_detalle(request, id):
+    diplomado = get_object_or_404(DiplomadoLanding, id=id)
+    modulos = ModuloDiplomado.objects.filter(diplomado=diplomado)
+    
+    return render(request, 'diplomado_detalles.html', {
+        'diplomado': diplomado,
+        'modulos': modulos
+    })
+
+def taller_detalle(request,id):
+    taller = get_object_or_404(TallerLanding, id=id)
+    sesiones = SesionTaller.objects.filter(taller=taller)
+
+    return render(request, 'taller_detalles.html', {
+        'taller': taller,
+        'sesiones' : sesiones
+    })
+
+def curso_detalles(request,id):
+    curso = get_object_or_404(CursoLanding, id = id)
+    sesiones = SesionCurso.objects.filter(curso=curso)
+
+    return render(request, 'curso_detalles.html', {
+        'curso': curso,
+        'sesiones' : sesiones
+    })

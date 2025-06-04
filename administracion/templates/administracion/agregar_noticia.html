@@ -1,0 +1,28 @@
+{% extends './base.html' %}
+
+{% block title %}Agregar Post{% endblock %}
+
+{% block content %}
+<div class="contenido-principal-agregar">
+  <h4 class="mb-3">Agregar Post</h4>
+  <p>Complete el formulario para registrar una nueva noticia.</p>
+
+  <form method="post" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="mb-3">
+      <label for="id_titulo">Título:</label>
+      {{ form.titulo }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_imagen">Imagen:</label>
+      {{ form.imagen }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar Noticia</button>
+    <a href="{% url 'publicaciones_noticias' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

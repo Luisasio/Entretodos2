@@ -45,6 +45,7 @@ urlpatterns = [
     path('facilitadores/editar/<int:facilitador_id>/', views.editar_facilitador, name='editar_facilitador'),
     path('facilitadores/eliminar/<int:facilitador_id>/', views.eliminar_facilitador, name='eliminar_facilitador'),
 
+    path('grupos/', views.grupos, name='grupos'),
 
 
 
@@ -78,6 +79,35 @@ urlpatterns = [
     path('cambiar-contrasena/', views.CambiarContrasenaView.as_view(), name='cambiar_contrasena'),
 
 
+    #publicaciones
+    path('publicaciones/', views.publicaciones, name='publicaciones'),
+    path('publicaciones/cursos/', views.publicaciones_cursos, name='publicaciones_cursos'),
+    path('publicaciones/cursos/agregar-diplomado/', views.agregar_diplomado_inicio, name='agregar_diplomado_inicio'),
+    path('publicaciones/cursos/agregar-taller/', views.agregar_taller_inicio, name='agregar_taller_inicio'),
+    path('publicaciones/cursos/agregar-curso/', views.agregar_curso_inicio, name='agregar_curso_inicio'),
+    path('publicaciones/noticias', views.publicaciones_noticias, name= 'publicaciones_noticias'),
+    path('publicaciones/agregar-noticia/', views.agregar_noticia, name='agregar_noticia'),
+    path('noticias/editar/<int:pk>/', views.editar_noticia, name='editar_noticia'),
+    path('noticias/eliminar/<int:pk>/', views.eliminar_noticia, name='eliminar_noticia'),
+
+
+
+    #editar publicaciones
+    path('diplomados-landing/<int:pk>/editar/', views.editar_diplomado_landing, name='editar_diplomado_landing'),
+    path('talleres-landing/editar/<int:pk>/', views.editar_taller_inicio, name='editar_taller_inicio'),
+    path('cursos-landing/editar/<int:pk>/', views.editar_curso_inicio, name='editar_curso_inicio'),
+
+
+    #eliminar publicaciones
+    path('diplomados-landing/eliminar/<int:pk>/', views.eliminar_diplomado_landing, name='eliminar_diplomado_landing'),
+    path('talleres-landing/eliminar/<int:pk>/', views.eliminar_taller_inicio, name='eliminar_taller_inicio'),
+    path('cursos-landing/eliminar/<int:pk>/', views.eliminar_curso_inicio, name='eliminar_curso_inicio'),
+
+
+
+
+
+
 
 
 
@@ -90,4 +120,6 @@ urlpatterns = [
     path('despublicar-curso/<int:curso_id>/', views.despublicar_curso, name='despublicar_curso'),
     path('despublicar-taller/<int:taller_id>/', views.despublicar_taller, name='despublicar_taller'),
     path('despublicar-diplomado/<int:diplomado_id>/', views.despublicar_diplomado, name='despublicar_diplomado'),
+
+
 ]

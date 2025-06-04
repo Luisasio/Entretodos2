@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block content %}
+<div class="contenido-principal-agregar">
+  <h4 class="mb-3">Editar Post</h4>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="id_titulo">Título:</label>
+      {{ form.titulo }}
+    </div>
+    
+
+    <div class="mb-3">
+      <label>Imagen actual:</label><br>
+      {% if noticia.imagen %}
+        <img src="{{ noticia.imagen.url }}" alt="Imagen actual" width="200" class="mb-4 mt-4">
+      {% else %}
+        <p>No hay imagen cargada.</p>
+      {% endif %}
+      {{ form.imagen }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    <a href="{% url 'publicaciones_noticias' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+{% endblock %}

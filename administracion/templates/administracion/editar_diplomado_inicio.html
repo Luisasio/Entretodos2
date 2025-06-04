@@ -1,0 +1,97 @@
+{% extends './base.html' %}
+{% block title %}Editar Diplomado{% endblock %}
+
+{% block content %}
+<div class="contenido-principal-agregar">
+  <h4 class="mb-3">Editar Diplomado</h4>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="mb-3">
+      {{ form.titulo.label_tag }} {{ form.titulo }}
+    </div>
+    <div class="mb-3">
+      {{ form.descripcion.label_tag }} {{ form.descripcion }}
+    </div>
+
+    <div class="mb-3">
+      <label>Imagen actual:</label><br>
+      {% if diplomado.imagen %}
+        <img src="{{ diplomado.imagen.url }}" alt="Imagen actual" width="200" class="mb-4 mt-4 ">
+      {% else %}
+        <p>No hay imagen cargada.</p>
+      {% endif %}
+      {{ form.imagen.label_tag }} {{ form.imagen }}
+    </div>
+
+    <div class="mb-3">
+      <label>Programa PDF actual:</label><br>
+      {% if diplomado.programa_pdf %}
+        <a href="{{ diplomado.programa_pdf.url }}" target="_blank" class="mb-4 mt-4 btn btn-danger">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
+          Ver PDF
+        </a>
+        <br>
+      {% else %}
+        <p>No hay PDF cargado.</p>
+      {% endif %}
+      <label for="">Nuevo PDF:</label> 
+      {{ form.programa_pdf }}
+    </div>
+
+    <div class="mb-3">{{ form.destinatarios.label_tag }} {{ form.destinatarios }}</div>
+    <div class="mb-3">{{ form.introduccion.label_tag }} {{ form.introduccion }}</div>
+    <div class="mb-3">{{ form.nivel.label_tag }} {{ form.nivel }}</div>
+    <div class="mb-3">{{ form.proposito.label_tag }} {{ form.proposito }}</div>
+    <div class="mb-3">{{ form.particulares.label_tag }} {{ form.particulares }}</div>
+    <div class="mb-3">{{ form.recursos.label_tag }} {{ form.recursos }}</div>
+    <div class="mb-3">{{ form.duracion.label_tag }} {{ form.duracion }}</div>
+    <div class="mb-3">{{ form.modalidad.label_tag }} {{ form.modalidad }}</div>
+    <div class="mb-3">{{ form.costo.label_tag }} {{ form.costo }}</div>
+    <div class="mb-3">{{ form.participantes.label_tag }} {{ form.participantes }}</div>
+    <div class="mb-3">{{ form.responsable.label_tag }} {{ form.responsable }}</div>
+
+<h4 class="mt-4">Módulos</h4>
+{{ formset.management_form }}
+<div id="modulos">
+  {% for modulo_form in formset %}
+    <div class="modulo-form border p-3 mb-3">
+      {{ modulo_form.as_p }}
+    </div>
+  {% endfor %}
+</div>
+
+<!-- Formulario vacío fuera del contenedor -->
+<div class="d-none" id="modulo-empty-form">
+  {{ formset.empty_form.as_p|safe }}
+</div>
+
+<button type="button" class="btn btn-info" id="agregar-modulo">Agregar otro módulo</button>
+
+<button type="submit" class="btn btn-success">Guardar Cambios</button>
+<a href="{% url 'publicaciones_cursos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const contenedor = document.getElementById("modulos");
+    const botonAgregar = document.getElementById("agregar-modulo");
+    const totalForms = document.getElementById("id_form-TOTAL_FORMS");
+    const emptyForm = document.getElementById("modulo-empty-form").innerHTML;
+
+    botonAgregar.addEventListener("click", function () {
+      const formIndex = parseInt(totalForms.value);
+      let nuevoFormulario = emptyForm.replace(/__prefix__/g, formIndex);
+      const div = document.createElement("div");
+      div.classList.add("modulo-form", "border", "p-3", "mb-3");
+      div.innerHTML = nuevoFormulario;
+      contenedor.appendChild(div);
+      totalForms.value = formIndex + 1;
+    });
+  });
+</script>
+
+{% endblock %}

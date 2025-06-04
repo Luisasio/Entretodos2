@@ -1,0 +1,78 @@
+{% extends './base.html' %}
+{% block title %}Editar Taller{% endblock %}
+
+{% block content %}
+<div class="contenido-principal-agregar">
+  <h4 class="mb-3">Editar Taller</h4>
+
+  <form method="post" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+
+    <div class="mb-3">{{ form.titulo.label_tag }} {{ form.titulo }}</div>
+    <div class="mb-3">{{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}</div>
+    <div class="mb-3">{{ form.subtitulo.label_tag }} {{ form.subtitulo }}</div>
+    <div class="mb-3">{{ form.descripcion_larga.label_tag }} {{ form.descripcion_larga }}</div>
+    <div class="mb-3">{{ form.responsable.label_tag }} {{ form.responsable }}</div>
+    <div class="mb-3">{{ form.duracion.label_tag }} {{ form.duracion }}</div>
+
+    <div class="mb-3">
+      <label>PDF actual:</label><br>
+      {% if taller.programa_pdf %}
+        <a href="{{ taller.programa_pdf.url }}" target="_blank" class="btn btn-danger mb-2">Ver PDF</a>
+      {% else %}
+        <p>No hay PDF cargado.</p>
+      {% endif %}
+      <br>
+      <label for="" class="mb-2">Cambiar programa PDF</label>{{ form.programa_pdf }}
+    </div>
+
+    <div class="mb-3">
+      <label>Imagen actual:</label><br>
+      {% if taller.imagen %}
+        <img src="{{ taller.imagen.url }}" alt="Imagen actual" width="200" class="mb-4 mt-4">
+      {% else %}
+        <p>No hay imagen cargada.</p>
+      {% endif %}
+      {{ form.imagen.label_tag }} {{ form.imagen }}
+    </div>
+
+    <h5 class="mt-4">Sesiones</h5>
+    {{ formset.management_form }}
+    <div id="sesiones">
+      {% for sesion_form in formset %}
+        <div class="sesion-form border p-3 mb-3">
+          {{ sesion_form.as_p }}
+        </div>
+      {% endfor %}
+
+      <div class="sesion-form d-none" id="sesion-empty-form">
+        {{ formset.empty_form.as_p|safe }}
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-info" id="agregar-sesion">Agregar otra sesión</button>
+
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    <a href="{% url 'publicaciones_cursos' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const contenedor = document.getElementById("sesiones");
+  const botonAgregar = document.getElementById("agregar-sesion");
+  const totalForms = document.getElementById("id_form-TOTAL_FORMS");
+  const emptyForm = document.getElementById("sesion-empty-form").innerHTML;
+
+  botonAgregar.addEventListener("click", function () {
+    const formIndex = parseInt(totalForms.value);
+    let nuevoFormulario = emptyForm.replace(/__prefix__/g, formIndex);
+    const div = document.createElement("div");
+    div.classList.add("sesion-form", "border", "p-3", "mb-3");
+    div.innerHTML = nuevoFormulario;
+    contenedor.appendChild(div);
+    totalForms.value = formIndex + 1;
+  });
+});
+</script>
+{% endblock %}

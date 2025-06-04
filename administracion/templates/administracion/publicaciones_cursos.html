@@ -1,0 +1,145 @@
+{% extends './base.html' %}
+
+{% block title %}Cursos{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <h4>Cursos, Talleres y Diplomados</h4>
+    <p>En esta sección se podran agregar cursos, talleres y diplomados.</p>
+  </div>
+
+  <h5>Cursos</h5>
+
+  <div class="controladores mt-4 mb-4">
+    <div class="controladores 1 gap-3">
+      <a href="{% url 'agregar_curso_inicio' %}" class="btn-añadir">
+        <i class="fa-solid fa-plus"></i> Nuevo Curso
+      </a>
+    </div>
+  </div>
+  <table class="table table-striped tabla1">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Nombre del Curso</th>
+        <th>Duración</th>
+        <th>Responsable académico</th>
+        <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for curso in cursos %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ curso.titulo }}</td>
+        <td>{{ curso.duracion }}</td>
+        <td>{{ curso.responsable }}</td>
+        <td>
+            <!-- Aquí van tus botones -->
+            <a href="{% url 'editar_curso_inicio' curso.id %}" class="btn btn-warning btn-sm">
+              <i class="fa fa-edit"></i>
+            </a>
+
+            <a href="{% url 'eliminar_curso_inicio' curso.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?')">
+              <i class="fa-solid fa-trash-can"></i>
+            </a>
+
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  <h5>Talleres</h5>
+
+  <div class="controladores mt-4 mb-4">
+    <div class="controladores 1 gap-3">
+      <a href="{% url 'agregar_taller_inicio' %}" class="btn-añadir">
+        <i class="fa-solid fa-plus"></i> Nuevo Taller
+      </a>
+    </div>
+  </div>
+  <table class="table table-striped tabla1">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Nombre del Taller</th>
+        <th>Duración</th>
+        <th>Responsable académico</th>
+        <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for taller in talleres %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ taller.titulo }}</td>
+        <td>{{ taller.duracion }}</td>
+        <td>{{ taller.responsable }}</td>
+        <td>
+            <!-- Aquí van tus botones -->
+            <a href="{% url 'editar_taller_inicio' taller.id %}" class="btn btn-sm btn-warning">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+            <a href="{% url 'eliminar_taller_inicio' taller.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este taller?')">
+              <i class="fa-solid fa-trash-can"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  <h5>Diplomados</h5>
+  <div class="controladores mt-4 mb-4">
+    <div class="controladores 1 gap-3">
+      <a href="{% url 'agregar_diplomado_inicio' %}" class="btn-añadir">
+        <i class="fa-solid fa-plus"></i> Nuevo Diplomado
+      </a>
+    </div>
+  </div>
+  <table class="table table-striped tabla1">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Nombre del diplomado</th>
+        <th>Duracion</th>
+        <th>Responsable academico</th>
+        <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for diplomado in diplomados %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ diplomado.titulo }}</td>
+      <td>{{ diplomado.duracion }}</td>
+      <td>{{ diplomado.responsable }}</td>
+      <td>
+        <!-- <a href="" class="btn btn-sm btn-primary">Ver</a> -->
+        <a href="{% url 'editar_diplomado_landing' diplomado.id %}" class="btn btn-sm btn-warning">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+        <a href="{% url 'eliminar_diplomado_landing' diplomado.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este diplomado?')">
+          <i class="fa-solid fa-trash-can"></i>
+        </a>
+
+
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  
+
+
+  
+  
+{% endblock %}

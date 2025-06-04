@@ -15,12 +15,14 @@
 <body>
 <body>
     {% include 'cabecera.html' %}
-    <header class="program-header ancho">
-        <div class="container">
-            <h1 class="program-title">Docencia y Desarrollo Humano</h1>
+
+
+    <section class="seccion-programa">
+        <div class="contenedor-programa-info ancho margen">
+            <h1 class="program-title">Titlo del diplomado</h1>
             <p>Programa General de Formación Continua</p>
         </div>
-    </header>
+    </section>
 
     <main class="container">
         
@@ -121,11 +123,7 @@
             <div class="info-item">
                 <p>El diplomado tiene validez oficial y queda registrado formalmente en su historial académico de la Plataforma Estatal de Formación Continua.</p>
             </div>
-            <a href="{% static 'pdf/Diplomado_Docencia_Desarrollo_Humano_Programa_General.pdf' %}" target="_blank" class="download-btn">
-          
-  Descargar programa completo
-</a>
-           
+            <a href="{% static 'pdf/Diplomado_Docencia_Desarrollo_Humano_Programa_General.pdf' %}" target="_blank" class="download-btn">Descargar programa completo</a>
         </section>
     </main>
     {% include 'pie.html' %}

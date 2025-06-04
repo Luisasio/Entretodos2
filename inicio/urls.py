@@ -60,6 +60,10 @@ urlpatterns = [
     path('mis-grupos/', views.mis_grupos, name='mis_grupos'),
     path('mis-grupos/<str:tipo>/<int:id>/alumnos/', views.lista_de_alumnos, name='lista_de_alumnos'),
 
+    path('diplomado/<int:id>/', views.diplomado_detalle, name='diplomado_detalle'),
+    path('taller/<int:id>/', views.taller_detalle, name='taller_detalle'),
+    path('curso/<int:id>/', views.curso_detalles, name = 'curso_detalles')
+
 
 ]
 

@@ -1,0 +1,128 @@
+{% extends './base.html' %}
+
+{% block title %}Agregar Diplomado{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal-agregar">
+    <h4 class="mb-3">Agregar Diplomado</h4>
+    <p>Complete el formulario para registrar un nuevo diplomado.</p>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="">Titulo:</label>
+        {{ form.titulo }}
+      </div>
+      <div class="mb-3">
+        {{ form.descripcion.label_tag }}
+        {{ form.descripcion }}
+      </div>
+      <div class="mb-3">
+        <label for="">Imagen:(añada una imagen alusiva al diplomado)</label>
+        {{ form.imagen }}
+      </div>
+      <div class="mb-3">
+        <label for="id_destinatarios">Destinatarios:</label>
+        {{ form.destinatarios }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_introduccion">Introducción:</label>
+        {{ form.introduccion }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_nivel">Nivel:</label>
+        {{ form.nivel }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_proposito">Propósito General:</label>
+        {{ form.proposito }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_particulares">Propositos Particulares:</label>
+        {{ form.particulares }}
+      </div>
+      <div class="mb-3">
+        <label for="id_recursos">Recursos Tecnicos:</label>
+        {{ form.recursos }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_duracion">Duración:</label>
+        {{ form.duracion }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_modalidad">Modalidad:</label>
+        {{ form.modalidad }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_modalidad">Costo:</label>
+        {{ form.costo }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_participantes">Participantes:</label>
+        {{ form.participantes }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_responsable">Responsable:</label>
+        {{ form.responsable }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_programa_pdf">Programa en PDF:</label>
+        {{ form.programa_pdf }}
+      </div>
+
+
+      <h4>Módulos</h4>
+      {{ formset.management_form }}
+
+      <div id="modulos">
+        {% for form in formset %}
+          <div class="modulo-form">
+            {{ form.as_p }}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="button" id="agregar-modulo" class="btn btn-success">Agregar otro módulo</button>
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'publicaciones_cursos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const btnAgregar = document.getElementById("agregar-modulo");
+    const contenedor = document.getElementById("modulos");
+    const totalForms = document.querySelector('#id_form-TOTAL_FORMS');
+
+    btnAgregar.addEventListener("click", function() {
+      const formsCount = parseInt(totalForms.value);
+      const nuevoFormulario = contenedor.children[0].cloneNode(true); // clona el primer módulo
+      const regex = new RegExp(`form-(\\d){1}-`, 'g');
+
+      nuevoFormulario.innerHTML = nuevoFormulario.innerHTML.replace(regex, `form-${formsCount}-`);
+      
+      // Limpia los valores anteriores
+      nuevoFormulario.querySelectorAll("input, textarea").forEach(input => {
+        if (input.type !== 'hidden') {
+          input.value = '';
+        }
+      });
+
+      contenedor.appendChild(nuevoFormulario);
+      totalForms.value = formsCount + 1;
+    });
+  });
+</script>
+
+{% endblock %}
+

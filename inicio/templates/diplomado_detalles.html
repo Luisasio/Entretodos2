@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+        <link rel="stylesheet" href="{% static 'css/diplomados.css' %}">
+        <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+        <link rel="stylesheet" href="{% static 'css/movil_diplomados.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <title>{% block title %}{{ diplomado.titulo }}{% endblock %}</title>
+      </head>
+<body>
+<body>
+    {% include 'cabecera.html' %}
+
+
+    <section class="seccion-programa">
+        <div class="contenedor-programa-info ancho margen">
+            <h1 class="program-title">{{ diplomado.titulo }}</h1>
+            <p>Programa General de Formación Continua</p>
+        </div>
+    </section>
+
+    <main class="container">
+        
+
+        <section class="info-grid">
+            <div class="info-card">
+                <h2 class="card-title">Destinatarios</h2>
+                <p>{{ diplomado.destinatarios }}</p>
+            </div>
+            <div class="info-card">
+                <h2 class="card-title">Nivel</h2>
+                <p>{{ diplomado.nivel }}.</p>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <h2 class="card-title">Introducción</h2>
+            <p>{{ diplomado.introduccion }}.</p>
+           
+        </section>
+
+        <section class="purpose-section">
+            <h2 class="card-title">Propósito General</h2>
+            <p>{{ diplomado.proposito }}</p>
+            
+            <h3 class="module-title">Propósitos Particulares</h3>
+            <p>{{ diplomado.particulares }}</p>
+        </section>
+
+        <!-- aca debera tener un bucle para mostrar los datos de los modulos seguin el dipomado -->
+        <section class="modules-grid">
+          {% for modulo in modulos %}
+            <div class="module-card">
+              <h3 class="module-title">{{ modulo.titulo }}</h3>
+              <p>{{ modulo.descripcion }}</p>
+            </div>
+          {% endfor %}
+        </section>
+
+        <section class="resources-section">
+            <h2 class="card-title">Recursos Técnicos</h2>
+            <p>{{ diplomado.recursos }}</p>
+        </section>
+
+      
+        <section class="additional-info">
+            <h2 class="card-title">Información Adicional</h2>
+            <div class="info-item">
+                <span class="highlight">Duración:</span> {{ diplomado.duracion }}
+            </div>
+            <div class="info-item">
+                <span class="highlight">Modalidad:</span> {{ diplomado.modalidad }}
+            </div>
+            <div class="info-item">
+                <span class="highlight">Costo:</span> {{ diplomado.costo }}
+            </div>
+            <div class="info-item">
+                <span class="highlight">Participantes:</span> {{ diplomado.participantes }}
+            </div>
+            <div class="info-item">
+                <span class="highlight">Responsable Académico:</span> {{ diplomado.responsable }}
+            </div>
+            <div class="info-item">
+                <p>El diplomado tiene validez oficial y queda registrado formalmente en su historial académico de la Plataforma Estatal de Formación Continua.</p>
+            </div>
+            {% if diplomado.programa_pdf %}
+              <a href="{{ diplomado.programa_pdf.url }}" target="_blank" class="download-btn">Descargar Programa PDF</a>
+            {% endif %}
+        </section>
+    </main>
+    {% include 'pie.html' %}
+</body>
+</html>

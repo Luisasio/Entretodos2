@@ -8,12 +8,15 @@ from django.db.models import Count, Q
 from reportlab.pdfgen import canvas
 
 from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm, EditarCursoForm, EditarTallerForm, EditarDiplomadoForm
-from administracion.models import Alumno, Inscripcion, Periodo, Taller, Diplomado,Facilitador
+from administracion.models import Alumno, CursoLanding, DiplomadoLanding, Inscripcion, ModuloDiplomado, Noticia, Periodo, SesionCurso, SesionTaller, Taller, Diplomado,Facilitador, TallerLanding
 from administracion.models import Curso
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
 from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitadorForm,EditarFacilitadorForm
+from django.shortcuts import render, redirect
+from .forms import CursoLandingForm, DiplomadoLandingEditForm, DiplomadoLandingForm, ModuloDiplomadoForm, ModuloFormSet, NoticiasForm, SesionCursoForm, SesionFormSet, SesionTallerForm, TallerLandingEditForm, TallerLandingForm
+from django.forms.models import modelformset_factory, inlineformset_factory
 
 
 # esto es para la validacion del admin al querer agregar un facilitador que choquen sus horarios
@@ -1067,3 +1070,275 @@ def eliminar_facilitador(request, facilitador_id):
         messages.success(request, 'Facilitador eliminado correctamente.')
         return redirect('facilitadores')
     return render(request, 'administracion/eliminar_facilitador.html', {'facilitador': facilitador})
+
+
+# logica para las publicaciones que iran a la landing page
+def publicaciones(request):
+    return render(request, 'administracion/publicaciones.html')
+
+
+# donde se muestran todos los cursos y diplomados que se publican en la landing page
+def publicaciones_cursos(request):
+    diplomados = DiplomadoLanding.objects.all()
+    talleres = TallerLanding.objects.all()
+    cursos = CursoLanding.objects.all()
+    return render(request, 'administracion/publicaciones_cursos.html', {
+        'diplomados': diplomados,
+        'talleres': talleres,
+        'cursos': cursos
+    })
+
+
+
+
+def agregar_diplomado_inicio(request):
+    if request.method == 'POST':
+        form = DiplomadoLandingForm(request.POST, request.FILES)
+        formset = ModuloFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            diplomado = form.save()
+            modulos = formset.save(commit=False)
+            for modulo in modulos:
+                modulo.diplomado = diplomado
+                modulo.save()
+            for obj in formset.deleted_objects:
+                obj.delete()
+            return redirect('publicaciones_cursos')
+    else:
+        form = DiplomadoLandingForm()
+        formset = ModuloFormSet(queryset=ModuloDiplomado.objects.none())  # importante para evitar módulos no deseados
+
+    return render(request, 'administracion/agregar_diplomado_inicio.html', {
+        'form': form,
+        'formset': formset
+    })
+
+ModuloFormSet = modelformset_factory(
+    ModuloDiplomado,
+    form=ModuloDiplomadoForm,
+    extra=1,
+    can_delete=True
+)
+
+def editar_diplomado_landing(request, pk):
+    diplomado = get_object_or_404(DiplomadoLanding, pk=pk)
+    ModuloFormSet = inlineformset_factory(
+        DiplomadoLanding, ModuloDiplomado,
+        form=ModuloDiplomadoForm,
+        extra=0, can_delete=True
+    )
+
+    if request.method == 'POST':
+        form = DiplomadoLandingEditForm(request.POST, request.FILES, instance=diplomado)
+        formset = ModuloFormSet(request.POST, instance=diplomado, prefix='form')  # ✅ aquí también
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('publicaciones_cursos')
+    else:
+        form = DiplomadoLandingEditForm(instance=diplomado)
+        formset = ModuloFormSet(instance=diplomado, prefix='form')  # ✅ y aquí también
+
+    return render(request, 'administracion/editar_diplomado_inicio.html', {
+        'form': form,
+        'formset': formset,
+        'diplomado': diplomado
+    })
+
+def eliminar_diplomado_landing(request, pk):
+    diplomado = get_object_or_404(DiplomadoLanding, pk=pk)
+    diplomado.delete()
+    messages.success(request, "Diplomado eliminado correctamente.")
+    return redirect('publicaciones_cursos')
+
+
+# agregar taller a la landing page
+def agregar_taller_inicio(request):
+    if request.method == 'POST':
+        form = TallerLandingForm(request.POST, request.FILES)
+        formset = SesionFormSet(request.POST or None, prefix='form')
+        if form.is_valid() and formset.is_valid():
+            taller = form.save()
+            sesiones = formset.save(commit=False)
+            for sesion in sesiones:
+                sesion.taller = taller
+                sesion.save()
+            for obj in formset.deleted_objects:
+                obj.delete()
+            return redirect('publicaciones_cursos')
+    else:
+        form = TallerLandingForm()
+        formset = SesionFormSet(request.POST or None, prefix='form')
+
+
+    return render(request, 'administracion/agregar_taller_inicio.html', {
+        'form': form,
+        'formset': formset
+    })
+
+SesionFormSet = inlineformset_factory(
+    TallerLanding,
+    SesionTaller,
+    form=SesionTallerForm,
+    extra=1,
+    can_delete=True
+)
+
+# editar taller en la landing page
+def editar_taller_inicio(request, pk):
+    taller = get_object_or_404(TallerLanding, pk=pk)
+
+    # Crear el formset para las sesiones del taller
+    SesionFormSet = inlineformset_factory(
+        TallerLanding,
+        SesionTaller,
+        form=SesionTallerForm,
+        extra=0,  # No añadir formularios vacíos
+        can_delete=True  # Permitir eliminar las sesiones
+    )
+
+    if request.method == 'POST':
+        form = TallerLandingForm(request.POST, request.FILES, instance=taller)
+        formset = SesionFormSet(request.POST, instance=taller, prefix='form')
+
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, "Taller actualizado correctamente.")
+            return redirect('publicaciones_cursos')
+    else:
+        form = TallerLandingForm(instance=taller)
+        formset = SesionFormSet(instance=taller, prefix='form')
+
+    return render(request, 'administracion/editar_taller_inicio.html', {
+        'form': form,
+        'formset': formset,
+        'taller': taller
+    })
+
+
+
+
+def eliminar_taller_inicio(request, pk):
+    taller = get_object_or_404(TallerLanding, pk=pk)
+    taller.delete()
+    messages.success(request, "Taller eliminado correctamente.")
+    return redirect('publicaciones_cursos')
+
+
+# agregar curso a la landing page
+def agregar_curso_inicio(request):
+    if request.method == 'POST':
+        form = CursoLandingForm(request.POST, request.FILES)
+        formset = SesionFormSet(request.POST ,prefix='form')
+        if form.is_valid() and formset.is_valid():
+            curso = form.save()
+            sesiones = formset.save(commit=False)
+            for sesion in sesiones:
+                sesion.curso = curso  # Asociar sesión al curso ya guardado
+                sesion.save()
+            for obj in formset.deleted_objects:
+                obj.delete()
+            return redirect('publicaciones_cursos')
+    else:
+        form = CursoLandingForm()
+        formset = SesionFormSet(queryset=SesionCurso.objects.none(), prefix='form')
+
+    return render(request, 'administracion/agregar_curso_inicio.html', {
+        'form': form,
+        'formset': formset
+    })
+
+SesionFormSet = inlineformset_factory(
+    CursoLanding,
+    SesionCurso,
+    form=SesionCursoForm,
+    extra=1,
+    can_delete=True
+)
+
+def editar_curso_inicio(request, pk):
+    curso = get_object_or_404(CursoLanding, pk=pk)
+
+    # Crear el formset para las sesiones del curso
+    SesionFormSet = inlineformset_factory(
+        CursoLanding,
+        SesionCurso,
+        form=SesionCursoForm,
+        extra=0,  # No añadir formularios vacíos
+        can_delete=True  # Permitir eliminar las sesiones
+    )
+
+    if request.method == 'POST':
+        form = CursoLandingForm(request.POST, request.FILES, instance=curso)
+        formset = SesionFormSet(request.POST, instance=curso, prefix='form')
+
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            messages.success(request, "Curso actualizado correctamente.")
+            return redirect('publicaciones_cursos')
+    else:
+        form = CursoLandingForm(instance=curso)
+        formset = SesionFormSet(instance=curso, prefix='form')
+
+    return render(request, 'administracion/editar_curso_inicio.html', {
+        'form': form,
+        'formset': formset,
+        'curso': curso
+    })
+
+
+
+
+def eliminar_curso_inicio(request, pk):
+    curso = get_object_or_404(CursoLanding, pk=pk)
+    curso.delete()
+    messages.success(request, "Curso eliminado correctamente.")
+    return redirect('publicaciones_cursos')
+
+
+def grupos(request):
+    return render(request, 'administracion/grupos.html')
+
+
+def publicaciones_noticias(request):
+    noticias = Noticia.objects.all()
+    return render(request, 'administracion/publicaciones_noticias.html', {'noticias': noticias})
+
+
+
+def agregar_noticia(request):
+    if request.method == 'POST':
+        form = NoticiasForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()  # Guardamos la noticia
+            return redirect('publicaciones_noticias')  # Redirigimos a la página de noticias, o donde desees
+    else:
+        form = NoticiasForm()
+
+    return render(request, 'administracion/agregar_noticia.html', {'form': form})
+
+
+def editar_noticia(request, pk):
+    # Obtenemos la noticia que queremos editar
+    noticia = get_object_or_404(Noticia, pk=pk)
+
+    if request.method == 'POST':
+        form = NoticiasForm(request.POST, request.FILES, instance=noticia)  # Llenamos el formulario con la noticia actual
+        if form.is_valid():
+            form.save()  # Guardamos los cambios en la noticia
+            return redirect('publicaciones_noticias')  # Redirigimos a la lista de noticias
+    else:
+        form = NoticiasForm(instance=noticia)  # Si no es un POST, mostramos el formulario con los datos actuales
+
+    return render(request, 'administracion/editar_noticia.html', {
+        'form': form,
+        'noticia': noticia  # Enviamos la noticia actual para renderizarla
+    })
+
+def eliminar_noticia(request, pk):
+    noticias = get_object_or_404(Noticia, pk=pk)
+    noticias.delete()
+    messages.success(request, "Post eliminado correctamente.")
+    return redirect('publicaciones_noticias')

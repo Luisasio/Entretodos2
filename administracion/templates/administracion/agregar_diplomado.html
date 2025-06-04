@@ -36,10 +36,6 @@
         {{ form.nombre_diplomado }}
       </div>
       
-      <div class="mb-3">
-        <label for="id_descripcion">Descripción:</label>
-        {{ form.descripcion }}
-      </div>
 
       <div class="mb-3">
         <label for="id_periodo">Periodo:</label>
@@ -130,20 +126,20 @@
   </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const modalidad = document.getElementById('id_modalidad');
-    const contenedorPresencial = document.getElementById('campos-presenciales');
+  document.addEventListener('DOMContentLoaded', function () {
+      const modalidad = document.getElementById('id_modalidad');
+      const contenedorPresencial = document.getElementById('campos-presenciales');
 
-    function toggleCamposPresencial() {
-        if (modalidad.value === 'presencial') {
-            contenedorPresencial.style.display = 'block';
-        } else {
-            contenedorPresencial.style.display = 'none';
-        }
-    }
+      function toggleCamposPresencial() {
+          if (modalidad.value === 'presencial') {
+              contenedorPresencial.style.display = 'block';
+          } else {
+              contenedorPresencial.style.display = 'none';
+          }
+      }
 
-    modalidad.addEventListener('change', toggleCamposPresencial);
-    toggleCamposPresencial();  // Inicial
-});
-</script>
+      modalidad.addEventListener('change', toggleCamposPresencial);
+      toggleCamposPresencial();  // Inicial
+  });
+  </script>
 {% endblock %}

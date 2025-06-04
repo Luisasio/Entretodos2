@@ -170,3 +170,102 @@ class Inscripcion(models.Model):
 
     def __str__(self):
         return f"{self.alumno} - {self.estado}"
+
+class DiplomadoLanding(models.Model):
+    titulo = models.CharField(max_length=200, null=True, blank=True)
+    descripcion = models.TextField()
+    imagen = models.ImageField(upload_to='diplomados_landing/')
+    destinatarios = models.TextField(null=True)
+    introduccion = models.TextField(null=True)
+    nivel = models.CharField(max_length=100, null=True, blank=True)
+    proposito = models.TextField(null=True)
+    particulares = models.TextField(null=True)
+    recursos = models.TextField(null=True)
+    duracion = models.CharField(max_length=255, null=True, blank=True)
+    modalidad = models.CharField(max_length=255, null=True, blank=True)
+    costo = models.TextField(null=True, blank=True)
+    participantes = models.CharField(max_length=255, null=True, blank=True)
+    responsable = models.CharField(max_length=255, null=True, blank=True)
+    programa_pdf = models.FileField(upload_to='diplomados_landing/programas/', null=True, blank=True)
+
+
+    class Meta:
+        db_table = 'diplomados_landing'
+        verbose_name = 'Diplomado en Landing'
+        verbose_name_plural = 'Diplomados en Landing'
+
+    def __str__(self):
+        return self.titulo
+    
+class ModuloDiplomado(models.Model):
+    diplomado = models.ForeignKey(DiplomadoLanding, related_name='modulos', on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField()
+
+    def __str__(self):
+        return self.titulo
+
+class TallerLanding(models.Model):
+    titulo = models.CharField(max_length=200, null=True, blank=True)
+    descripcion_corta = models.TextField()
+    imagen = models.ImageField(upload_to='taller_landing/')
+    subtitulo =models.CharField(max_length=200, null=True, blank=True)
+    descripcion_larga = models.TextField(null=True,blank=True)
+    responsable =models.CharField(max_length=200, null=True, blank=True)
+    duracion = models.CharField(max_length=255, null=True, blank=True)
+    programa_pdf = models.FileField(upload_to='taller_landing/programas/', null=True, blank=True)
+
+    class Meta:
+        db_table = 'taller_landing'
+        verbose_name = 'Taller en Landing'
+        verbose_name_plural = 'Talleres en Landing'
+
+    def __str__(self):
+        return self.titulo
+    
+class SesionTaller(models.Model):
+    taller = models.ForeignKey(TallerLanding, on_delete=models.CASCADE, related_name='sesiones')
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField()
+
+    class Meta:
+        verbose_name = 'Sesión del Taller'
+        verbose_name_plural = 'Sesiones del Taller'
+
+    def __str__(self):
+        return self.titulo
+    
+class CursoLanding(models.Model):
+    titulo = models.CharField(max_length=200, null=True, blank=True)
+    descripcion_corta = models.TextField()
+    imagen = models.ImageField(upload_to='cursos_landing/')
+    subtitulo =models.CharField(max_length=200, null=True, blank=True)
+    descripcion_larga = models.TextField(null=True,blank=True)
+    responsable =models.CharField(max_length=200, null=True, blank=True)
+    duracion = models.CharField(max_length=255, null=True, blank=True)
+    programa_pdf = models.FileField(upload_to='curso_landing/programas/', null=True, blank=True)
+
+
+    class Meta:
+        db_table = 'cursos_landing'
+        verbose_name = 'Cursos en Landing'
+        verbose_name_plural = 'Cursos en Landing'
+
+    def __str__(self):
+        return self.titulo
+    
+class SesionCurso(models.Model):
+    curso = models.ForeignKey(CursoLanding, on_delete=models.CASCADE, related_name='sesiones')
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField()
+
+    class Meta:
+        verbose_name = 'Sesión del Curso'
+        verbose_name_plural = 'Sesiones del Curso'
+
+    def __str__(self):
+        return self.titulo
+    
+class Noticia(models.Model):
+    titulo = models.CharField(max_length=200, null=True, blank=True)
+    imagen = models.ImageField(upload_to='noticias/')

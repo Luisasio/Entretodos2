@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/talleres.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_talleres.css' %}">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>{% block title %}{{ taller.titulo }}{% endblock %}</title>
+</head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="container">
+
+        <section class="contenedor-titulo-taller">
+          <h1>{{ taller.titulo }}</h1>
+          <p>{{ taller.subtitulo }}</p>
+        </section>
+
+        <section class="resumen">
+            <p>{{ taller.descripcion_larga }}</p>
+        </section>
+
+        <div class="sessions-grid">
+          {% for sesion in sesiones%}
+          <div class="session-card">
+            <h3>{{ sesion.titulo }}</h3>
+            <p>{{ sesion.descripcion }}</p>
+          </div>
+          {% endfor %}
+            
+          <div class="session-card">
+            {% if taller.programa_pdf %}
+              <a href="{{ taller.programa_pdf.url }}" target="_blank" class="download-btn">Descargar Programa PDF</a>
+            {% endif %}
+          </div>
+        </div>
+    </div>
+    {% include 'pie.html' %}
+</body>
+</html>

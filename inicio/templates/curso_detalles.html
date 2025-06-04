@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cursos.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/movil_cursos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>{% block title %}{{ curso.titulo }}{% endblock %}</title>
+  </head>
+<body>
+  {% include 'cabecera.html' %}
+    <div class="curso-contenedor">
+  <header class="curso-cabecera">
+    <h1>{{ curso.titulo }}</h1>
+  </header>
+
+  <section class="curso-descripcion">
+    <p>{{ curso.descripcion_larga }}</p>
+  </section>
+
+  <div class="curso-sesiones">
+    {% for sesion in sesiones%}
+    <div class="tarjeta-sesion">
+      <div class="numero-sesion">{{ sesion.titulo }}</div>
+      <div>
+        <h3>{{ sesion.descripcion }}</h3>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="tarjeta-final">
+      {% if curso.programa_pdf %}
+        <a href="{{ curso.programa_pdf.url }}" target="_blank" class="download-btn">Descargar Programa PDF</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% include 'pie.html' %}
+    <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-elegante').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+</script>
+</body>
+</html>

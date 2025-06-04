@@ -19,15 +19,17 @@ body {
   margin: 0 auto;
   padding: 2rem;
 }
+/* parte de luis nueva */
 
-/* Header styles */
-.program-header {
+.seccion-programa{
   background: linear-gradient(135deg, #2193b0, #6dd5ed);
-  color: white;
-  padding: 3rem 0;
+  color: #fff;
   text-align: center;
-  margin-bottom: 2rem;
+  padding: 3rem 0;
 }
+
+/* aqui acaba */
+/* Header styles */
 
 .program-title {
   font-size: 2.5rem;

@@ -1,0 +1,42 @@
+{% extends './base.html' %}
+
+{% block title %}Grupos{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <h4>Grupos</h4>
+    <p>En esta sección se selecciona el tipo de grupo para añadir.</p>
+  </div>
+
+  <h5>Pagina de inicio</h5>
+
+  <div class="contenedor-tarjetas-cursos">
+    <div class="tarjeta-publicar-cursos2">
+      <h3>Cursos</h3>
+      <p>Agrega o ve informacion de los grupos de cursos</p>
+      <a href="{% url 'cursos' %}" class="btn btn-dark mt-4">Ver</a>
+    </div>
+    <div class="tarjeta-publicar-tallres2">
+      <h3>Talleres</h3>
+      <p>Agrega o ve informacion de los grupos de talleres</p>
+      <a href="{% url 'talleres' %}" class="btn btn-dark mt-4">Ver</a>
+    </div>
+    <div class="tarjeta-publicar-diplomados">
+      <h3>Diplomados</h3>
+      <p>Agrega o ve informacion de los grupos de diplomados</p>
+      <a href="{% url 'diplomados' %}" class="btn btn-dark mt-4">Ver</a>
+    </div>
+
+  </div>
+
+
+  
+  
+{% endblock %}

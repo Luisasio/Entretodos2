@@ -477,11 +477,16 @@ body {
 }
 
 .input1 {
-  padding: 5px;
+  padding: 7px 15px;
   border: 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+}
+.input1:focus {
+  outline: none;
+  border: 2px #6E3737 solid;
+
 }
 /* estilos modal */
 .bg-color-curso {
@@ -491,3 +496,62 @@ body {
   background-color: #096900;
 }
 
+.contenedor-tarjetas-cursos{
+  padding: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+.tarjeta-publicar-cursos{
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 15px;
+  width: 33.33%;
+}
+.tarjeta-publicar-cursos h3{
+  font-size: 20px;
+}
+
+.tarjeta-publicar-cursos2{
+  border-radius: 6px;
+  padding: 15px;
+  width: 33.33%;
+  background: #F28A2E;
+background: linear-gradient(90deg, rgba(242, 138, 46, 1) 30%, rgba(212, 166, 0, 1) 100%);
+}
+.tarjeta-publicar-cursos2 h3{
+  font-size: 20px;
+  color: #fff;
+}
+.tarjeta-publicar-cursos2 p{
+  color: #fff;
+}
+.tarjeta-publicar-tallres2{
+  border-radius: 6px;
+  padding: 15px;
+  width: 33.33%;
+  background: #0075FF;
+background: linear-gradient(90deg, rgba(0, 117, 255, 1) 30%, rgba(0, 140, 196, 1) 100%);
+}
+.tarjeta-publicar-tallres2 h3{
+  font-size: 20px;
+  color: #fff;
+}
+.tarjeta-publicar-tallres2 p{
+  color: #fff;
+}
+.tarjeta-publicar-diplomados{
+  border-radius: 6px;
+  padding: 15px;
+  width: 33.33%;
+ background: #096900;
+background: linear-gradient(90deg, rgba(9, 105, 0, 1) 30%, rgba(88, 196, 0, 1) 100%);
+}
+.tarjeta-publicar-diplomados h3{
+  font-size: 20px;
+  color: #fff;
+}
+.tarjeta-publicar-diplomados p{
+  color: #fff;
+}

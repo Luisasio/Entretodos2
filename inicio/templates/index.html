@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/static/img/FavIcon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
   <link rel="stylesheet" href="{% static 'css/movil.css' %}">
@@ -10,6 +11,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="{% static 'js/wow.min.js' %}"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0.0/dist/fancybox.css" />
+
   <title>Entre Todos</title>
 </head>
 <body>
@@ -19,30 +22,59 @@
  <section>
   
   <div class="fondo  wow animate__animated animate__fadeInDown">
+    <div class="filtro-slide"></div>
     <div class="fondo_texto">
       <h1>Impulsamos la educación y el desarrollo profesional</h1>
       <p>En EntreTodos impulsamos la educación y el desarrollo profesional de los docentes. Descubre cursos diseñados para fortalecer tu enseñanza y transformar el aprendizaje. ¡Empieza hoy!"</p>
-      <a href="{% url 'inscripciones' %}">Inscribete</a>
+      <a href="{% url 'registro_alumno' %}">Inscribete</a>
     </div>
 
 
   </div>
  </section>
+
+<section class="seccion-posts">
+  <div class="ancho">
+    <h2>Ultimos posts</h2>
+    <hr class="linea_rosada">
+    <br>
+  </div>
+  <div class="news-container ancho">
+    {% for noticia in noticias|slice:":3" %}
+      <div class="news-item">
+        <a href="{{ noticia.imagen.url }}" data-fancybox="gallery" data-caption="{{ noticia.titulo }}">
+          <figure class="item-img">
+            <img src="{{ noticia.imagen.url }}" alt="">
+            <div class="info-card">
+              <h3>{{ noticia.titulo }}</h3>
+            </div>
+          </figure>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+
+
+
+
  <section class="ancho">
   <div class="acerca wow animate__animated animate__fadeIn">
   <h2>Acerca de nosotros</h2>
   <hr class="linea_rosada">
   </div>
-<div class="contenedor_acerca">
+  <div class="contenedor_acerca">
 
- <div class="texto_acerca wow animate__animated animate__fadeInLeft">
-  <h2>15 años <span>colaborando</span> EntreTodos</h2>
-  <p>El programa “Entre Todos” pretende impulsar y acompañar un movimiento de renovación cultural y moral dentro del magisterio, teniendo como premisas básicas: la dignidad de la persona, la esencia relacional y dialógica del ser humano y el compromiso de actuar al servicio de la comunidad.</p>
-  <a href="{% url 'historia' %}">Leer Más</a>
- </div>
- <figure class="imagen_sobre wow animate__animated animate__fadeInRight">
-  <img src="{% static 'img/sobre1.png' %}" alt="">
- </figure>
+    <div class="texto_acerca wow animate__animated animate__fadeInLeft">
+      <h2>15 años <span>colaborando</span> EntreTodos</h2>
+      <p>El programa “Entre Todos” pretende impulsar y acompañar un movimiento de renovación cultural y moral dentro del magisterio, teniendo como premisas básicas: la dignidad de la persona, la esencia relacional y dialógica del ser humano y el compromiso de actuar al servicio de la comunidad.</p>
+      <a href="{% url 'historia' %}">Leer Más</a>
+    </div>
+    <figure class="imagen_sobre wow animate__animated animate__fadeInRight">
+      <img src="{% static 'img/sobre1.png' %}" alt="">
+    </figure>
 
 
   </div>
@@ -58,32 +90,16 @@
   </p>
   </div>
   <div class="diplomados-container">
+  {% for diplomado in diplomados %}
     <div class="diplomado-card wow animate__animated animate__fadeInDown">
-      <img src="{% static 'img/docencia_desarrollo.png' %}" alt="">
-      <h3>Docencia y Desarrollo Humano</h3>
-      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
-      <a href="{% url 'diplomado_desarrollo' %}">Leer Más</a>
-    </div>
-    <div class="diplomado-card wow animate__animated animate__fadeInDown">
-      <img src="{% static 'img/tic_docencia.png' %}" alt="">
-      <h3>TIC Docencia en el Siglo XXI</h3>
-      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
-      <a href="{% url 'diplomado_tic' %}">Leer Más</a>
-    </div>
-    <div class="diplomado-card wow animate__animated animate__fadeInDown">
-      <img src="{% static 'img/educar_paz.png' %}" alt="">
-      <h3>Educar Para la Paz</h3>
-      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
-      <a href="{% url 'diplomado_paz' %}">Leer Más</a>
-    </div>
-    <div class="diplomado-card wow animate__animated animate__fadeInDown">
-      <img src="{% static 'img/literatura.png' %}" alt="">
-      <h3>Literatura y Educación</h3>
-      <p>El Diplomado Docencia y Desarrollo Humano pretende aproximarse a los conceptos antropológicos sobre el ser humano como persona libre y responsable y aplicar estos conceptos al desarrollo de los grupos de docencia, para fortalecer los valores y actitudes que favorezcan el desarrollo integral, personal y comunitario.</p>
-      <a href="{% url 'diplomado_literatura' %}">Leer Más</a>
+      <img src="{{ diplomado.imagen.url }}" alt="Imagen de {{ diplomado.titulo }}">
+      <h3>{{ diplomado.titulo }}</h3>
+      <p>{{ diplomado.descripcion }}</p>
+      <a href="{% url 'diplomado_detalle' diplomado.id %}">Leer Más</a>
 
     </div>
-  </div>
+  {% endfor %}
+</div>
 </section>
 
 <section class="ancho" id="talleres">
@@ -95,7 +111,19 @@
     <p>Todos los talleres son gratuitos y se imparten en 10 sesiones semanales acreditando 40 horas.</p>
   </div>
   <div class="galeria ancho">
+    {% for taller in talleres %}
     <figure class="contenedor_imagen">
+      <img src="{{ taller.imagen.url }}" alt="">
+      <div class="filtro">
+              <h3>{{ taller.titulo }}</h3>
+              <p>{{ taller.descripcion_corta }}</p>
+              <a href="{% url 'taller_detalle' taller.id %}">Leer Más</a>
+              
+          </div>
+    </figure>
+    {% endfor %}
+
+    <!-- <figure class="contenedor_imagen">
       <img src="{% static 'img/huerto.png' %}" alt="">
       <div class="filtro">
               <h3>El huerto escolar</h3>
@@ -103,9 +131,9 @@
               <a href="{% url 'taller_huerto' %}">Leer Más</a>
               
           </div>
-    </figure>
+    </figure> -->
 
-    <figure class="contenedor_imagen">
+    <!-- <figure class="contenedor_imagen">
       <img src="{% static 'img/pintura.png' %}" alt="">
       <div class="filtro">
               <h3>Pintura para docentes</h3>
@@ -178,9 +206,10 @@
               <a href="{% url 'taller_creacion_literaria' %}">Leer Más</a>
               
           </div>
-    </figure>
+    </figure> -->
   </div>
 </section>
+
 <section class="parallax-estadisticas ">
   <div class="filtro-negro">
     <div class="estadisticas-container">
@@ -209,17 +238,27 @@
     <p>Todos los cursos son gratuitos y se imparten en 10 sesiones semanales acreditando 40 horas.</p>
   </div>
   <div class="galeria2 ancho">
+    
+    {% for curso in cursos %}
     <figure class="contenedor_imagen2">
-      <img src="{% static 'img/cultura_paz_regional.png' %}" alt="">
+      <img src="{{ curso.imagen.url }}" alt="">
       <div class="filtro2">
-              <h3>Educando hacia una cultura de paz</h3>
-              <p>Aprende a desarrollar y fortalecer la convivencia sana y pacífica, entre alumnos y alumnas, maestros y maestras, personal no docente y padres y madres de familia, en tu escuela.</p>
-              <a href="{% url 'curso_cultura_paz' %}">Leer Más</a>
-              
-          </div>
+        <h3>{{ curso.titulo }}</h3>
+        <p>{{ curso.descripcion_corta }}</p>
+        <a href="{% url 'curso_detalles' curso.id %}">Leer Más</a> 
+      </div>
     </figure>
-
-    <figure class="contenedor_imagen2">
+    {% endfor %}
+    <!-- <figure class="contenedor_imagen2">
+      <figure class="contenedor_imagen2">
+        <img src="{% static 'img/cultura_paz_regional.png' %}" alt="">
+        <div class="filtro2">
+                <h3>Educando hacia una cultura de paz</h3>
+                <p>Aprende a desarrollar y fortalecer la convivencia sana y pacífica, entre alumnos y alumnas, maestros y maestras, personal no docente y padres y madres de familia, en tu escuela.</p>
+                <a href="{% url 'curso_cultura_paz' %}">Leer Más</a>
+                
+            </div>
+      </figure>
       <img src="{% static 'img/tic_docencia.png' %}" alt="">
       <div class="filtro2">
               <h3>El uso de las TIC
@@ -266,10 +305,26 @@
               <p>Contribuir a una educación de la sensibilidad y la creatividad de maestros, maestras y estudiantes mediante el conocimiento de la poesía y sus formas de difusión en la actualidad.</p>
               <a href="{% url 'curso_poesia' %}">Leer Más</a> 
           </div>
-    </figure>
+    </figure> -->
    
   </div>
 </section>
+
+
+<section class="seccion-unete">
+    <div class="filtro-slide"></div>
+
+  <div class="contenedor-unete ancho">
+    <h1>Conviertete en Facilitador</h1>
+    <p>Unete a nosostros y comparte tu conocimiento Entre Todos</p>
+    <a href="{% url 'registro_facilitador' %}" class="btn-acceder">Unete a nosotros</a>
+  </div>
+</section>
+
+
+
+
+
 <section class="contact-section">
         <div class="contact-container">
             <h2 class="section-title wow animate__animated animate__backInDown">Contáctanos</h2>
@@ -357,7 +412,7 @@
 <script>
 $(document).ready(function () {
   $('#menu-toggle').click(function () {
-    $('.menu-elegante').toggleClass('mostrar');
+    $('.menu-header').toggleClass('mostrar');
   });
 
   $('.submenu > a').click(function (e) {
@@ -370,6 +425,7 @@ $(document).ready(function () {
 
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0.0/dist/fancybox.umd.js"></script>
 
 
 
