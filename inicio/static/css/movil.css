@@ -490,4 +490,44 @@
   .contenedor_imagen2:hover img {
     transform: none;
   }
+  .news-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    /* align-items: center; */
+  }
+  .news-item {
+  width: 100%;
+  text-align: center;
+}
+.seccion-posts h2{
+  font-size: 28px;
+  margin: 20px 0px 20px;
+  text-align: center;
+}
+.seccion-posts hr{
+  text-align: center;
+  margin: auto;
+}
+.contenedor-unete{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 120px 0px 120px;
+  color: white;
+  position: relative;
+  z-index: 500;
+  text-align: center;
+}
+.contenedor-unete h1{
+  font-size: 28px;
+  line-height: 28px
+}
+.contenedor-unete p{
+  font-size: 16px;
+}
 }

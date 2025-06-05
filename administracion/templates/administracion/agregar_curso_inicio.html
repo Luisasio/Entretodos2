@@ -17,7 +17,15 @@
     <div class="mb-3">{{ form.responsable.label_tag }} {{ form.responsable }}</div>
     <div class="mb-3">{{ form.duracion.label_tag }} {{ form.duracion }}</div>
     <div class="mb-3">{{ form.programa_pdf.label_tag }} {{ form.programa_pdf }}</div>
+    {% if form.imagen.errors %}
+      <div class="text-danger small">{{ form.imagen.errors.0 }}</div>
+    {% endif %}
+
     <div class="mb-3">{{ form.imagen.label_tag }} {{ form.imagen }}</div>
+    {% if form.imagen.errors %}
+      <div class="text-danger small">{{ form.imagen.errors.0 }}</div>
+    {% endif %}
+
 
     <h5 class="mt-4">Sesiones</h5>
     {{ formset.management_form }}

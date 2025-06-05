@@ -347,7 +347,7 @@ class EditarDiplomadoForm(forms.ModelForm):
         self.fields['dias'].widget = forms.CheckboxSelectMultiple(choices=DIAS_SEMANA)
 
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import ValidationError, inlineformset_factory
 from .models import DiplomadoLanding, ModuloDiplomado
 
 class DiplomadoLandingForm(forms.ModelForm):
@@ -548,6 +548,9 @@ SesionFormSet = inlineformset_factory(
     can_delete=True
 )
 
+
+
+
 class CursoLandingForm(forms.ModelForm):
     class Meta:
         model = CursoLanding
@@ -595,6 +598,25 @@ class CursoLandingForm(forms.ModelForm):
             }),
         }
 
+        
+    # def clean_imagen(self):
+    #     imagen = self.cleaned_data.get('imagen')
+    #     if imagen:
+    #         if imagen.size > 5 * 1024 * 1024:  # 5 MB
+    #             raise ValidationError("La imagen no debe pesar más de 5MB.")
+    #         if not imagen.content_type in ['image/jpeg', 'image/jpg', 'image/png']:
+    #             raise ValidationError("Solo se permiten archivos JPEG, JPG o PNG.")
+    #     return imagen
+
+    # def clean_programa_pdf(self):
+    #     pdf = self.cleaned_data.get('programa_pdf')
+    #     if pdf:
+    #         if pdf.size > 100 * 1024 * 1024:  # 100 MB
+    #             raise ValidationError("El archivo PDF no debe superar los 100MB.")
+    #         if not pdf.content_type == 'application/pdf':
+    #             raise ValidationError("Solo se permite subir archivos PDF.")
+    #     return pdf
+
 class SesionCursoForm(forms.ModelForm):
     class Meta:
         model = SesionCurso
@@ -634,3 +656,20 @@ class NoticiasForm(forms.ModelForm):
                 'placeholder': 'Escriba el título de la noticia'
             }),
         }
+    # validacion para las noticias
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen')
+
+        if not imagen:
+            raise ValidationError("La imagen es obligatoria.")
+
+        # Validar tamaño (5 MB = 5 * 1024 * 1024 bytes)
+        if imagen.size > 5 * 1024 * 1024:
+            raise ValidationError("La imagen no debe pesar más de 5 MB.")
+
+        # Validar tipo MIME
+        valid_mime_types = ['image/jpeg', 'image/png']
+        if imagen.content_type not in valid_mime_types:
+            raise ValidationError("Solo se permiten imágenes JPEG y PNG.")
+
+        return imagen

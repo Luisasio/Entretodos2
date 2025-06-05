@@ -69,7 +69,7 @@ def dashboard(request):
     return render(request, 'administracion/dashboard.html')
 
 # donde se listan los cursos 
-
+@login_required
 def cursos(request):
     query = request.GET.get('q', '')  # nombre del input de búsqueda
     cursos = Curso.objects.filter(finalizado=False)
@@ -86,7 +86,7 @@ def cursos(request):
     })
 
 
-
+@login_required
 def facilitadores(request):
     query = request.GET.get('q', '')
     facilitadores = Facilitador.objects.all()
@@ -105,6 +105,7 @@ def facilitadores(request):
         'query': query
     })
 
+@login_required
 def agregar_curso(request):
     if request.method == 'POST':
         form = CursoForm(request.POST)
@@ -137,7 +138,7 @@ def agregar_curso(request):
 
 
 
-
+@login_required
 def periodos(request):
     query = request.GET.get('q', '')
     periodos = Periodo.objects.all()
@@ -154,6 +155,7 @@ def periodos(request):
         'query': query
     })
 
+@login_required
 def agregar_periodo(request):
     if request.method == 'POST':
         form = PeriodoForm(request.POST)
@@ -165,6 +167,8 @@ def agregar_periodo(request):
     
     return render(request, 'administracion/agregar_periodo.html', {'form': form})
 
+
+@login_required
 def editar_periodo(request, periodo_id):
     periodo = get_object_or_404(Periodo, id=periodo_id)
     
@@ -182,6 +186,7 @@ def editar_periodo(request, periodo_id):
         'periodo': periodo
     })
 
+@login_required
 def eliminar_periodo(request, periodo_id):
     periodo = get_object_or_404(Periodo, id=periodo_id)
     
@@ -193,6 +198,7 @@ def eliminar_periodo(request, periodo_id):
         'periodo': periodo
     })
 
+@login_required
 def editar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
 
@@ -214,7 +220,7 @@ def editar_curso(request, curso_id):
     return render(request, 'administracion/editar_curso.html', {'form': form, 'curso': curso})
 
 
-
+@login_required
 def eliminar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     
@@ -224,6 +230,7 @@ def eliminar_curso(request, curso_id):
 
     return render(request, 'administracion/eliminar_curso.html', {'curso': curso})
 
+@login_required
 def talleres(request):
     query = request.GET.get('q', '')
     talleres = Taller.objects.filter(finalizado=False)
@@ -238,13 +245,13 @@ def talleres(request):
         'talleres': talleres,
         'query': query
     })
-
+@login_required
 def talleres_finalizados(request):
     talleres = Taller.objects.filter(finalizado=True)
     return render(request, 'administracion/talleres_finalizados.html', {'talleres': talleres})
 
 # funciones para agreagar taller
-
+@login_required
 def agregar_taller(request):
     if request.method == "POST":
         form = TallerForm(request.POST)
@@ -281,7 +288,7 @@ def agregar_taller(request):
 
 
 
-
+@login_required
 def editar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
 
@@ -302,7 +309,7 @@ def editar_taller(request, taller_id):
 
     return render(request, 'administracion/editar_taller.html', {'form': form, 'taller': taller})
 
-
+@login_required
 def eliminar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
     
@@ -388,7 +395,7 @@ def publicar_diplomado(request, diplomado_id):
     messages.success(request, "Diplomado publicado correctamente.")
     return redirect('diplomados')
 
-
+@login_required
 def diplomados(request):
     query = request.GET.get('q', '')
     diplomados = Diplomado.objects.filter(finalizado=False)
@@ -404,12 +411,14 @@ def diplomados(request):
         'query': query
     })
 
+
+@login_required
 def diplomados_finalizados(request):
     diplomados = Diplomado.objects.filter(finalizado=True)
     return render(request, 'administracion/diplomados_finalizados.html', {'diplomados': diplomados})
 
 
-
+@login_required
 def agregar_diplomado(request):
     if request.method == 'POST':
         form = DiplomadoForm(request.POST)
@@ -442,7 +451,7 @@ def agregar_diplomado(request):
 
     
     # return render(request, 'administracion/agregar_diplomado.html', {'form': form})
-
+@login_required
 def editar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
 
@@ -463,7 +472,7 @@ def editar_diplomado(request, diplomado_id):
 
     return render(request, 'administracion/editar_diplomado.html', {'form': form, 'diplomado': diplomado})
 
-
+@login_required
 def eliminar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
     
@@ -475,6 +484,7 @@ def eliminar_diplomado(request, diplomado_id):
 
 from django.db.models import Q
 
+@login_required
 def alumnos(request):
     query = request.GET.get('q', '')
     alumnos = Alumno.objects.all()
@@ -508,7 +518,7 @@ def alumnos(request):
     })
 
 
-
+@login_required
 def agregar_alumno(request):
     if request.method == 'POST':
         form = RegistroAlumnoForm(request.POST)
@@ -520,6 +530,8 @@ def agregar_alumno(request):
 
     return render(request, 'administracion/agregar_alumno.html', {'form': form})
 
+
+@login_required
 def editar_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
 
@@ -536,6 +548,8 @@ def editar_alumno(request, alumno_id):
         'alumno': alumno
     })
 
+
+@login_required
 def eliminar_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
 
@@ -556,7 +570,7 @@ def finalizar_curso(request, curso_id):
 
     return redirect('cursos')
 
-
+@login_required
 def cursos_finalizados(request):
     cursos = Curso.objects.filter(finalizado=True).order_by('-fecha_fin')
     return render(request, 'administracion/cursos_finalizados.html', {'cursos': cursos})
@@ -586,6 +600,8 @@ def finalizar_diplomado(request, diplomado_id):
 
 from administracion.models import Curso, Taller, Diplomado, Inscripcion
 
+
+@login_required
 def inscripciones_admin(request):
     # Cursos con al menos un alumno inscrito
     cursos = Curso.objects.filter(inscripcion__curso__isnull=False).distinct()
@@ -609,18 +625,22 @@ def inscripciones_admin(request):
         'total_alumnos_diplomados': total_alumnos_diplomados,
     })
 
+@login_required
 def ver_cursos(request):
     cursos = Curso.objects.filter(finalizado=False).annotate(
         total_inscritos=Count('inscripcion')
     )
     return render(request, 'administracion/ver_curso.html', {'ver_curso': cursos})
 
+
+@login_required
 def ver_talleres(request):
     talleres = Taller.objects.filter(finalizado=False).annotate(
         total_inscritos=Count('inscripcion')
     )
     return render(request, 'administracion/ver_taller.html', {'ver_taller': talleres})
 
+@login_required
 def ver_diplomados(request):
     diplomados = Diplomado.objects.filter(finalizado=False).annotate(
         total_inscritos=Count('inscripcion')
@@ -638,7 +658,7 @@ def hay_conflicto_horario(nuevo, existente):
     )
 
 
-
+@login_required
 def ver_alumnos_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     query = request.GET.get('q', '')
@@ -660,6 +680,7 @@ def ver_alumnos_curso(request, curso_id):
         'query': query
     })
 
+@login_required
 def ver_alumnos_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
     query = request.GET.get('q', '')
@@ -681,6 +702,7 @@ def ver_alumnos_taller(request, taller_id):
         'query': query
     })
 
+@login_required
 def ver_alumnos_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
     query = request.GET.get('q', '')
@@ -982,13 +1004,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 
-# @login_required
+@login_required
 def administrador(request):
     usuario = request.user  # Este es el administrador con sesión activa
     return render(request, 'administracion/perfil_admin.html', {
         'usuario': usuario
     })
 
+@login_required
 def agregar_admin(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -1008,7 +1031,7 @@ def agregar_admin(request):
 
 class CambiarContrasenaView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'administracion/cambiar_contrasena.html'
-    success_url = reverse_lazy('perfil_admin')  # o a donde quieras redirigir después
+    success_url = reverse_lazy('dashboard')  # ✅ esto ya lo tienes
     login_url = 'login_admin'
 
     def form_valid(self, form):
@@ -1016,6 +1039,7 @@ class CambiarContrasenaView(LoginRequiredMixin, PasswordChangeView):
         return super().form_valid(form)
     
 #esta parte es de los facilitadores su formulario y logica
+@login_required
 def agregar_facilitador(request):
     if request.method == 'POST':
         form = RegistroFacilitadorForm(request.POST)
@@ -1028,6 +1052,7 @@ def agregar_facilitador(request):
     return render(request, 'administracion/agregar_facilitador.html', {'form': form})
 
 #esto es para que se vean el listado de los facilitadores
+@login_required
 def lista_facilitadores(request):
     query = request.GET.get('q', '')
     facilitadores = Facilitador.objects.all()
@@ -1050,6 +1075,7 @@ def lista_facilitadores(request):
 
 
 #esta logica es para editar a los facilitadores
+@login_required
 def editar_facilitador(request, facilitador_id):
     facilitador = get_object_or_404(Facilitador, id=facilitador_id)
     if request.method == 'POST':
@@ -1063,6 +1089,7 @@ def editar_facilitador(request, facilitador_id):
     return render(request, 'administracion/editar_facilitador.html', {'form': form, 'facilitador': facilitador})
 
 #esto es para eliminar a los facilitadores
+@login_required
 def eliminar_facilitador(request, facilitador_id):
     facilitador = get_object_or_404(Facilitador, id=facilitador_id)
     if request.method == 'POST':
@@ -1073,11 +1100,13 @@ def eliminar_facilitador(request, facilitador_id):
 
 
 # logica para las publicaciones que iran a la landing page
+@login_required
 def publicaciones(request):
     return render(request, 'administracion/publicaciones.html')
 
 
 # donde se muestran todos los cursos y diplomados que se publican en la landing page
+@login_required
 def publicaciones_cursos(request):
     diplomados = DiplomadoLanding.objects.all()
     talleres = TallerLanding.objects.all()
@@ -1090,7 +1119,7 @@ def publicaciones_cursos(request):
 
 
 
-
+@login_required
 def agregar_diplomado_inicio(request):
     if request.method == 'POST':
         form = DiplomadoLandingForm(request.POST, request.FILES)
@@ -1119,7 +1148,7 @@ ModuloFormSet = modelformset_factory(
     extra=1,
     can_delete=True
 )
-
+@login_required
 def editar_diplomado_landing(request, pk):
     diplomado = get_object_or_404(DiplomadoLanding, pk=pk)
     ModuloFormSet = inlineformset_factory(
@@ -1153,6 +1182,7 @@ def eliminar_diplomado_landing(request, pk):
 
 
 # agregar taller a la landing page
+@login_required
 def agregar_taller_inicio(request):
     if request.method == 'POST':
         form = TallerLandingForm(request.POST, request.FILES)
@@ -1185,6 +1215,7 @@ SesionFormSet = inlineformset_factory(
 )
 
 # editar taller en la landing page
+@login_required
 def editar_taller_inicio(request, pk):
     taller = get_object_or_404(TallerLanding, pk=pk)
 
@@ -1227,6 +1258,7 @@ def eliminar_taller_inicio(request, pk):
 
 
 # agregar curso a la landing page
+@login_required
 def agregar_curso_inicio(request):
     if request.method == 'POST':
         form = CursoLandingForm(request.POST, request.FILES)
@@ -1257,6 +1289,8 @@ SesionFormSet = inlineformset_factory(
     can_delete=True
 )
 
+
+@login_required
 def editar_curso_inicio(request, pk):
     curso = get_object_or_404(CursoLanding, pk=pk)
 
@@ -1297,17 +1331,17 @@ def eliminar_curso_inicio(request, pk):
     messages.success(request, "Curso eliminado correctamente.")
     return redirect('publicaciones_cursos')
 
-
+@login_required
 def grupos(request):
     return render(request, 'administracion/grupos.html')
 
-
+@login_required
 def publicaciones_noticias(request):
     noticias = Noticia.objects.all()
     return render(request, 'administracion/publicaciones_noticias.html', {'noticias': noticias})
 
 
-
+@login_required
 def agregar_noticia(request):
     if request.method == 'POST':
         form = NoticiasForm(request.POST, request.FILES)
@@ -1319,7 +1353,7 @@ def agregar_noticia(request):
 
     return render(request, 'administracion/agregar_noticia.html', {'form': form})
 
-
+@login_required
 def editar_noticia(request, pk):
     # Obtenemos la noticia que queremos editar
     noticia = get_object_or_404(Noticia, pk=pk)

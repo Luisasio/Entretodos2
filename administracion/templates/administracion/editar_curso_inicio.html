@@ -26,6 +26,8 @@
       {{ form.imagen.label_tag }} {{ form.imagen }}
     </div>
 
+
+
     <div class="mb-3">
       <label>Programa PDF actual:</label><br>
       {% if curso.programa_pdf %}
@@ -33,8 +35,12 @@
       {% else %}
         <p>No hay PDF cargado.</p>
       {% endif %}
-      {{ form.programa_pdf.label_tag }} {{ form.programa_pdf }}
+      <br>
+      <label for="">Nuevo PDF:</label> {{ form.programa_pdf }}
     </div>
+
+
+
 
     <h5 class="mt-4">Sesiones</h5>
     {{ formset.management_form }}

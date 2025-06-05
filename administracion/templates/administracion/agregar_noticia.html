@@ -14,11 +14,17 @@
     <div class="mb-3">
       <label for="id_titulo">Título:</label>
       {{ form.titulo }}
+      {% if form.titulo.errors %}
+        <div class="text-danger small">{{ form.titulo.errors|striptags }}</div>
+      {% endif %}
     </div>
 
     <div class="mb-3">
       <label for="id_imagen">Imagen:</label>
       {{ form.imagen }}
+      {% if form.imagen.errors %}
+        <div class="text-danger small">{{ form.imagen.errors|striptags }}</div>
+      {% endif %}
     </div>
 
     <button type="submit" class="btn btn-success">Guardar Noticia</button>

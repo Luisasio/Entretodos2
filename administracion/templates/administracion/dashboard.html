@@ -3,6 +3,14 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    
   <div class="bienvenida-contenedor">
     <div class="bienvenida-card">
       <h2 class="bienvenida-titulo">Bienvenido al Dashboard</h2>

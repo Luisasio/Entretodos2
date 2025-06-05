@@ -41,5 +41,21 @@
         </div>
     </div>
     {% include 'pie.html' %}
+    <script>
+$(document).ready(function () {
+  $('#menu-toggle').click(function () {
+    $('.menu-header').toggleClass('mostrar');
+  });
+
+  $('.submenu > a').click(function (e) {
+    e.preventDefault();
+    var submenu = $(this).next('#submenu-items');
+    $('#submenu-items').not(submenu).slideUp(200); // Cierra otros
+    submenu.stop(true, true).slideToggle(200); // Abre/cierra actual
+  });
+});
+
+
+</script>
 </body>
 </html>
