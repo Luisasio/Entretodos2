@@ -105,6 +105,21 @@ urlpatterns = [
 
 
 
+    #esto es parte de la landing para que haya un apartado donde te lleve a las revistas
+    path('revistas/', views.publicaciones_revistas, name='publicaciones_revistas'),
+
+    # Agregar una nueva revista
+    path('revistas/agregar/', views.agregar_revista, name='agregar_revista'),
+
+    # Editar una revista
+    path('revistas/editar/<int:revista_id>/', views.editar_revista, name='editar_revista'),
+
+    # Eliminar una revista
+    path('revistas/eliminar/<int:revista_id>/', views.eliminar_revista, name='eliminar_revista'),
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from .forms import RegistroAlumnoForm, RegistroFacilitadorForm
-from administracion.models import Alumno, DiplomadoLanding, Facilitador, ModuloDiplomado, Noticia, SesionCurso, SesionTaller, TallerLanding, CursoLanding
+from administracion.models import Alumno, DiplomadoLanding, Facilitador, ModuloDiplomado, Noticia, SesionCurso, SesionTaller, TallerLanding, CursoLanding,Revista
 from django.db.models import Q
 from django.contrib import messages
 from administracion.models import Curso, Taller, Inscripcion, Diplomado
@@ -567,3 +567,9 @@ def curso_detalles(request,id):
         'curso': curso,
         'sesiones' : sesiones
     })
+
+
+#parte de las revistas
+def mostrar_revistas(request):
+    revistas = Revista.objects.all()  # Obtener todas las revistas
+    return render(request, 'publicaciones_revistas1.html', {'revistas': revistas})

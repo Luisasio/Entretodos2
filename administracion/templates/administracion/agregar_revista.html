@@ -1,0 +1,89 @@
+{% extends './base.html' %}
+
+{% block title %}Agregar Revista{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal-agregar">
+    <h4 class="mb-3">Agregar Revista</h4>
+    <p>Complete el formulario para agregar una nueva revista.</p>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <!-- Errores generales -->
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="id_titulo">Título:</label>
+        {{ form.titulo }}
+        {% if form.titulo.errors %}
+          <div class="text-danger">
+            {% for error in form.titulo.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_imagen">Imagen:</label>
+        {{ form.imagen }}
+        {% if form.imagen.errors %}
+          <div class="text-danger">
+            {% for error in form.imagen.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% else %}
+          <small class="form-text text-muted">Formato permitido: JPEG, PNG, JPG, GIF, BMP, TIFF, WebP. Tamaño máximo: 5MB.</small>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_pdf">PDF:</label>
+        {{ form.pdf }}
+        {% if form.pdf.errors %}
+          <div class="text-danger">
+            {% for error in form.pdf.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% else %}
+          <small class="form-text text-muted">Solo se permiten archivos PDF. Tamaño máximo: 100MB.</small>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_fecha_publicacion">Fecha de publicación:</label>
+        {{ form.fecha_publicacion }}
+        {% if form.fecha_publicacion.errors %}
+          <div class="text-danger">
+            {% for error in form.fecha_publicacion.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-success">Guardar Revista</button>
+      <a href="{% url 'publicaciones_revistas' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

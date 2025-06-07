@@ -6,18 +6,23 @@ from reportlab.lib.pagesizes import letter, landscape
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Count, Q
 from reportlab.pdfgen import canvas
-
+from django.core.exceptions import ValidationError
 from administracion.forms import CursoForm, DiplomadoForm, PeriodoForm, RegisterForm, TallerForm, EditarCursoForm, EditarTallerForm, EditarDiplomadoForm
 from administracion.models import Alumno, CursoLanding, DiplomadoLanding, Inscripcion, ModuloDiplomado, Noticia, Periodo, SesionCurso, SesionTaller, Taller, Diplomado,Facilitador, TallerLanding
+from administracion.forms import RevistaForm
 from administracion.models import Curso
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from administracion.models import Revista
+from django import forms
+
+
 
 from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitadorForm,EditarFacilitadorForm
 from django.shortcuts import render, redirect
 from .forms import CursoLandingForm, DiplomadoLandingEditForm, DiplomadoLandingForm, ModuloDiplomadoForm, ModuloFormSet, NoticiasForm, SesionCursoForm, SesionFormSet, SesionTallerForm, TallerLandingEditForm, TallerLandingForm
 from django.forms.models import modelformset_factory, inlineformset_factory
-
+from .models import Revista
 
 # esto es para la validacion del admin al querer agregar un facilitador que choquen sus horarios
 def conflicto_horario_facilitador(nuevo, facilitador):
@@ -1376,3 +1381,54 @@ def eliminar_noticia(request, pk):
     noticias.delete()
     messages.success(request, "Post eliminado correctamente.")
     return redirect('publicaciones_noticias')
+
+@login_required
+def publicaciones_revistas(request):
+    revistas = Revista.objects.all()  # Obtiene todas las revistas almacenadas
+    return render(request, 'administracion/publicaciones_revistas.html', {'revistas': revistas})
+#parte para agregar las revistas en landing page
+@login_required
+def agregar_revista(request):
+    if request.method == 'POST':
+        form = RevistaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Revista agregada exitosamente.")
+            return redirect('publicaciones_revistas')
+        else:
+            print(form.errors)  # Aquí te muestra los errores si los hay
+    else:
+        form = RevistaForm()
+
+    return render(request, 'administracion/agregar_revista.html', {'form': form})
+
+
+    return render(request, 'administracion/agregar_revista.html', {'form': form})
+@login_required
+def editar_revista(request, revista_id):
+    revista = get_object_or_404(Revista, id=revista_id)
+    if request.method == 'POST':
+        form = RevistaForm(request.POST, request.FILES, instance=revista)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Revista actualizada exitosamente.")
+            return redirect('publicaciones_revistas')
+    else:
+        form = RevistaForm(instance=revista)
+
+    return render(request, 'administracion/editar_revista.html', {'form': form, 'revista': revista})
+
+
+def eliminar_revista(request, revista_id):
+    # Obtén la revista con el ID proporcionado
+    revista = get_object_or_404(Revista, id=revista_id)
+    
+    # Elimina la revista y muestra un mensaje de éxito
+    revista.delete()
+    messages.success(request, "Revista eliminada exitosamente.")
+    
+    # Redirige al listado de revistas después de eliminar
+    return redirect('publicaciones_revistas')  # Asegúrate de que 'publicaciones_revistas' sea el nombre correcto de la URL de listado
+
+
+

@@ -269,3 +269,14 @@ class SesionCurso(models.Model):
 class Noticia(models.Model):
     titulo = models.CharField(max_length=200, null=True, blank=True)
     imagen = models.ImageField(upload_to='noticias/')
+
+
+#parte de las resvistas para que se vean bien en la landing
+class Revista(models.Model):
+    titulo = models.CharField(max_length=200)
+    imagen = models.ImageField(upload_to='revistas/')
+    pdf = models.FileField(upload_to='revistas_pdfs/')
+    fecha_publicacion = models.DateField()
+
+    def __str__(self):
+        return self.titulo

@@ -1,0 +1,49 @@
+{% extends 'administracion/base.html' %}
+
+{% block title %}Editar Revista{% endblock %}
+
+{% block content %}
+<div class="contenido-principal-agregar">
+    <h4 class="mb-3">Editar Revista</h4>
+    <p>Complete el formulario para editar la revista seleccionada.</p>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_titulo">Título:</label>
+            {{ form.titulo }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_imagen">Imagen de portada actual:</label><br>
+            {% if revista.imagen %}
+              <img src="{{ revista.imagen.url }}" alt="Imagen de {{ revista.titulo }}" width="100">
+            {% else %}
+              <p>No hay imagen cargada.</p>
+            {% endif %}
+            <br><br>
+            {{ form.imagen }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_pdf">PDF actual:</label><br>
+            {% if revista.pdf %}
+              <a href="{{ revista.pdf.url }}" target="_blank">Ver PDF</a>
+            {% else %}
+              <p>No PDF cargado.</p>
+            {% endif %}
+            <br><br>
+            {{ form.pdf }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_fecha_publicacion">Fecha de publicación:</label>
+            {{ form.fecha_publicacion }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'publicaciones_revistas' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

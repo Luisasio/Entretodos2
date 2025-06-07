@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from multiselectfield.forms.fields import MultiSelectFormField
 from .models import DIAS_SEMANA
-
+from administracion.models import Revista
+from django.core.exceptions import ValidationError
 
 
 class PeriodoForm(forms.ModelForm):
@@ -673,3 +674,51 @@ class NoticiasForm(forms.ModelForm):
             raise ValidationError("Solo se permiten imágenes JPEG y PNG.")
 
         return imagen
+    
+
+# Funciones de validación
+def validate_image_format(value):
+    # Los formatos permitidos (excepto AVIF)
+    allowed_formats = ['jpeg', 'png', 'jpg', 'gif', 'bmp', 'tiff', 'webp']
+    ext = value.name.split('.')[-1].lower()
+    if ext not in allowed_formats:
+        raise ValidationError(f"El formato {ext} no es soportado. Solo se permiten {', '.join(allowed_formats)}.")
+
+def validate_image_size(value):
+    # Limite de tamaño para la imagen (5MB)
+    if value.size > 5 * 1024 * 1024:
+        raise ValidationError("La imagen no puede superar los 5MB.")
+
+def validate_pdf_size(value):
+    # Limite de tamaño para el PDF (100MB)
+    if value.size > 100 * 1024 * 1024:
+        raise ValidationError("El PDF no puede superar los 100MB.")
+
+def validate_pdf_format(value):
+    # Verificar que el archivo sea PDF
+    if value.name.split('.')[-1].lower() != 'pdf':
+        raise ValidationError("Solo se permite subir archivos en formato PDF.")
+
+# Formulario de Revista
+class RevistaForm(forms.ModelForm):
+    class Meta:
+        model = Revista
+        fields = ['titulo', 'imagen', 'pdf', 'fecha_publicacion']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título de la revista'}),
+            'fecha_publicacion': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})  # Campo de fecha
+        }
+
+    def clean_imagen(self):
+        imagen = self.cleaned_data.get('imagen')
+        if imagen:
+            validate_image_format(imagen)  # Valida el formato de la imagen
+            validate_image_size(imagen)    # Valida el tamaño de la imagen
+        return imagen
+
+    def clean_pdf(self):
+        pdf = self.cleaned_data.get('pdf')
+        if pdf:
+            validate_pdf_size(pdf)  # Valida el tamaño del PDF
+            validate_pdf_format(pdf)  # Valida que el archivo sea un PDF
+        return pdf

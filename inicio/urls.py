@@ -6,6 +6,10 @@ urlpatterns = [
     path('', views.index, name='index'),
     #historia web
     path('historia/', views.historia, name='historia'),
+
+    #parte del apartado de revistas
+   path('revistas/', views.mostrar_revistas, name='mostrar_revistas'),
+
     #----------
     #diplomados web
     path('diplomado-desarrollo/', views.diplomado_desarrollo, name='diplomado_desarrollo'),

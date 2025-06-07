@@ -16,6 +16,7 @@
 }
 .menu-header{
   width: 100%;
+  display: flex;
   margin: 20px 0px 0px;
   display: none;
 }

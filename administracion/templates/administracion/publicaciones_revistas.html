@@ -1,0 +1,66 @@
+{% extends './base.html' %}
+
+{% block title %}Publicaciones de Revistas{% endblock %}
+
+{% block content %}
+  <div class="contenido-principal">
+    <h4>Revistas Publicadas</h4>
+    <p>En esta sección se pueden visualizar las revistas disponibles.</p>
+  </div>
+ {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <div class="controladores 1 gap-3 mb-3">
+    <a href="{% url 'agregar_revista' %}" class="btn-añadir">
+      <i class="fa-solid fa-plus"></i> Nueva Revista
+    </a>
+  </div>
+
+  <table class="table table-striped tabla1">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>Imagen</th>
+        <th>PDF</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for revista in revistas %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ revista.titulo }}</td>
+        <td>
+          {% if revista.imagen %}
+            <img src="{{ revista.imagen.url }}" alt="Imagen de {{ revista.titulo }}" width="100">
+          {% else %}
+            <p>No imagen</p>
+          {% endif %}
+        </td>
+        <td>
+          {% if revista.pdf %}
+            <a href="{{ revista.pdf.url }}" target="_blank">Ver PDF</a>
+          {% else %}
+            <p>No PDF</p>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'editar_revista' revista.id %}" class="btn btn-warning btn-sm">
+            <i class="fa fa-edit"></i> Editar
+          </a>
+
+          <a href="{% url 'eliminar_revista' revista.id %}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta revista?')">
+            <i class="fa-solid fa-trash-can"></i> Eliminar
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
