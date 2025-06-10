@@ -541,7 +541,7 @@ class SesionTallerForm(forms.ModelForm):
             }),
         }
 
-SesionFormSet = inlineformset_factory(
+SesionTallerFormSet = inlineformset_factory(
     TallerLanding,
     SesionTaller,
     form=SesionTallerForm,

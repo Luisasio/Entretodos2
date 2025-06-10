@@ -20,7 +20,7 @@ from django import forms
 
 from inicio.forms import EditarAlumnoForm, RegistroAlumnoForm, RegistroFacilitadorForm,EditarFacilitadorForm
 from django.shortcuts import render, redirect
-from .forms import CursoLandingForm, DiplomadoLandingEditForm, DiplomadoLandingForm, ModuloDiplomadoForm, ModuloFormSet, NoticiasForm, SesionCursoForm, SesionFormSet, SesionTallerForm, TallerLandingEditForm, TallerLandingForm
+from .forms import CursoLandingForm, DiplomadoLandingEditForm, DiplomadoLandingForm, ModuloDiplomadoForm, ModuloFormSet, NoticiasForm, SesionCursoForm, SesionFormSet, SesionTallerForm, SesionTallerFormSet, TallerLandingEditForm, TallerLandingForm
 from django.forms.models import modelformset_factory, inlineformset_factory
 from .models import Revista
 
@@ -1191,7 +1191,8 @@ def eliminar_diplomado_landing(request, pk):
 def agregar_taller_inicio(request):
     if request.method == 'POST':
         form = TallerLandingForm(request.POST, request.FILES)
-        formset = SesionFormSet(request.POST or None, prefix='form')
+        formset = SesionTallerFormSet(request.POST or None, prefix='form')  # 👈 cambio aquí
+
         if form.is_valid() and formset.is_valid():
             taller = form.save()
             sesiones = formset.save(commit=False)
@@ -1203,39 +1204,23 @@ def agregar_taller_inicio(request):
             return redirect('publicaciones_cursos')
     else:
         form = TallerLandingForm()
-        formset = SesionFormSet(request.POST or None, prefix='form')
-
+        formset = SesionTallerFormSet(prefix='form')  # 👈 solo prefix
 
     return render(request, 'administracion/agregar_taller_inicio.html', {
         'form': form,
         'formset': formset
     })
 
-SesionFormSet = inlineformset_factory(
-    TallerLanding,
-    SesionTaller,
-    form=SesionTallerForm,
-    extra=1,
-    can_delete=True
-)
 
 # editar taller en la landing page
+@login_required
 @login_required
 def editar_taller_inicio(request, pk):
     taller = get_object_or_404(TallerLanding, pk=pk)
 
-    # Crear el formset para las sesiones del taller
-    SesionFormSet = inlineformset_factory(
-        TallerLanding,
-        SesionTaller,
-        form=SesionTallerForm,
-        extra=0,  # No añadir formularios vacíos
-        can_delete=True  # Permitir eliminar las sesiones
-    )
-
     if request.method == 'POST':
         form = TallerLandingForm(request.POST, request.FILES, instance=taller)
-        formset = SesionFormSet(request.POST, instance=taller, prefix='form')
+        formset = SesionTallerFormSet(request.POST, instance=taller, prefix='form')  # 👈
 
         if form.is_valid() and formset.is_valid():
             form.save()
@@ -1244,13 +1229,14 @@ def editar_taller_inicio(request, pk):
             return redirect('publicaciones_cursos')
     else:
         form = TallerLandingForm(instance=taller)
-        formset = SesionFormSet(instance=taller, prefix='form')
+        formset = SesionTallerFormSet(instance=taller, prefix='form')  # 👈
 
     return render(request, 'administracion/editar_taller_inicio.html', {
         'form': form,
         'formset': formset,
         'taller': taller
     })
+
 
 
 
