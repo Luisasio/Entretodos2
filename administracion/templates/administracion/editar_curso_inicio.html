@@ -9,12 +9,13 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
 
-    <div class="mb-3">{{ form.titulo.label_tag }} {{ form.titulo }}</div>
-    <div class="mb-3">{{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}</div>
-    <div class="mb-3">{{ form.subtitulo.label_tag }} {{ form.subtitulo }}</div>
-    <div class="mb-3">{{ form.descripcion_larga.label_tag }} {{ form.descripcion_larga }}</div>
-    <div class="mb-3">{{ form.responsable.label_tag }} {{ form.responsable }}</div>
-    <div class="mb-3">{{ form.duracion.label_tag }} {{ form.duracion }}</div>
+    <div class="mb-3">
+      {{ form.titulo.label_tag }} {{ form.titulo }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}
+    </div>
 
     <div class="mb-3">
       <label>Imagen actual:</label><br>
@@ -26,12 +27,31 @@
       {{ form.imagen.label_tag }} {{ form.imagen }}
     </div>
 
+    <div class="mb-3">
+      {{ form.subtitulo.label_tag }} {{ form.subtitulo }}
+    </div>
+    <div class="mb-3">
+      {{ form.descripcion_larga.label_tag }} {{ form.descripcion_larga }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.responsable.label_tag }} {{ form.responsable }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.duracion.label_tag }} {{ form.duracion }}
+    </div>
+
+    
+
 
 
     <div class="mb-3">
       <label>Programa PDF actual:</label><br>
       {% if curso.programa_pdf %}
-        <a href="{{ curso.programa_pdf.url }}" target="_blank" class="btn btn-danger mb-2">Ver PDF</a>
+        <a href="{{ curso.programa_pdf.url }}" target="_blank" class="btn btn-danger mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>
+        Ver PDF</a>
       {% else %}
         <p>No hay PDF cargado.</p>
       {% endif %}

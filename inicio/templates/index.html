@@ -39,20 +39,25 @@
     <hr class="linea_rosada">
     <br>
   </div>
+
+
   <div class="news-container ancho">
     {% for noticia in noticias|slice:":3" %}
-      <div class="news-item">
-        <a href="{{ noticia.imagen.url }}" data-fancybox="gallery" data-caption="{{ noticia.titulo }}">
-          <figure class="item-img">
-            <img src="{{ noticia.imagen.url }}" alt="">
-            <div class="info-card">
-              <h3>{{ noticia.titulo }}</h3>
-            </div>
-          </figure>
-        </a>
+    <div class="item-noticia">
+      <a href="{{ noticia.imagen.url }}" data-fancybox="gallery" data-caption="{{ noticia.titulo }}">
+        <figure class="noticia-img">
+          <img src="{{ noticia.imagen.url }}" alt="">
+        </figure>
+      </a>
+      <div class="info-noticia">
+        <h3>{{ noticia.titulo }}</h3>
       </div>
+    </div>
     {% endfor %}
   </div>
+  
+
+
 </section>
 
 

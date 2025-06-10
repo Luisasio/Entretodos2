@@ -20,8 +20,11 @@
     </div>
 
     <div class="mb-3">
-      <label for="id_imagen">Imagen:</label>
+      <label for="id_imagen" class="mb-2">Imagen:</label>
+      <br>
       {{ form.imagen }}
+      <small class="form-text text-muted">Formato permitido: JPEG, PNG, JPG, GIF, BMP, TIFF, WebP. Tamaño máximo: 5MB.</small>
+
       {% if form.imagen.errors %}
         <div class="text-danger small">{{ form.imagen.errors|striptags }}</div>
       {% endif %}

@@ -365,6 +365,7 @@ header{
   flex-direction: column;
   text-align: left;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  height: 100%; /* asegúrate que las tarjetas sean iguales */
 }
 
 .diplomado-card img {
@@ -383,6 +384,7 @@ header{
   font-size: 0.9rem;
   margin: 0 1rem 1rem;
   color: #333;
+  flex-grow: 1; /* que el texto empuje hacia abajo */
 }
 
 .diplomado-card a {
@@ -391,8 +393,8 @@ header{
   border: none;
   border-radius: 0.5rem;
   padding: 0.5rem;
-  margin: 0 1rem 1rem;
-  display: inline-block;
+  margin: auto 1rem 1rem; /* botón siempre abajo */
+  display: block;
   font-size: 0.9rem;
   text-decoration: none;
   text-align: center;
@@ -951,7 +953,6 @@ header{
 
 .seccion-posts{
   margin: 120px 0px 110px;
-
 }
 
 .news-container {
@@ -961,40 +962,40 @@ header{
   gap: 10px;
   flex-wrap: wrap;
 }
-
-.news-item {
+.item-noticia {
+  border: 1px #dbdbdb solid;
   width: 30%;
-  text-align: center;
-}
-.news-item a{
-  display: inline-block;
-  /* border: 1px red solid; */
-}
-.item-img{
-  width: 300px;
-  position: relative;
-}
-.item-img img{
-  width: 100%;
-  display: block;
   border-radius: 6px;
-  transition: transform 0.3s ease-in-out;
-
-
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
 }
-.item-img:hover img {
-  transform: scale(1.05);
+
+.noticia-img img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
-.news-item h3 {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  font-size: 1.1rem;
-  padding: 10px;
-  border-radius: 5px;
+
+.info-noticia {
+  flex-grow: 1;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.info-noticia h3{
+  font-size: 19px ;
+  font-weight: 600;
+}
+
+.item-noticia:hover{
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 .seccion-posts h2{
   font-size: 42px;

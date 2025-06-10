@@ -10,21 +10,46 @@
   <form method="post" enctype="multipart/form-data" class="mt-4">
     {% csrf_token %}
 
-    <div class="mb-3">{{ form.titulo.label_tag }} {{ form.titulo }}</div>
-    <div class="mb-3">{{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}</div>
-    <div class="mb-3">{{ form.subtitulo.label_tag }} {{ form.subtitulo }}</div>
-    <div class="mb-3">{{ form.descripcion_larga.label_tag }} {{ form.descripcion_larga }}</div>
-    <div class="mb-3">{{ form.responsable.label_tag }} {{ form.responsable }}</div>
-    <div class="mb-3">{{ form.duracion.label_tag }} {{ form.duracion }}</div>
-    <div class="mb-3">{{ form.programa_pdf.label_tag }} {{ form.programa_pdf }}</div>
+    <div class="mb-3">
+      {{ form.titulo.label_tag }} {{ form.titulo }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}
+    </div>
+
+    <div class="mb-3">
+      <label for="" class="mb-3">Imagen:(añada una imagen alusiva al curso)</label>
+      <br>
+      {{ form.imagen }}
+    </div>
     {% if form.imagen.errors %}
-      <div class="text-danger small">{{ form.imagen.errors.0 }}</div>
+    <div class="text-danger small">
+      {{ form.imagen.errors.0 }}
+    </div>
     {% endif %}
 
-    <div class="mb-3">{{ form.imagen.label_tag }} {{ form.imagen }}</div>
+    <div class="mb-3">
+      {{ form.subtitulo.label_tag }} {{ form.subtitulo }}
+    </div>
+    <div class="mb-3">
+      {{ form.descripcion_larga.label_tag }} {{ form.descripcion_larga }}
+    </div>
+    <div class="mb-3">
+      {{ form.responsable.label_tag }} {{ form.responsable }}
+    </div>
+    <div class="mb-3">
+      {{ form.duracion.label_tag }} {{ form.duracion }}
+    </div>
+    <div class="mb-3">
+      {{ form.programa_pdf.label_tag }} {{ form.programa_pdf }}
+    </div>
     {% if form.imagen.errors %}
-      <div class="text-danger small">{{ form.imagen.errors.0 }}</div>
+      <div class="text-danger small">
+        {{ form.imagen.errors.0 }}
+      </div>
     {% endif %}
+
 
 
     <h5 class="mt-4">Sesiones</h5>

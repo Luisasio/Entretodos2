@@ -4,7 +4,12 @@
 
 {% block content %}
   <div class="contenido-principal">
-    <h4>Revistas Publicadas</h4>
+
+    <a href="{% url 'publicaciones' %}" class="text-decoration-none" style="color: #8d8d8d;">Publicaciones inicio</a>
+    <i class="fa-solid fa-angles-left"></i>
+    <a href="{% url 'publicaciones_revistas' %}" class="text-decoration-none" style="color: #6E3737; font-weight: 500;">Publicaciones revistas</a>
+
+    <h4 class="mt-3">Revistas Publicadas</h4>
     <p>En esta sección se pueden visualizar las revistas disponibles.</p>
   </div>
  {% if messages %}
@@ -45,7 +50,7 @@
         </td>
         <td>
           {% if revista.pdf %}
-            <a href="{{ revista.pdf.url }}" target="_blank">Ver PDF</a>
+            <a href="{{ revista.pdf.url }}" target="_blank" class="btn btn-sm btn-primary">Ver PDF</a>
           {% else %}
             <p>No PDF</p>
           {% endif %}

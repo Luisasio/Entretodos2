@@ -11,7 +11,11 @@
       {% endfor %}
     {% endif %}
 
-    <h4>Posts</h4>
+    <a href="{% url 'publicaciones' %}" class="text-decoration-none" style="color: #8d8d8d;">Publicaciones inicio</a>
+    <i class="fa-solid fa-angles-left"></i>
+    <a href="{% url 'publicaciones_noticias' %}" class="text-decoration-none" style="color: #6E3737; font-weight: 500;">Publicaciones noticias</a>
+
+    <h4 class="mt-3">Posts</h4>
     <p>En esta sección se podran agregar posts y noticias en formato de imagen.</p>
   </div>
 

@@ -18,7 +18,8 @@
         {{ form.descripcion }}
       </div>
       <div class="mb-3">
-        <label for="">Imagen:(añada una imagen alusiva al diplomado)</label>
+        <label for="" class="mb-3">Imagen:(añada una imagen alusiva al diplomado)</label>
+        <br>
         {{ form.imagen }}
       </div>
       <div class="mb-3">
@@ -86,13 +87,13 @@
 
       <div id="modulos">
         {% for form in formset %}
-          <div class="modulo-form">
+          <div class="modulo-form border p-3 mb-3">
             {{ form.as_p }}
           </div>
         {% endfor %}
       </div>
 
-      <button type="button" id="agregar-modulo" class="btn btn-success">Agregar otro módulo</button>
+      <button type="button" id="agregar-modulo" class="btn btn-info">Agregar otro módulo</button>
 
       <button type="submit" class="btn btn-primary">Guardar</button>
       <a href="{% url 'publicaciones_cursos' %}" class="btn btn-secondary">Cancelar</a>

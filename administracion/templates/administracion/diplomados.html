@@ -4,8 +4,13 @@
 
 {% block content %}
 <div class="contenido-principal">
-  <h4>Diplomados</h4>
-  <p>En esta sección se podrán agregar y ver los diplomados.</p>
+
+  <a href="{% url 'grupos' %}" class="text-decoration-none" style="color: #8d8d8d;">Grupos</a>
+    <i class="fa-solid fa-angles-left"></i>
+    <a href="{% url 'diplomados' %}" class="text-decoration-none" style="color: #6E3737; font-weight: 500;">Grupos de diplomados</a>
+
+  <h4 class="mt-3">Grupos de Diplomados</h4>
+  <p>En esta sección se podrán agregar y ver los grupos diplomados.</p>
 
     {% if messages %}
       {% for message in messages %}
@@ -21,7 +26,7 @@
 
     <div class="controladores 1 gap-3">
       <a href="{% url 'agregar_diplomado' %}" class="btn-añadir">
-        <i class="fa-solid fa-plus"></i> Nuevo Diplomado
+        <i class="fa-solid fa-plus"></i> Nuevo Grupo
       </a>
       <a href="{% url 'diplomados_finalizados' %}" class="btn btn-secondary">
         <i class="fa-solid fa-box-archive"></i> Diplomados Finalizados

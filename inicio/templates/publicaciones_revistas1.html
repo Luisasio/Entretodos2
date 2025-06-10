@@ -20,27 +20,29 @@
 {% include 'cabecera.html' %}
 
 <!-- Contenedor principal para la sección de revistas -->
-<div class="container my-5">
-    <h2 class="text-center mb-4 wow animate__animated animate__fadeInDown">Revistas Publicadas</h2>
+<section class="ancho">
+  <div class="container my-5">
+      <h2 class="text-center mb-4 wow animate__animated animate__fadeInDown">Revistas Publicadas</h2>
 
-    <!-- Grid para mostrar las revistas -->
-    <div class="revista-grid">
-        {% for revista in revistas %}
-            <div class="card shadow-lg border-light rounded-lg overflow-hidden">
-                <!-- Imagen de portada -->
-                <img src="{{ revista.imagen.url }}" class="card-img-top" alt="{{ revista.titulo }}">
-                <div class="card-body">
-                    <!-- Título de la revista -->
-                    <h5 class="card-title">{{ revista.titulo }}</h5>
-                    <!-- Fecha de publicación -->
-                    <p class="card-text text-muted"><strong>Fecha de publicación:</strong> {{ revista.fecha_publicacion }}</p>
-                    <!-- Enlace al PDF de la revista -->
-                    <a href="{{ revista.pdf.url }}" class="btn btn-primary d-block mx-auto" target="_blank">Ver PDF</a>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
+      <!-- Grid para mostrar las revistas -->
+      <div class="revista-grid">
+          {% for revista in revistas %}
+              <div class="card shadow-lg border-light rounded-lg overflow-hidden">
+                  <!-- Imagen de portada -->
+                  <img src="{{ revista.imagen.url }}" class="card-img-top" alt="{{ revista.titulo }}">
+                  <div class="card-body">
+                      <!-- Título de la revista -->
+                      <h5 class="card-title">{{ revista.titulo }}</h5>
+                      <!-- Fecha de publicación -->
+                      <p class="card-text text-muted"><strong>Fecha de publicación:</strong> {{ revista.fecha_publicacion }}</p>
+                      <!-- Enlace al PDF de la revista -->
+                      <a href="{{ revista.pdf.url }}" class="btn-acceder target="_blank">Ver PDF</a>
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+</section>
 
 {% include 'pie.html' %}
 

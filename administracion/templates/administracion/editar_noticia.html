@@ -19,13 +19,13 @@
     </div>
     
     <div class="mb-3">
-      <label>Imagen actual:</label><br>
+      <label >Imagen actual:</label>
+      <br>
       {% if noticia.imagen %}
         <img src="{{ noticia.imagen.url }}" alt="Imagen actual" width="200" class="mb-4 mt-2 d-block">
       {% else %}
         <p>No hay imagen cargada.</p>
       {% endif %}
-      <br>
       {{ form.imagen }}
       {% if form.imagen.errors %}
         <div class="text-danger small">{{ form.imagen.errors|striptags }}</div>
