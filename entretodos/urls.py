@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin-dashboard/', include('administracion.urls')), #esto es la app de administracion
     path('autenticacion/', include('autenticacion.urls')), #esto es la app de autenticacion
     path('', include('inicio.urls')),
+    path('api/', include('autenticacion.api_urls')),
 ]
 
 
