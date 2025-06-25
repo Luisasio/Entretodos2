@@ -4,6 +4,14 @@
 
 {% block content %}
 <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+
   <h4>Facilitadores</h4>
   <p>En esta sección se podrán agregar los facilitadores registrados al sistema.</p>
     <div class="controladores">
@@ -26,11 +34,10 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>CCT (clave de trabajo)</th>
       <th>Facilitador</th>
+      <th>Contacto</th>
+      <th>CCT (clave de trabajo)</th>
       <th>CURP</th>
-      <th>Correo</th>
-      <th>Telefono</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -38,72 +45,30 @@
     {% for facilitador in facilitadores %}
     <tr>
       <td>{{ forloop.counter }}</td>
-      <td>{{ facilitador.clave }}</td>
       <td>
         <small>Clave Unica: <strong>{{ facilitador.clave_facilitador }}</strong></small>
         <br>
         {{ facilitador.nombres }} {{ facilitador.apellido_paterno }} {{ facilitador.apellido_materno }}
       </td>
+      <td>
+        <i class="fa-solid fa-phone"></i>&nbsp;  {{ facilitador.telefono }}
+        <br>
+        <i class="fa-solid fa-envelope"></i>&nbsp;  {{ facilitador.correo }}
+      </td>
+      <td>{{ facilitador.clave }}</td>
       <td>{{ facilitador.curp }}</td>
-      <td>{{ facilitador.correo }}</td>
-      <td>{{ facilitador.telefono }}</td>
       <td>
         <a href="{% url 'editar_facilitador' facilitador.id %}" class="btn btn-sm btn-warning">
           <i class="fa fa-edit"></i>
         </a>
-        <a href="{% url 'eliminar_facilitador' facilitador.id %}" class="btn btn-sm btn-danger">
+        <a href="{% url 'suprimir_facilitador' facilitador.id %}" class="btn btn-sm btn-danger">
           <i class="fa fa-trash"></i>
         </a>
+
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 
-<!-- <div class="card mt-4">
-  <div class="card-header">
-    <h3 class="card-title">Lista de facilitadores</h3>
-  </div>
-  <div class="card-body table-responsive p-0" style="max-height: 600px;">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Clave única</th>
-          <th>Clave de escuela</th>
-          <th>Nombre completo</th>
-          <th>CURP</th>
-          <th>Correo</th>
-          <th>Teléfono</th>
-          <th style="width: 200px;">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for facilitador in facilitadores %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ facilitador.clave_facilitador }}</td>
-          <td>{{ facilitador.clave }}</td>
-          <td>{{ facilitador.nombres }} {{ facilitador.apellido_paterno }} {{ facilitador.apellido_materno }}</td>
-          <td>{{ facilitador.curp }}</td>
-          <td>{{ facilitador.correo }}</td>
-          <td>{{ facilitador.telefono }}</td>
-          <td>
-            <a href="{% url 'editar_facilitador' facilitador.id %}" class="btn btn-sm btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="{% url 'eliminar_facilitador' facilitador.id %}" class="btn btn-sm btn-danger">
-              <i class="fa fa-trash"></i>
-            </a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="8" class="text-center">No hay facilitadores registrados.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div> -->
 {% endblock %}

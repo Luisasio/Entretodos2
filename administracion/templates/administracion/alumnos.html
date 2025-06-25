@@ -5,6 +5,12 @@
 {% block content %}
 
   <div class="contenido-principal">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
     
     <h4>Alumnos</h4>
     <p>En esta sección se podrán ver alumnos.</p>
@@ -28,8 +34,7 @@
       <tr>
         <th>#</th>
         <th>Alumno</th>
-        <th>Telefono</th>
-        <th>Correo</th>
+        <th>Contacto</th>
         <th>Restricción</th>
         <th>Estado</th>
         <th>Acciones</th>
@@ -40,12 +45,15 @@
       <tr>
         <td>{{ forloop.counter }}</td>
         <td>
-          <small>Clave Unica: <strong>{{ alumno.clave_alumno }}</strong></small>
+          <small>ID: <strong>{{ alumno.clave_alumno }}</strong></small>
           <br>
           {{ alumno.nombres }} {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
         </td>
-        <td>{{ alumno.telefono }}</td>
-        <td>{{ alumno.correo }}</td>
+        <td>
+          <i class="fa-solid fa-phone"></i>&nbsp;  {{ alumno.telefono }}
+          <br>
+          <i class="fa-solid fa-envelope"></i>&nbsp;  {{ alumno.correo }}
+        </td>
         <td>
           <form method="post" action="{% url 'toggle_restriccion_alumno' alumno.id %}">
             {% csrf_token %}
@@ -70,7 +78,11 @@
 
           <!-- <a href="{% url 'historial_alumno' alumno.id %}" class="btn btn-sm btn-success">Historial</a> -->
           <a href="{% url 'editar_alumno' alumno.id %}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> </a>
-          <a href="{% url 'eliminar_alumno' alumno.id %}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </a>
+          <a href="{% url 'suprimir_alumno' alumno.id %}" class="btn btn-sm btn-danger">
+            <i class="fa fa-trash"></i>
+          </a>
+
+
         </td>
       </tr>
       <!-- Modal para el alumno -->
@@ -127,77 +139,5 @@
       {% endfor %}
     </tbody>
   </table>
-  
-  <!-- <div class="py-3 contenedor-cursos">
-  
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Listado de alumnos</h3>
-          <div class="card-tools">
-          </div>
-        </div>
-        <div class="card-body table-responsive p-0" style="height: 600px;">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Alumno</th>
-                <th>Clave escolar</th>
-                <th>CURP</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Restricción</th>
-                <th>Estado</th>
-                <th style="width: 300px;">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for alumno in alumnos %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                  {{ alumno.nombres }}   {{ alumno.apellido_paterno }} {{ alumno.apellido_materno }}
-                  <br>
-                  <small>Clave Unica: <strong>{{ alumno.clave_alumno }}</strong></small>
-                </td>
-                <td>{{ alumno.clave }}</td>
-                <td>{{ alumno.curp }}</td>
-                <td>{{ alumno.correo }}</td>
-                <td>{{ alumno.telefono }}</td>
-                <td>
-                  <form method="post" action="{% url 'toggle_restriccion_alumno' alumno.id %}">
-                    {% csrf_token %}
-                    {% if alumno.restriccion_libre %}
-                      <button type="submit" class="btn btn-success btn-sm">Sin restricción</button>
-                    {% else %}
-                      <button type="submit" class="btn btn-outline-danger btn-sm">Restringido</button>
-                    {% endif %}
-                  </form>
-                </td>
-                <th>
-                  {% if alumno.estado_inscripcion == "Inscrito" %}
-                    <span class="estado inscrito">Inscrito</span>
-                  {% else %}
-                    <span class="estado no-inscrito">No inscrito</span>
-                  {% endif %}
-
-                </th>
-                <td>
-                  <a href="{% url 'historial_alumno' alumno.id %}" class="btn btn-sm btn-success">Historial</a>
-                  <a href="{% url 'editar_alumno' alumno.id %}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> </a>
-                  <a href="{% url 'eliminar_alumno' alumno.id %}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </a>
-                </td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="8" class="text-center">No hay alumnos registrados.</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div> -->
   </div>
 {% endblock %}

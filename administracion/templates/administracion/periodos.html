@@ -4,6 +4,14 @@
 
 {% block content %}
 <div class="contenido-principal">
+
+  {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+  {% endif %}
+
+
   <h4>Periodos</h4>
   <p>En esta sección se podrán agregar los periodos correspondientes a las épocas del año.</p>
   <div class="controladores">
@@ -35,12 +43,13 @@
           <td>{{ periodo.fecha_inicio|date:"j \\d\\e F \\d\\e Y" }}</td>
           <td>{{ periodo.fecha_fin|date:"j \\d\\e F \\d\\e Y" }}</td>
           <td>
-            <a href="{% url 'editar_periodo' periodo.id %}" class="btn btn-warning">
+            <a href="{% url 'editar_periodo' periodo.id %}" class="btn btn-sm btn-warning">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a href="{% url 'eliminar_periodo' periodo.id %}" class="btn btn-danger">
-              <i class="fa-solid fa-trash-can"></i>
+            <a href="{% url 'suprimir_periodo' periodo.id %}" class="btn btn-sm btn-danger">
+              <i class="fa fa-trash"></i>
             </a>
+
           </td>
         </tr>
         {% empty %}

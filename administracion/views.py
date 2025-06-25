@@ -94,7 +94,8 @@ def cursos(request):
 @login_required
 def facilitadores(request):
     query = request.GET.get('q', '')
-    facilitadores = Facilitador.objects.all()
+    
+    facilitadores = Facilitador.objects.filter(activo=True)
 
     if query:
         facilitadores = facilitadores.filter(
@@ -146,7 +147,7 @@ def agregar_curso(request):
 @login_required
 def periodos(request):
     query = request.GET.get('q', '')
-    periodos = Periodo.objects.all()
+    periodos = Periodo.objects.filter(activo=True)
 
     if query:
         periodos = periodos.filter(
@@ -192,11 +193,23 @@ def editar_periodo(request, periodo_id):
     })
 
 @login_required
-def eliminar_periodo(request, periodo_id):
+# def eliminar_periodo(request, periodo_id):
+#     periodo = get_object_or_404(Periodo, id=periodo_id)
+    
+#     if request.method == 'POST':
+#         periodo.delete()
+#         return redirect('periodos')
+    
+#     return render(request, 'administracion/eliminar_periodo.html', {
+#         'periodo': periodo
+#     })
+def suprimir_periodo(request, periodo_id):
     periodo = get_object_or_404(Periodo, id=periodo_id)
     
     if request.method == 'POST':
-        periodo.delete()
+        periodo.activo = False
+        periodo.save()
+        messages.success(request, 'Periodo suprimido correctamente.')
         return redirect('periodos')
     
     return render(request, 'administracion/eliminar_periodo.html', {
@@ -492,7 +505,7 @@ from django.db.models import Q
 @login_required
 def alumnos(request):
     query = request.GET.get('q', '')
-    alumnos = Alumno.objects.all()
+    alumnos = Alumno.objects.filter(activo=True)
 
     if query:
         alumnos = alumnos.filter(
@@ -555,13 +568,21 @@ def editar_alumno(request, alumno_id):
 
 
 @login_required
-def eliminar_alumno(request, alumno_id):
+# def eliminar_alumno(request, alumno_id):
+#     alumno = get_object_or_404(Alumno, id=alumno_id)
+
+#     if request.method == "POST":
+#         alumno.delete()
+#         return redirect('alumnos')
+
+#     return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})
+def suprimir_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
-
-    if request.method == "POST":
-        alumno.delete()
+    if request.method == 'POST':
+        alumno.activo = False
+        alumno.save()
+        messages.success(request, 'Alumno suprimido correctamente.')
         return redirect('alumnos')
-
     return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})
 
 @require_POST
@@ -1060,7 +1081,8 @@ def agregar_facilitador(request):
 @login_required
 def lista_facilitadores(request):
     query = request.GET.get('q', '')
-    facilitadores = Facilitador.objects.all()
+    facilitadores = Facilitador.objects.filter(activo=True)
+
 
     if query:
         facilitadores = facilitadores.filter(
@@ -1095,11 +1117,13 @@ def editar_facilitador(request, facilitador_id):
 
 #esto es para eliminar a los facilitadores
 @login_required
-def eliminar_facilitador(request, facilitador_id):
+
+def suprimir_facilitador(request, facilitador_id):
     facilitador = get_object_or_404(Facilitador, id=facilitador_id)
     if request.method == 'POST':
-        facilitador.delete()
-        messages.success(request, 'Facilitador eliminado correctamente.')
+        facilitador.activo = False
+        facilitador.save()
+        messages.success(request, 'Facilitador suprimido correctamente.')
         return redirect('facilitadores')
     return render(request, 'administracion/eliminar_facilitador.html', {'facilitador': facilitador})
 

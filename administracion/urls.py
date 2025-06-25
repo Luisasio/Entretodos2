@@ -8,7 +8,9 @@ urlpatterns = [
     #periodos
     path('periodos/agregar/', views.agregar_periodo, name='agregar_periodo'),
     path('periodos/editar/<int:periodo_id>/', views.editar_periodo, name='editar_periodo'),
-    path('periodos/eliminar/<int:periodo_id>/', views.eliminar_periodo, name='eliminar_periodo'),
+    # path('periodos/eliminar/<int:periodo_id>/', views.eliminar_periodo, name='eliminar_periodo'),
+    path('periodos/suprimir/<int:periodo_id>/', views.suprimir_periodo, name='suprimir_periodo'),
+
     #cursos
     path('cursos/', views.cursos, name='cursos'),
     path('cursos/agregar/', views.agregar_curso, name='agregar_curso'),
@@ -36,15 +38,16 @@ urlpatterns = [
     path('alumnos/', views.alumnos, name='alumnos'),
     path('alumnos/agregar/', views.agregar_alumno, name='agregar_alumno'),
     path('alumnos/<int:alumno_id>/editar/', views.editar_alumno, name='editar_alumno'),
-    path('alumnos/<int:alumno_id>/eliminar/', views.eliminar_alumno, name='eliminar_alumno'),
+    # path('alumnos/<int:alumno_id>/eliminar/', views.eliminar_alumno, name='eliminar_alumno'),
+    path('alumnos/suprimir/<int:alumno_id>/', views.suprimir_alumno, name='suprimir_alumno'),
+
     path('alumnos/<int:alumno_id>/historial/', views.historial_alumno, name='historial_alumno'),
 
     # facilitadores
     path('facilitadores/agregar/', views.agregar_facilitador, name='agregar_facilitador'),
     path('facilitadores/', views.lista_facilitadores, name='facilitadores'),
     path('facilitadores/editar/<int:facilitador_id>/', views.editar_facilitador, name='editar_facilitador'),
-    path('facilitadores/eliminar/<int:facilitador_id>/', views.eliminar_facilitador, name='eliminar_facilitador'),
-
+    path('facilitadores/suprimir/<int:facilitador_id>/', views.suprimir_facilitador, name='suprimir_facilitador'),
     path('grupos/', views.grupos, name='grupos'),
 
 

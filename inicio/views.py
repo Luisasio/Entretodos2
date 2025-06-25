@@ -436,7 +436,7 @@ def tomar_curso(request, curso_id):
     curso.facilitador = request.facilitador
     curso.save()
     messages.success(request, "Curso asignado correctamente.")
-    return redirect('impartir_cursos')
+    return redirect('mis_grupos')
 
 
 @cargar_facilitador
@@ -450,7 +450,7 @@ def tomar_taller(request, taller_id):
     taller.facilitador = request.facilitador
     taller.save()
     messages.success(request, "Taller asignado correctamente.")
-    return redirect('impartir_cursos')
+    return redirect('mis_grupos')
 
 @cargar_facilitador
 def tomar_diplomado(request, diplomado_id):
@@ -463,7 +463,7 @@ def tomar_diplomado(request, diplomado_id):
     diplomado.facilitador = request.facilitador
     diplomado.save()
     messages.success(request, "Diplomado asignado correctamente.")
-    return redirect('impartir_cursos')
+    return redirect('mis_grupos')
 
 
 
