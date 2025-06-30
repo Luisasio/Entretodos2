@@ -3,7 +3,6 @@ from .models import CursoLanding, Diplomado, Facilitador, Noticia, Periodo, Sesi
 from .models import Curso
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from multiselectfield.forms.fields import MultiSelectFormField
 from .models import DIAS_SEMANA
 from administracion.models import Revista
 from django.core.exceptions import ValidationError

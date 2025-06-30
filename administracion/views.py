@@ -205,13 +205,24 @@ def editar_periodo(request, periodo_id):
 #     })
 def suprimir_periodo(request, periodo_id):
     periodo = get_object_or_404(Periodo, id=periodo_id)
-    
+
+    # Verificamos si el periodo está asociado a algún curso, taller o diplomado
+    tiene_asignaciones = (
+        Curso.objects.filter(periodo=periodo).exists() or
+        Taller.objects.filter(periodo=periodo).exists() or
+        Diplomado.objects.filter(periodo=periodo).exists()
+    )
+
+    if tiene_asignaciones:
+        messages.error(request, "No puedes eliminar el periodo porque está asignado a un curso, taller o diplomado.")
+        return redirect('periodos')
+
     if request.method == 'POST':
         periodo.activo = False
         periodo.save()
         messages.success(request, 'Periodo suprimido correctamente.')
         return redirect('periodos')
-    
+
     return render(request, 'administracion/eliminar_periodo.html', {
         'periodo': periodo
     })
@@ -237,14 +248,21 @@ def editar_curso(request, curso_id):
 
     return render(request, 'administracion/editar_curso.html', {'form': form, 'curso': curso})
 
-
 @login_required
 def eliminar_curso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
-    
+
+    # Validar si el curso tiene al menos una inscripción
+    tiene_inscripciones = Inscripcion.objects.filter(curso=curso).exists()
+
+    if tiene_inscripciones:
+        messages.error(request, "No puedes eliminar este curso porque ya tiene inscripciones de alumnos.")
+        return redirect('cursos')  # o a la misma vista detalle del curso
+
     if request.method == "POST":
         curso.delete()
-        return redirect('cursos')  # Redirige a la lista de cursos después de eliminar
+        messages.success(request, "Curso eliminado correctamente.")
+        return redirect('cursos')
 
     return render(request, 'administracion/eliminar_curso.html', {'curso': curso})
 
@@ -330,10 +348,18 @@ def editar_taller(request, taller_id):
 @login_required
 def eliminar_taller(request, taller_id):
     taller = get_object_or_404(Taller, id=taller_id)
-    
+
+    # Verificar si hay inscripciones ligadas a este taller
+    tiene_inscripciones = Inscripcion.objects.filter(taller=taller).exists()
+
+    if tiene_inscripciones:
+        messages.error(request, "No puedes eliminar este taller porque ya tiene alumnos inscritos.")
+        return redirect('talleres')
+
     if request.method == "POST":
         taller.delete()
-        return redirect('talleres')  # Redirigir a la lista de talleres
+        messages.success(request, "Taller eliminado correctamente.")
+        return redirect('talleres')
 
     return render(request, 'administracion/eliminar_taller.html', {'taller': taller})
 
@@ -493,12 +519,20 @@ def editar_diplomado(request, diplomado_id):
 @login_required
 def eliminar_diplomado(request, diplomado_id):
     diplomado = get_object_or_404(Diplomado, id=diplomado_id)
-    
+
+    # Verificar si hay inscripciones asociadas a este diplomado
+    tiene_inscripciones = Inscripcion.objects.filter(diplomado=diplomado).exists()
+
+    if tiene_inscripciones:
+        messages.error(request, "No puedes eliminar este diplomado porque ya tiene alumnos inscritos.")
+        return redirect('diplomados')
+
     if request.method == "POST":
         diplomado.delete()
-        return redirect('diplomados')  # Redirigir a la lista de talleres
+        messages.success(request, "Diplomado eliminado correctamente.")
+        return redirect('diplomados')
 
-    return render(request, 'administracion/eliminar_diplomado.html', {'diplomados': diplomado})
+    return render(request, 'administracion/eliminar_diplomado.html', {'diplomado': diplomado})
 
 from django.db.models import Q
 
@@ -578,12 +612,23 @@ def editar_alumno(request, alumno_id):
 #     return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})
 def suprimir_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
+
+    # Verificamos si el alumno tiene inscripciones
+    tiene_inscripciones = Inscripcion.objects.filter(alumno=alumno).exists()
+
+    if tiene_inscripciones:
+        messages.error(request, "No puedes eliminar al alumno porque tiene inscripciones activas.")
+        return redirect('alumnos')  # ajusta si usas 'lista_alumnos'
+
     if request.method == 'POST':
         alumno.activo = False
         alumno.save()
         messages.success(request, 'Alumno suprimido correctamente.')
         return redirect('alumnos')
-    return render(request, 'administracion/eliminar_alumno.html', {'alumno': alumno})
+
+    return render(request, 'administracion/eliminar_alumno.html', {
+        'alumno': alumno
+    })
 
 @require_POST
 def finalizar_curso(request, curso_id):
@@ -1115,17 +1160,28 @@ def editar_facilitador(request, facilitador_id):
         form = EditarFacilitadorForm(instance=facilitador)
     return render(request, 'administracion/editar_facilitador.html', {'form': form, 'facilitador': facilitador})
 
-#esto es para eliminar a los facilitadores
+#esto es para suprimir a los facilitadores y quitarlos del frotn pero mantenerlos en la base de datos
 @login_required
 
 def suprimir_facilitador(request, facilitador_id):
     facilitador = get_object_or_404(Facilitador, id=facilitador_id)
+
+    # Verificamos si tiene cursos asociados
+    cursos_relacionados = Curso.objects.filter(facilitador=facilitador)
+
+    if cursos_relacionados.exists():
+        messages.error(request, "No puedes eliminar al facilitador porque está ofertando al menos un curso.")
+        return redirect('facilitadores')
+
     if request.method == 'POST':
         facilitador.activo = False
         facilitador.save()
         messages.success(request, 'Facilitador suprimido correctamente.')
         return redirect('facilitadores')
-    return render(request, 'administracion/eliminar_facilitador.html', {'facilitador': facilitador})
+
+    return render(request, 'administracion/eliminar_facilitador.html', {
+        'facilitador': facilitador
+    })
 
 
 # logica para las publicaciones que iran a la landing page
